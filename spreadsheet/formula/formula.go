@@ -25,7 +25,7 @@
 // a new test means just adding a new formula to one of the reference sheets
 // with Excel. During the unit test, we evaluate the formula and compare it to
 // the value that Excel computed.  If they're the same, the test passes.
-package formula ;import (_ca "bytes";_b "errors";_cb "fmt";_db "github.com/unidoc/unioffice/common/logger";_a "github.com/unidoc/unioffice/internal/mergesort";_geb "github.com/unidoc/unioffice/internal/wildcard";_gdf "github.com/unidoc/unioffice/spreadsheet/format";_f "github.com/unidoc/unioffice/spreadsheet/reference";_ef "github.com/unidoc/unioffice/spreadsheet/update";_bg "io";_cd "math";_g "math/big";_gf "math/rand";_gd "regexp";_e "sort";_dd "strconv";_ea "strings";_ge "sync";_ee "time";_d "unicode";);
+package formula ;import (_ca "bytes";_b "errors";_cb "fmt";_db "github.com/AlexGames73/unioffice-free/common/logger";_a "github.com/AlexGames73/unioffice-free/internal/mergesort";_geb "github.com/AlexGames73/unioffice-free/internal/wildcard";_gdf "github.com/AlexGames73/unioffice-free/spreadsheet/format";_f "github.com/AlexGames73/unioffice-free/spreadsheet/reference";_ef "github.com/AlexGames73/unioffice-free/spreadsheet/update";_bg "io";_cd "math";_g "math/big";_gf "math/rand";_gd "regexp";_e "sort";_dd "strconv";_ea "strings";_ge "sync";_ee "time";_d "unicode";);
 
 // Update updates references in the BinaryExpr after removing a row/column.
 func (_gcf BinaryExpr )Update (q *_ef .UpdateQuery )Expression {_afd :=_gcf ;_afd ._ba =_gcf ._ba .Update (q );_afd ._af =_gcf ._af .Update (q );return _afd ;};

@@ -9,16 +9,2246 @@
 // Use of this source code is governed by the UniDoc End User License Agreement
 // terms that can be accessed at https://unidoc.io/eula/
 
-package convert ;import (_e "bytes";_d "errors";_deg "github.com/unidoc/unioffice/common/logger";_cdc "github.com/unidoc/unioffice/common/tempstorage";_cd "github.com/unidoc/unioffice/internal/convertutils";_gc "github.com/unidoc/unioffice/measurement";_dec "github.com/unidoc/unioffice/presentation";_f "github.com/unidoc/unioffice/schema/soo/dml";_db "github.com/unidoc/unioffice/schema/soo/dml/chart";_bfd "github.com/unidoc/unioffice/schema/soo/pml";_bg "github.com/unidoc/unipdf/v3/contentstream/draw";_b "github.com/unidoc/unipdf/v3/creator";_bd "github.com/unidoc/unipdf/v3/model";_bf "github.com/unidoc/unipdf/v3/render";_a "image";_gb "image/color";_de "image/draw";_c "strconv";_eg "strings";);func _aega (_dea ,_facb *_f .CT_TextListStyle )*_f .CT_TextListStyle {_dfbf :=_f .NewCT_TextListStyle ();if _dea !=nil {*_dfbf =*_dea ;};if _facb ==nil {return _dfbf ;};_dfbf .DefPPr =_bgab (_dfbf .DefPPr ,_facb .DefPPr );_dfbf .Lvl1pPr =_bgab (_dfbf .Lvl1pPr ,_facb .Lvl1pPr );_dfbf .Lvl2pPr =_bgab (_dfbf .Lvl2pPr ,_facb .Lvl2pPr );_dfbf .Lvl3pPr =_bgab (_dfbf .Lvl3pPr ,_facb .Lvl3pPr );_dfbf .Lvl4pPr =_bgab (_dfbf .Lvl4pPr ,_facb .Lvl4pPr );_dfbf .Lvl5pPr =_bgab (_dfbf .Lvl5pPr ,_facb .Lvl5pPr );_dfbf .Lvl6pPr =_bgab (_dfbf .Lvl6pPr ,_facb .Lvl6pPr );_dfbf .Lvl7pPr =_bgab (_dfbf .Lvl7pPr ,_facb .Lvl7pPr );_dfbf .Lvl8pPr =_bgab (_dfbf .Lvl8pPr ,_facb .Lvl8pPr );_dfbf .Lvl9pPr =_bgab (_dfbf .Lvl9pPr ,_facb .Lvl9pPr );return _dfbf ;};func (_efc *textboxContext )newParagraph (){_dedb :=&paragraph {};_dedb ._faaag =_efc ._ggc ;_efc ._fdf =_dedb ;};func (_deda *convertContext )getColorFromMatrixReference (_egcgf *_f .CT_StyleMatrixReference )_b .Color {if _egcgf ==nil {return nil ;};var _cace _b .Color ;var _eggf string ;if _badg :=_egcgf .SrgbClr ;_badg !=nil {_eggf =_badg .ValAttr ;}else if _aaf :=_egcgf .SchemeClr ;_aaf !=nil {_eggf =_cd .GetColorStringFromDmlColor (_deda ._cbed .GetColorBySchemeColor (_aaf .ValAttr ));_eggf =_cd .AdjustColor (_eggf ,_aaf .EG_ColorTransform );};if _eggf !=""{_cace =_b .ColorRGBFromHex ("\u0023"+_eggf );};return _cace ;};func (_affa *convertContext )getShapesFromSpPr (_feae *_f .CT_ShapeProperties ,_ccd *_f .CT_ShapeStyle ,_dfa bool )([]_b .Drawable ,float64 ,float64 ,float64 ,float64 ,_b .Color ,bool ){_ffeb :=[]_b .Drawable {};var _dad ,_adgd ,_gaa ,_dbg ,_fab float64 ;var _cdce ,_bbe ,_edb ,_bgc _b .Color ;var _dcc *_f .CT_BlipFillProperties ;_dadc ,_ge :=1.0,1.0;if _ccd !=nil {_cdce ,_bbe ,_bgc =_affa .getStyleColors (_ccd );};if _dbf :=_feae .Ln ;_dbf !=nil {if _dbf .NoFill !=nil {_edb ,_fab =nil ,0;}else {_edb ,_fab ,_dadc =_affa .getInfoFromLn (_dbf );if _edb ==nil {_edb =_bgc ;};};};if _feae .NoFill !=nil {_bbe ,_ge =nil ,0;}else if _dfa {_bbe =_affa ._dccf ._bbb ;_ge =_affa ._dccf ._aga ;_dcc =_affa ._dccf ._dacc ;}else if _geg :=_feae .SolidFill ;_geg !=nil {_bbe ,_ge =_affa .getColorFromSolidFill (_geg );};var _edg bool ;if _fgd :=_feae .Xfrm ;_fgd !=nil {_dad ,_adgd ,_gaa ,_dbg =_cd .GetDataFromXfrm (_fgd );_edg =true ;};if _eab :=_feae .CustGeom ;_eab !=nil {_bfgf :=[]_bg .Point {};_eadb ,_aggb :=1.0,1.0;if _afcf :=_eab .PathLst ;_afcf !=nil {for _ ,_cde :=range _afcf .Path {if _cde !=nil {if _bde :=_cde .WAttr ;_bde !=nil {_eadb =_gaa /_gc .FromEMU (*_bde );};if _dbcg :=_cde .HAttr ;_dbcg !=nil {_aggb =_dbg /_gc .FromEMU (*_dbcg );};for _ ,_ace :=range _cde .Close {if _ace !=nil {};};for _ ,_ebca :=range _cde .MoveTo {if _ebca !=nil &&_ebca .Pt !=nil {_ddd ,_gfdd :=_baa (_ebca .Pt );_bfgf =append (_bfgf ,_bg .Point {X :_ddd *_eadb +_dad ,Y :_gfdd *_aggb +_adgd });};};for _ ,_cbf :=range _cde .LnTo {if _cbf !=nil &&_cbf .Pt !=nil {_cbcc ,_daf :=_baa (_cbf .Pt );_bfgf =append (_bfgf ,_bg .Point {X :_cbcc *_eadb +_dad ,Y :_daf *_aggb +_adgd });};};_fcb :=_affa ._fcbbg .NewPolygon ([][]_bg .Point {_bfgf });_fcb .SetFillColor (_bbe );_fcb .SetFillOpacity (_ge );_fcb .SetBorderWidth (_fab );if _edb !=nil {_fcb .SetBorderColor (_edb );_fcb .SetBorderOpacity (_dadc );};_ffeb =append (_ffeb ,_fcb );};};};};if _fgcg :=_feae .PrstGeom ;_fgcg !=nil {switch _fgcg .PrstAttr {case _f .ST_ShapeTypeRect :if _dcc !=nil {_fdd :=_affa .getShapeFromBlipFill (_dcc ,_dad ,_adgd ,_gaa ,_dbg );_ffeb =append (_ffeb ,_fdd );}else {_adf :=_affa ._fcbbg .NewRectangle (_dad ,_adgd ,_gaa ,_dbg );_adf .SetFillColor (_bbe );_adf .SetFillOpacity (_ge );_adf .SetBorderWidth (_fab );if _edb !=nil {_adf .SetBorderColor (_edb );_adf .SetBorderOpacity (_dadc );};_ffeb =append (_ffeb ,_adf );};case _f .ST_ShapeTypeLine :_cdcg :=_affa ._fcbbg .NewLine (_dad ,_adgd ,_dad +_gaa ,_adgd +_dbg );_cdcg .SetLineWidth (_fab );if _edb !=nil {_cdcg .SetColor (_edb );};_ffeb =append (_ffeb ,_cdcg );};};return _ffeb ,_dad ,_adgd ,_gaa ,_dbg ,_cdce ,_edg ;};func (_cfaa *convertContext )stretchImage (_bc *_b .Image ,_gge *_f .CT_StretchInfoProperties ,_bbd ,_agf ,_ggb ,_gbg float64 )(*_b .Image ,float64 ,float64 ){_agfd :=_gge .FillRect ;if _agfd ==nil {_cgd :=_bc .Width ()/_bc .Height ();_ab :=_ggb /_gbg ;var _dbc ,_daa float64 ;if _cgd > _ab {_daa =_gbg ;_dbc =_gbg *_cgd ;}else {_dbc =_ggb ;_daa =_ggb /_cgd ;};_bc .Scale (_dbc /_bc .Width (),_daa /_bc .Height ());return _bc ,_bbd ,_agf ;};var _bef ,_fbe ,_acd ,_cbce float64 ;if _cgb :=_agfd .LAttr ;_cgb !=nil {_acd =_cd .FromSTPercentage (_cgb );};if _cgbf :=_agfd .TAttr ;_cgbf !=nil {_bef =_cd .FromSTPercentage (_cgbf );};if _ef :=_agfd .RAttr ;_ef !=nil {_cbce =_cd .FromSTPercentage (_ef );};if _aec :=_agfd .BAttr ;_aec !=nil {_fbe =_cd .FromSTPercentage (_aec );};_faa :=_ggb *(1-_acd -_cbce );_efg :=_gbg *(1-_bef -_fbe );_bc .Scale (_faa /_bc .Width (),_efg /_bc .Height ());return _bc ,_bbd +_acd *_ggb ,_agf +_bef *_gbg ;};func (_gada *textboxContext )alignVertically (_add _f .ST_TextAnchoringType ){_gada .alignParagraphsVertically (_add );_gada .alignSymbolsVertically ();};func _bcg (_gcba ,_agfe *_f .CT_TableStyleTextStyle )*_f .CT_TableStyleTextStyle {_fad :=_f .NewCT_TableStyleTextStyle ();if _gcba !=nil {*_fad =*_gcba ;};if _agfe ==nil {return _fad ;};if _fad .BAttr ==_f .ST_OnOffStyleTypeUnset {_fad .BAttr =_agfe .BAttr ;};if _fad .IAttr ==_f .ST_OnOffStyleTypeUnset {_fad .IAttr =_agfe .IAttr ;};if _fad .Font ==nil {_fad .Font =_agfe .Font ;};if _fad .FontRef ==nil {_fad .FontRef =_agfe .FontRef ;};if _fad .ScrgbClr ==nil {_fad .ScrgbClr =_agfe .ScrgbClr ;};if _fad .SrgbClr ==nil {_fad .SrgbClr =_agfe .SrgbClr ;};if _fad .HslClr ==nil {_fad .HslClr =_agfe .HslClr ;};if _fad .SysClr ==nil {_fad .SysClr =_agfe .SysClr ;};if _fad .SchemeClr ==nil {_fad .SchemeClr =_agfe .SchemeClr ;};if _fad .PrstClr ==nil {_fad .PrstClr =_agfe .PrstClr ;};return _fad ;};type prefixData struct{_ddc string ;_adcf bool ;_ced float64 ;_cbbf float64 ;};
+package convert
+
+import (
+	_e "bytes"
+	_d "errors"
+	_deg "github.com/AlexGames73/unioffice-free/common/logger"
+	_cdc "github.com/AlexGames73/unioffice-free/common/tempstorage"
+	_cd "github.com/AlexGames73/unioffice-free/internal/convertutils"
+	_gc "github.com/AlexGames73/unioffice-free/measurement"
+	_dec "github.com/AlexGames73/unioffice-free/presentation"
+	_f "github.com/AlexGames73/unioffice-free/schema/soo/dml"
+	_db "github.com/AlexGames73/unioffice-free/schema/soo/dml/chart"
+	_bfd "github.com/AlexGames73/unioffice-free/schema/soo/pml"
+	_bg "github.com/unidoc/unipdf/v3/contentstream/draw"
+	_b "github.com/unidoc/unipdf/v3/creator"
+	_bd "github.com/unidoc/unipdf/v3/model"
+	_bf "github.com/unidoc/unipdf/v3/render"
+	_a "image"
+	_gb "image/color"
+	_de "image/draw"
+	_c "strconv"
+	_eg "strings"
+)
+
+func _aega(_dea, _facb *_f.CT_TextListStyle) *_f.CT_TextListStyle {
+	_dfbf := _f.NewCT_TextListStyle()
+	if _dea != nil {
+		*_dfbf = *_dea
+	}
+	if _facb == nil {
+		return _dfbf
+	}
+	_dfbf.DefPPr = _bgab(_dfbf.DefPPr, _facb.DefPPr)
+	_dfbf.Lvl1pPr = _bgab(_dfbf.Lvl1pPr, _facb.Lvl1pPr)
+	_dfbf.Lvl2pPr = _bgab(_dfbf.Lvl2pPr, _facb.Lvl2pPr)
+	_dfbf.Lvl3pPr = _bgab(_dfbf.Lvl3pPr, _facb.Lvl3pPr)
+	_dfbf.Lvl4pPr = _bgab(_dfbf.Lvl4pPr, _facb.Lvl4pPr)
+	_dfbf.Lvl5pPr = _bgab(_dfbf.Lvl5pPr, _facb.Lvl5pPr)
+	_dfbf.Lvl6pPr = _bgab(_dfbf.Lvl6pPr, _facb.Lvl6pPr)
+	_dfbf.Lvl7pPr = _bgab(_dfbf.Lvl7pPr, _facb.Lvl7pPr)
+	_dfbf.Lvl8pPr = _bgab(_dfbf.Lvl8pPr, _facb.Lvl8pPr)
+	_dfbf.Lvl9pPr = _bgab(_dfbf.Lvl9pPr, _facb.Lvl9pPr)
+	return _dfbf
+}
+
+func (_efc *textboxContext) newParagraph() {
+	_dedb := &paragraph{}
+	_dedb._faaag = _efc._ggc
+	_efc._fdf = _dedb
+}
+
+func (_deda *convertContext) getColorFromMatrixReference(_egcgf *_f.CT_StyleMatrixReference) _b.Color {
+	if _egcgf == nil {
+		return nil
+	}
+	var _cace _b.Color
+	var _eggf string
+	if _badg := _egcgf.SrgbClr; _badg != nil {
+		_eggf = _badg.ValAttr
+	} else if _aaf := _egcgf.SchemeClr; _aaf != nil {
+		_eggf = _cd.GetColorStringFromDmlColor(_deda._cbed.GetColorBySchemeColor(_aaf.ValAttr))
+		_eggf = _cd.AdjustColor(_eggf, _aaf.EG_ColorTransform)
+	}
+	if _eggf != "" {
+		_cace = _b.ColorRGBFromHex("\u0023" + _eggf)
+	}
+	return _cace
+}
+
+func (_affa *convertContext) getShapesFromSpPr(_feae *_f.CT_ShapeProperties, _ccd *_f.CT_ShapeStyle, _dfa bool) ([]_b.Drawable, float64, float64, float64, float64, _b.Color, bool) {
+	_ffeb := []_b.Drawable{}
+	var _dad, _adgd, _gaa, _dbg, _fab float64
+	var _cdce, _bbe, _edb, _bgc _b.Color
+	var _dcc *_f.CT_BlipFillProperties
+	_dadc, _ge := 1.0, 1.0
+	if _ccd != nil {
+		_cdce, _bbe, _bgc = _affa.getStyleColors(_ccd)
+	}
+	if _dbf := _feae.Ln; _dbf != nil {
+		if _dbf.NoFill != nil {
+			_edb, _fab = nil, 0
+		} else {
+			_edb, _fab, _dadc = _affa.getInfoFromLn(_dbf)
+			if _edb == nil {
+				_edb = _bgc
+			}
+		}
+	}
+	if _feae.NoFill != nil {
+		_bbe, _ge = nil, 0
+	} else if _dfa {
+		_bbe = _affa._dccf._bbb
+		_ge = _affa._dccf._aga
+		_dcc = _affa._dccf._dacc
+	} else if _geg := _feae.SolidFill; _geg != nil {
+		_bbe, _ge = _affa.getColorFromSolidFill(_geg)
+	}
+	var _edg bool
+	if _fgd := _feae.Xfrm; _fgd != nil {
+		_dad, _adgd, _gaa, _dbg = _cd.GetDataFromXfrm(_fgd)
+		_edg = true
+	}
+	if _eab := _feae.CustGeom; _eab != nil {
+		_bfgf := []_bg.Point{}
+		_eadb, _aggb := 1.0, 1.0
+		if _afcf := _eab.PathLst; _afcf != nil {
+			for _, _cde := range _afcf.Path {
+				if _cde != nil {
+					if _bde := _cde.WAttr; _bde != nil {
+						_eadb = _gaa / _gc.FromEMU(*_bde)
+					}
+					if _dbcg := _cde.HAttr; _dbcg != nil {
+						_aggb = _dbg / _gc.FromEMU(*_dbcg)
+					}
+					for _, _ace := range _cde.Close {
+						if _ace != nil {
+						}
+					}
+					for _, _ebca := range _cde.MoveTo {
+						if _ebca != nil && _ebca.Pt != nil {
+							_ddd, _gfdd := _baa(_ebca.Pt)
+							_bfgf = append(_bfgf, _bg.Point{X: _ddd*_eadb + _dad, Y: _gfdd*_aggb + _adgd})
+						}
+					}
+					for _, _cbf := range _cde.LnTo {
+						if _cbf != nil && _cbf.Pt != nil {
+							_cbcc, _daf := _baa(_cbf.Pt)
+							_bfgf = append(_bfgf, _bg.Point{X: _cbcc*_eadb + _dad, Y: _daf*_aggb + _adgd})
+						}
+					}
+					_fcb := _affa._fcbbg.NewPolygon([][]_bg.Point{_bfgf})
+					_fcb.SetFillColor(_bbe)
+					_fcb.SetFillOpacity(_ge)
+					_fcb.SetBorderWidth(_fab)
+					if _edb != nil {
+						_fcb.SetBorderColor(_edb)
+						_fcb.SetBorderOpacity(_dadc)
+					}
+					_ffeb = append(_ffeb, _fcb)
+				}
+			}
+		}
+	}
+	if _fgcg := _feae.PrstGeom; _fgcg != nil {
+		switch _fgcg.PrstAttr {
+		case _f.ST_ShapeTypeRect:
+			if _dcc != nil {
+				_fdd := _affa.getShapeFromBlipFill(_dcc, _dad, _adgd, _gaa, _dbg)
+				_ffeb = append(_ffeb, _fdd)
+			} else {
+				_adf := _affa._fcbbg.NewRectangle(_dad, _adgd, _gaa, _dbg)
+				_adf.SetFillColor(_bbe)
+				_adf.SetFillOpacity(_ge)
+				_adf.SetBorderWidth(_fab)
+				if _edb != nil {
+					_adf.SetBorderColor(_edb)
+					_adf.SetBorderOpacity(_dadc)
+				}
+				_ffeb = append(_ffeb, _adf)
+			}
+		case _f.ST_ShapeTypeLine:
+			_cdcg := _affa._fcbbg.NewLine(_dad, _adgd, _dad+_gaa, _adgd+_dbg)
+			_cdcg.SetLineWidth(_fab)
+			if _edb != nil {
+				_cdcg.SetColor(_edb)
+			}
+			_ffeb = append(_ffeb, _cdcg)
+		}
+	}
+	return _ffeb, _dad, _adgd, _gaa, _dbg, _cdce, _edg
+}
+
+func (_cfaa *convertContext) stretchImage(_bc *_b.Image, _gge *_f.CT_StretchInfoProperties, _bbd, _agf, _ggb, _gbg float64) (*_b.Image, float64, float64) {
+	_agfd := _gge.FillRect
+	if _agfd == nil {
+		_cgd := _bc.Width() / _bc.Height()
+		_ab := _ggb / _gbg
+		var _dbc, _daa float64
+		if _cgd > _ab {
+			_daa = _gbg
+			_dbc = _gbg * _cgd
+		} else {
+			_dbc = _ggb
+			_daa = _ggb / _cgd
+		}
+		_bc.Scale(_dbc/_bc.Width(), _daa/_bc.Height())
+		return _bc, _bbd, _agf
+	}
+	var _bef, _fbe, _acd, _cbce float64
+	if _cgb := _agfd.LAttr; _cgb != nil {
+		_acd = _cd.FromSTPercentage(_cgb)
+	}
+	if _cgbf := _agfd.TAttr; _cgbf != nil {
+		_bef = _cd.FromSTPercentage(_cgbf)
+	}
+	if _ef := _agfd.RAttr; _ef != nil {
+		_cbce = _cd.FromSTPercentage(_ef)
+	}
+	if _aec := _agfd.BAttr; _aec != nil {
+		_fbe = _cd.FromSTPercentage(_aec)
+	}
+	_faa := _ggb * (1 - _acd - _cbce)
+	_efg := _gbg * (1 - _bef - _fbe)
+	_bc.Scale(_faa/_bc.Width(), _efg/_bc.Height())
+	return _bc, _bbd + _acd*_ggb, _agf + _bef*_gbg
+}
+
+func (_gada *textboxContext) alignVertically(_add _f.ST_TextAnchoringType) {
+	_gada.alignParagraphsVertically(_add)
+	_gada.alignSymbolsVertically()
+}
+
+func _bcg(_gcba, _agfe *_f.CT_TableStyleTextStyle) *_f.CT_TableStyleTextStyle {
+	_fad := _f.NewCT_TableStyleTextStyle()
+	if _gcba != nil {
+		*_fad = *_gcba
+	}
+	if _agfe == nil {
+		return _fad
+	}
+	if _fad.BAttr == _f.ST_OnOffStyleTypeUnset {
+		_fad.BAttr = _agfe.BAttr
+	}
+	if _fad.IAttr == _f.ST_OnOffStyleTypeUnset {
+		_fad.IAttr = _agfe.IAttr
+	}
+	if _fad.Font == nil {
+		_fad.Font = _agfe.Font
+	}
+	if _fad.FontRef == nil {
+		_fad.FontRef = _agfe.FontRef
+	}
+	if _fad.ScrgbClr == nil {
+		_fad.ScrgbClr = _agfe.ScrgbClr
+	}
+	if _fad.SrgbClr == nil {
+		_fad.SrgbClr = _agfe.SrgbClr
+	}
+	if _fad.HslClr == nil {
+		_fad.HslClr = _agfe.HslClr
+	}
+	if _fad.SysClr == nil {
+		_fad.SysClr = _agfe.SysClr
+	}
+	if _fad.SchemeClr == nil {
+		_fad.SchemeClr = _agfe.SchemeClr
+	}
+	if _fad.PrstClr == nil {
+		_fad.PrstClr = _agfe.PrstClr
+	}
+	return _fad
+}
+
+type prefixData struct {
+	_ddc  string
+	_adcf bool
+	_ced  float64
+	_cbbf float64
+}
 
 // RegisterFontsFromDirectory registers all fonts from the given directory automatically detecting font families and styles.
-func RegisterFontsFromDirectory (dirName string )error {return _cd .RegisterFontsFromDirectory (dirName )};type line struct{_bgg float64 ;_ddg float64 ;_egf float64 ;_fac float64 ;_dafc float64 ;_fae []*word ;};func (_ffg *textboxContext )addTextSymbol (_ageg *symbol ){_ggd :=_b .New ();_eddd :=_ggd .NewStyledParagraph ();_eddd .SetMargins (0,0,0,0);_cbfcg :=_eddd .Append (_ageg ._bfga );_gafe :=0.0;if _ageg ._fbec !=nil {_cbfcg .Style =*_ageg ._fbec ;if _ageg ._fbec .CharSpacing !=0{_gafe =_ageg ._fbec .CharSpacing ;};};_ageg ._adcb =_eddd .Height ();_ageg ._gaab =_eddd .Height ()*1.2;if _ageg ._gaab < _ffg ._fdf ._ffdef {_ageg ._gaab =_ffg ._fdf ._ffdef ;};if _ageg ._aba ==0{_ageg ._aba =_eddd .Width ()+_gafe ;};if len (_ffg ._dcef ._ffbd )> 0{_fge :=_ffg ._dcef ._ffbd [len (_ffg ._dcef ._ffbd )-1]._bfga ;if _ffg ._fdf ._fcfg ||_cd .IsNoSpaceLanguage (_fge )||(_fge =="\u0020")!=(_ageg ._bfga =="\u0020"){_ffg .addCurrentWordToParagraph ();_ffg .newWord ();};};_ffg ._dcef ._ffbd =append (_ffg ._dcef ._ffbd ,_ageg );_ageg ._debc =_ffg ._dcef ._cdcd ;_ffg ._dcef ._cdcd +=_ageg ._aba ;if _ageg ._bfga !="\u0020"{_ffg ._dcef ._gadc =false ;};};func (_bcf *convertContext )getConnectors (_ffed *_bfd .CT_Connector )[]_b .Drawable {_bcd ,_ ,_ ,_ ,_ ,_ ,_ :=_bcf .getShapesFromSpPr (_ffed .SpPr ,_ffed .Style ,false );return _bcd ;};func _fafe (_fgaa int ,_ecde bool )string {_dbe :=(_fgaa -1)/26+1;_bdaa :=byte ((_fgaa -1)%26);if _ecde {_bdaa +=byte (65);}else {_bdaa +=byte (97);};_gcfd :=_e .NewBuffer ([]byte {});for _gbcd :=0;_gbcd < _dbe ;_gbcd ++{_gcfd .Write ([]byte {_bdaa });};return _gcfd .String ();};func (_cebc *textboxContext )addTextRun (_bade *_f .EG_TextRun ,_cga *_f .CT_TextCharacterProperties ,_affd _b .Color ,_bded *prefixData ){if _gecf :=_bade .Br ;_gecf !=nil {_cebc .addCurrentWordToParagraph ();_cebc .newLine ();_cebc .newWord ();}else if _cdgb :=_bade .R ;_cdgb !=nil {var _fbf _b .Color ;if _cdgb .RPr .SolidFill !=nil {_fbf ,_ =_cebc ._bfgg .getColorFromSolidFill (_cdgb .RPr .SolidFill );}else if _affd !=nil {_fbf =_affd ;}else if _cga .SolidFill !=nil {_fbf ,_ =_cebc ._bfgg .getColorFromSolidFill (_cga .SolidFill );}else {_fbf =_b .ColorBlack ;};_dfdd :=_dagf (_cdgb .RPr ,_cga );_edag ,_cbac ,_gbgg ,_bffd :=_cebc ._bfgg .makeStyleFromRPr (_dfdd );_edag .Color =_fbf ;if _bded !=nil {_cebc .addPrefix (_bded ,_edag );};_begd :=_eddf (_cdgb .T );for _ ,_cfb :=range _begd {_cfb ._fbec =_edag ;_cfb ._bggg =_cbac ;_cfb ._dfc =_gbgg ;_cfb ._bacb =_bffd ;if _dfdd .CapAttr ==_f .ST_TextCapsTypeAll {_cfb ._bfga =_eg .ToUpper (_cfb ._bfga );};_cebc .addTextSymbol (_cfb );};};};type romanMatch struct{_fddc int ;_bdgb string ;};func _fegb (_decg *bool )bool {return _decg !=nil &&*_decg };func (_faefe *convertContext )getColorFromFontReference (_bgcc *_f .CT_FontReference )_b .Color {var _cagg _b .Color ;var _edgf string ;if _cea :=_bgcc .SrgbClr ;_cea !=nil {_edgf =_cea .ValAttr ;}else if _aabd :=_bgcc .SchemeClr ;_aabd !=nil {_edgf =_cd .GetColorStringFromDmlColor (_faefe ._cbed .GetColorBySchemeColor (_aabd .ValAttr ));_edgf =_cd .AdjustColor (_edgf ,_aabd .EG_ColorTransform );};if _edgf !=""{_cagg =_b .ColorRGBFromHex ("\u0023"+_edgf );};return _cagg ;};var _bb =_eaea (1.9);func (_bcfe *convertContext )makePdfBlockFromTxBody (_dbcd *_f .CT_TextBody ,_cbfc *_f .CT_TextBodyProperties ,_ffb *_f .CT_TextListStyle ,_ebcb ,_cfgb float64 ,_gbga _b .Color ,_agbd ,_edf bool )(*_b .Block ,error ){var _cgbc *_f .CT_TextParagraphProperties ;if _fbb :=_dbcd .LstStyle ;_fbb !=nil {var _gfe *_f .CT_TextParagraphProperties ;if _fbb .Lvl1pPr !=nil {_gfe =_fbb .Lvl1pPr ;};_cgbc =_bgab (_gfe ,_fbb .DefPPr );};var _bcfeg *_f .CT_TextParagraphProperties ;if _cgbc !=nil {if _agbd {_bcfeg =_bcfe ._def [0];}else if _edf {_bcfeg =_bcfe ._bage [0];}else {_bcfeg =_bcfe ._gaff [0];};if _ffb !=nil {_bcfeg =_bgab (_bgab (_ffb .Lvl1pPr ,_ffb .DefPPr ),_bcfeg );};_bcfeg =_bgab (_cgbc ,_bcfeg );}else {if _agbd {_bcfeg =_bcfe ._gfab ;}else if _edf {_bcfeg =_bcfe ._dfb ;}else {_bcfeg =_bcfe ._ccca ;};};_cccf ,_eedb :=_eaea (2.5),_eaea (2.5);_dbfd ,_dga :=_eaea (1.3),_eaea (1.3);_dcae :=true ;_fga :=_f .ST_TextAnchoringTypeT ;if _cbfc !=nil {if _ffbe :=_cbfc .AnchorAttr ;_ffbe !=_f .ST_TextAnchoringTypeUnset {_fga =_ffbe ;};};if _egee :=_dbcd .BodyPr ;_egee !=nil {if _cadd :=_egee .LInsAttr ;_cadd !=nil {_cccf =_gc .FromEMU (_cd .FromSTCoordinate32 (*_cadd ));};if _cee :=_egee .TInsAttr ;_cee !=nil {_dbfd =_gc .FromEMU (_cd .FromSTCoordinate32 (*_cee ));};if _cfgd :=_egee .RInsAttr ;_cfgd !=nil {_eedb =_gc .FromEMU (_cd .FromSTCoordinate32 (*_cfgd ));};if _efgc :=_egee .BInsAttr ;_efgc !=nil {_dga =_gc .FromEMU (_cd .FromSTCoordinate32 (*_efgc ));};_dcae =_egee .WrapAttr !=_f .ST_TextWrappingTypeNone ;if _aab :=_egee .AnchorAttr ;_aab !=_f .ST_TextAnchoringTypeUnset {_fga =_egee .AnchorAttr ;};};_aef :=_cd .MakeTempCreator (_ebcb ,_cfgb );_aef .SetPageMargins (_cccf ,_eedb ,_dbfd ,_dga );_ccgd :=&textboxContext {_bfgg :_bcfe ,_cbcg :_dcae ,_accg :_ebcb -_cccf -_eedb ,_bfefg :_cfgb -_dbfd -_dga ,_aacg :_aef ,_ece :[]*paragraph {}};_cccg :=1;for _ ,_dee :=range _dbcd .P {if _dee !=nil {_cdee :=_dee .PPr ;var _ceee *prefixData ;if _cdee !=nil &&_cdee .BuNone ==nil {var _cdb string ;var _cbeg bool ;if _agc :=_cdee .BuAutoNum ;_agc !=nil {var _cgc string ;if _cac :=_agc .StartAtAttr ;_cac !=nil {_cccg =int (*_cac );};var _cff string ;switch _agc .TypeAttr {case _f .ST_TextAutonumberSchemeAlphaUcParenBoth ,_f .ST_TextAutonumberSchemeAlphaUcParenR ,_f .ST_TextAutonumberSchemeAlphaUcPeriod :_cff =_fafe (_cccg ,true );case _f .ST_TextAutonumberSchemeAlphaLcParenBoth ,_f .ST_TextAutonumberSchemeAlphaLcParenR ,_f .ST_TextAutonumberSchemeAlphaLcPeriod :_cff =_fafe (_cccg ,false );case _f .ST_TextAutonumberSchemeRomanUcParenBoth ,_f .ST_TextAutonumberSchemeRomanUcParenR ,_f .ST_TextAutonumberSchemeRomanUcPeriod :_cff =_gcgf (_cccg ,true );case _f .ST_TextAutonumberSchemeRomanLcParenBoth ,_f .ST_TextAutonumberSchemeRomanLcParenR ,_f .ST_TextAutonumberSchemeRomanLcPeriod :_cff =_gcgf (_cccg ,false );default:_cff =_c .Itoa (_cccg );};switch _agc .TypeAttr {case _f .ST_TextAutonumberSchemeAlphaLcPeriod ,_f .ST_TextAutonumberSchemeAlphaUcPeriod ,_f .ST_TextAutonumberSchemeArabicPeriod ,_f .ST_TextAutonumberSchemeRomanLcPeriod ,_f .ST_TextAutonumberSchemeRomanUcPeriod ,_f .ST_TextAutonumberSchemeArabicDbPeriod ,_f .ST_TextAutonumberSchemeEa1ChsPeriod ,_f .ST_TextAutonumberSchemeEa1ChtPeriod ,_f .ST_TextAutonumberSchemeEa1JpnChsDbPeriod ,_f .ST_TextAutonumberSchemeEa1JpnKorPeriod ,_f .ST_TextAutonumberSchemeThaiAlphaPeriod ,_f .ST_TextAutonumberSchemeThaiNumPeriod ,_f .ST_TextAutonumberSchemeHindiAlphaPeriod ,_f .ST_TextAutonumberSchemeHindiNumPeriod ,_f .ST_TextAutonumberSchemeHindiAlpha1Period :_cgc ="\u002e";case _f .ST_TextAutonumberSchemeAlphaLcParenR ,_f .ST_TextAutonumberSchemeAlphaUcParenR ,_f .ST_TextAutonumberSchemeArabicParenR ,_f .ST_TextAutonumberSchemeRomanLcParenR ,_f .ST_TextAutonumberSchemeRomanUcParenR ,_f .ST_TextAutonumberSchemeThaiAlphaParenR ,_f .ST_TextAutonumberSchemeThaiNumParenR ,_f .ST_TextAutonumberSchemeHindiNumParenR :_cgc ="\u0029";};_cdb =_cff +_cgc ;_cccg ++;}else if _bdee :=_cdee .BuChar ;_bdee !=nil {_edd :=_bdee .CharAttr ;if _faaa ,_aeg :=_bgba [_edd ];_aeg {_edd =string (rune (_faaa ));}else {_edd ="\u2022";};_cdb =_edd ;_cbeg =true ;};if _cdb !=""{var _bae ,_bge float64 ;if _cdee .MarLAttr !=nil {_bae =_gc .FromEMU (int64 (*_cdee .MarLAttr ));};if _cdee .IndentAttr !=nil {_bge =_gc .FromEMU (int64 (*_cdee .IndentAttr ));};_ceee =&prefixData {_ddc :_cdb ,_adcf :_cbeg ,_ced :_bae ,_cbbf :_bge };};};_cdee =_bgab (_cdee ,_bcfeg );_fcf :=_dagf (_dee .EndParaRPr ,_cdee .DefRPr );_ccgd .newParagraph ();_ccgd .assignPropsToCurrentParagraph (_cdee );_ccgd .newLine ();_ccgd .newWord ();for _gbdaf ,_age :=range _dee .EG_TextRun {_ccgd .addTextRun (_age ,_fcf ,_gbga ,_ceee );if _gbdaf > 0{_ceee =nil ;};};_ccgd .addCurrentWordToParagraph ();};_ccgd .addCurrentParagraph ();};_ccgd .alignVertically (_fga );_ccgd .drawParagraphs ();return _cd .MakeBlockFromCreator (_aef );};type background struct{_bbb _b .Color ;_aga float64 ;_dacc *_f .CT_BlipFillProperties ;};func _dagf (_ccbfe ,_ebg *_f .CT_TextCharacterProperties )*_f .CT_TextCharacterProperties {_ebce :=_f .NewCT_TextCharacterProperties ();if _ccbfe !=nil {*_ebce =*_ccbfe ;};if _ebg ==nil {return _ebce ;};if _ebce .KumimojiAttr ==nil {_ebce .KumimojiAttr =_ebg .KumimojiAttr ;};if _ebce .LangAttr ==nil {_ebce .LangAttr =_ebg .LangAttr ;};if _ebce .AltLangAttr ==nil {_ebce .AltLangAttr =_ebg .AltLangAttr ;};if _ebce .SzAttr ==nil {_ebce .SzAttr =_ebg .SzAttr ;};if _ebce .BAttr ==nil {_ebce .BAttr =_ebg .BAttr ;};if _ebce .IAttr ==nil {_ebce .IAttr =_ebg .IAttr ;};if _ebce .UAttr ==_f .ST_TextUnderlineTypeUnset {_ebce .UAttr =_ebg .UAttr ;};if _ebce .StrikeAttr ==_f .ST_TextStrikeTypeUnset {_ebce .StrikeAttr =_ebg .StrikeAttr ;};if _ebce .KernAttr ==nil {_ebce .KernAttr =_ebg .KernAttr ;};if _ebce .CapAttr ==_f .ST_TextCapsTypeUnset {_ebce .CapAttr =_ebg .CapAttr ;};if _ebce .SpcAttr ==nil {_ebce .SpcAttr =_ebg .SpcAttr ;};if _ebce .NormalizeHAttr ==nil {_ebce .NormalizeHAttr =_ebg .NormalizeHAttr ;};if _ebce .BaselineAttr ==nil {_ebce .BaselineAttr =_ebg .BaselineAttr ;};if _ebce .NoProofAttr ==nil {_ebce .NoProofAttr =_ebg .NoProofAttr ;};if _ebce .DirtyAttr ==nil {_ebce .DirtyAttr =_ebg .DirtyAttr ;};if _ebce .ErrAttr ==nil {_ebce .ErrAttr =_ebg .ErrAttr ;};if _ebce .SmtCleanAttr ==nil {_ebce .SmtCleanAttr =_ebg .SmtCleanAttr ;};if _ebce .SmtIdAttr ==nil {_ebce .SmtIdAttr =_ebg .SmtIdAttr ;};if _ebce .BmkAttr ==nil {_ebce .BmkAttr =_ebg .BmkAttr ;};if _ebce .Ln ==nil {_ebce .Ln =_ebg .Ln ;};if _ebce .NoFill ==nil {_ebce .NoFill =_ebg .NoFill ;};if _ebce .SolidFill ==nil {_ebce .SolidFill =_ebg .SolidFill ;};if _ebce .BlipFill ==nil {_ebce .BlipFill =_ebg .BlipFill ;};if _ebce .EffectLst ==nil {_ebce .EffectLst =_ebg .EffectLst ;};if _ebce .EffectDag ==nil {_ebce .EffectDag =_ebg .EffectDag ;};if _ebce .Highlight ==nil {_ebce .Highlight =_ebg .Highlight ;};if _ebce .ULnTx ==nil {_ebce .ULnTx =_ebg .ULnTx ;};if _ebce .ULn ==nil {_ebce .ULn =_ebg .ULn ;};if _ebce .UFillTx ==nil {_ebce .UFillTx =_ebg .UFillTx ;};if _ebce .UFill ==nil {_ebce .UFill =_ebg .UFill ;};if _ebce .Latin ==nil {_ebce .Latin =_ebg .Latin ;};if _ebce .Ea ==nil {_ebce .Ea =_ebg .Ea ;};if _ebce .Cs ==nil {_ebce .Cs =_ebg .Cs ;};if _ebce .Sym ==nil {_ebce .Sym =_ebg .Sym ;};if _ebce .Rtl ==nil {_ebce .Rtl =_ebg .Rtl ;};return _ebce ;};func _gcgf (_abac int ,_daec bool )string {_agab :=_e .NewBuffer ([]byte {});for _ ,_gdg :=range _bbeae {for {if _abac < _gdg ._fddc {break ;};_agab .WriteString (_gdg ._bdgb );_abac -=_gdg ._fddc ;};};_egdf :=_agab .String ();if _daec {_egdf =_eg .ToUpper (_egdf );};return _egdf ;};func (_bbeg *textboxContext )newWord (){_bbeg ._dcef =&word {_gadc :true ,_eddg :_bbeg ._geb ._fac }};type paragraph struct{_afb float64 ;_cbddf float64 ;_fafd float64 ;_ded float64 ;_geea float64 ;_fgaf float64 ;_faaag float64 ;_fgf float64 ;_aca _f .ST_TextAlignType ;_ffdef float64 ;_fcfg bool ;_bcb []*line ;};func (_abdb *convertContext )getPhData (_facbg *_bfd .CT_Shape )(*_f .CT_Transform2D ,*_f .CT_TextBodyProperties ,*_f .CT_TextListStyle ,bool ,bool ){_eag ,_aegd :=_afad (_facbg );_fbdd :=_aegd ==nil ;_abea ,_aace ,_dcfe ,_cbff :=_acec (_abdb ._eee .CSld ,_eag ,_aegd ,_fbdd );_aegc ,_ccba ,_dgdc ,_eecd :=_acec (_abdb ._ecfg .CSld ,_eag ,_aegd ,_fbdd );if _aegc ==nil {_aegc =_abea ;};_bdc ,_ebf :=_adcbd (_ccba ,_aace );var _aadf ,_gea bool ;if _dgdc ==nil {if _dcfe !=nil {_aadf =*_dcfe ;};}else {_aadf =*_dgdc ;};if _eecd ==nil {if _cbff !=nil {_gea =*_cbff ;};}else {_gea =*_eecd ;};return _aegc ,_bdc ,_ebf ,_aadf ,_gea ;};func (_gba *textboxContext )addPrefix (_eff *prefixData ,_fdcd *_b .TextStyle ){_aad :=_eddf (_eff ._ddc );_cgge :=*_fdcd ;if _eff ._adcf {_cgge .Font =_cd .AssignStdFontByName (_cgge ,"\u0053\u0079\u006d\u0062\u006f\u006c");};for _ ,_accc :=range _aad {_accc ._fbec =&_cgge ;_gba .addTextSymbol (_accc );};_bed :=-(_eff ._cbbf +_gba ._dcef ._cdcd );if _bed < 0{_bed =0;};_aaba :=&symbol {_bfga :"\u0020",_aba :_bed };_gba .addTextSymbol (_aaba );_gba ._dcef ._eddg +=(_eff ._cbbf +_eff ._ced );};const (FontStyle_Regular FontStyle =0;FontStyle_Bold FontStyle =1;FontStyle_Italic FontStyle =2;FontStyle_BoldItalic FontStyle =3;);func _bfea (_abad ,_gfda *_f .CT_TextBodyProperties )*_f .CT_TextBodyProperties {_cgdcc :=_f .NewCT_TextBodyProperties ();if _abad !=nil {*_cgdcc =*_abad ;};if _gfda ==nil {return _cgdcc ;};if _cgdcc .RotAttr ==nil {_cgdcc .RotAttr =_gfda .RotAttr ;};if _cgdcc .SpcFirstLastParaAttr ==nil {_cgdcc .SpcFirstLastParaAttr =_gfda .SpcFirstLastParaAttr ;};if _cgdcc .VertOverflowAttr ==_f .ST_TextVertOverflowTypeUnset {_cgdcc .VertOverflowAttr =_gfda .VertOverflowAttr ;};if _cgdcc .HorzOverflowAttr ==_f .ST_TextHorzOverflowTypeUnset {_cgdcc .HorzOverflowAttr =_gfda .HorzOverflowAttr ;};if _cgdcc .VertAttr ==_f .ST_TextVerticalTypeUnset {_cgdcc .VertAttr =_gfda .VertAttr ;};if _cgdcc .WrapAttr ==_f .ST_TextWrappingTypeUnset {_cgdcc .WrapAttr =_gfda .WrapAttr ;};if _cgdcc .LInsAttr ==nil {_cgdcc .LInsAttr =_gfda .LInsAttr ;};if _cgdcc .TInsAttr ==nil {_cgdcc .TInsAttr =_gfda .TInsAttr ;};if _cgdcc .RInsAttr ==nil {_cgdcc .RInsAttr =_gfda .RInsAttr ;};if _cgdcc .BInsAttr ==nil {_cgdcc .BInsAttr =_gfda .BInsAttr ;};if _cgdcc .NumColAttr ==nil {_cgdcc .NumColAttr =_gfda .NumColAttr ;};if _cgdcc .SpcColAttr ==nil {_cgdcc .SpcColAttr =_gfda .SpcColAttr ;};if _cgdcc .RtlColAttr ==nil {_cgdcc .RtlColAttr =_gfda .RtlColAttr ;};if _cgdcc .AnchorAttr ==_f .ST_TextAnchoringTypeUnset {_cgdcc .AnchorAttr =_gfda .AnchorAttr ;};if _cgdcc .AnchorCtrAttr ==nil {_cgdcc .AnchorCtrAttr =_gfda .AnchorCtrAttr ;};if _cgdcc .ForceAAAttr ==nil {_cgdcc .ForceAAAttr =_gfda .ForceAAAttr ;};if _cgdcc .UprightAttr ==nil {_cgdcc .UprightAttr =_gfda .UprightAttr ;};if _cgdcc .CompatLnSpcAttr ==nil {_cgdcc .CompatLnSpcAttr =_gfda .CompatLnSpcAttr ;};if _cgdcc .PrstTxWarp ==nil {_cgdcc .PrstTxWarp =_gfda .PrstTxWarp ;};if _cgdcc .NoAutofit ==nil {_cgdcc .NoAutofit =_gfda .NoAutofit ;};if _cgdcc .NormAutofit ==nil {_cgdcc .NormAutofit =_gfda .NormAutofit ;};if _cgdcc .SpAutoFit ==nil {_cgdcc .SpAutoFit =_gfda .SpAutoFit ;};if _cgdcc .Scene3d ==nil {_cgdcc .Scene3d =_gfda .Scene3d ;};if _cgdcc .Sp3d ==nil {_cgdcc .Sp3d =_gfda .Sp3d ;};if _cgdcc .FlatTx ==nil {_cgdcc .FlatTx =_gfda .FlatTx ;};if _cgdcc .ExtLst ==nil {_cgdcc .ExtLst =_gfda .ExtLst ;};return _cgdcc ;};type symbol struct{_bfga string ;_debc float64 ;_gaab float64 ;_adcb float64 ;_faab float64 ;_aba float64 ;_fbec *_b .TextStyle ;_ccbf string ;_bggg bool ;_dfc bool ;_bacb bool ;};func (_fafdb *convertContext )applyBlipEffectsOnImg (_fcec *_b .Image ,_fabc ,_gcab float64 ,_fcff []*_f .CT_BlipChoice )*_b .Image {if len (_fcff )==0{return _fcec ;};_fcec .SetPos (_fabc ,_gcab );_caage ,_gccg :=_fafdb .renderPageWithDrawableToGoImage (_fcec );if _gccg !=nil {_deg .Log .Debug ("\u0045\u0072\u0072\u006f\u0072\u0020\u0072\u0065\u006e\u0064\u0065\u0072\u0020a\u006e\u0020\u0069\u006d\u0061\u0067e\u0020\u0074\u006f\u0020\u0061\u0020\u0047\u006f\u0020\u0069\u006d\u0061\u0067e\u003a\u0020\u0025\u0073",_gccg );return _fcec ;};_dda ,_gccg :=_fafdb .renderCurrentStateToGoImage ();if _gccg !=nil {_deg .Log .Debug ("\u0045\u0072\u0072\u006f\u0072\u0020\u0072\u0065n\u0064\u0065\u0072 t\u0068\u0065\u0020\u0063\u0075\u0072r\u0065\u006e\u0074\u0020\u0073\u0074\u0061\u0074\u0065\u0020\u0074\u006f\u0020\u0061\u0020G\u006f\u0020\u0069\u006d\u0061\u0067\u0065\u003a \u0025\u0073",_gccg );return _fcec ;};_bdga :=_caage .Bounds ();_cbadb :=_a .NewRGBA (_bdga );_cebcd ,_egag :=_fcec .Width (),_fcec .Height ();for _ ,_bbg :=range _fcff {for _ ,_eefd :=range _bbg .AlphaModFix {if _ebba :=_eefd .AmtAttr ;_ebba !=nil {if _daeg :=_ebba .ST_PositivePercentageDecimal ;_daeg !=nil {_dccaa :=uint8 (255*(*_daeg )/100000);_ebcc :=_a .NewUniform (_gb .Alpha {_dccaa });_de .Draw (_cbadb ,_bdga ,_dda ,_a .Point {0,0},_de .Src );_de .DrawMask (_cbadb ,_bdga ,_caage ,_a .Point {0,0},_ebcc ,_a .Point {0,0},_de .Over );};};};};_bggb :=_a .Rect (int (_fabc ),int (_gcab ),int (_fabc +_cebcd )+1,int (_gcab +_egag )+1);_gbdc :=_cd .CropImageByRect (_cbadb ,_bggb );_cdaf ,_gccg :=_fafdb ._fcbbg .NewImageFromGoImage (_gbdc );if _gccg !=nil {_deg .Log .Debug ("\u0045\u0072\u0072\u006f\u0072\u0020\u0061\u006e\u0020\u0069\u006d\u0061\u0067\u0065\u0020t\u006f \u0061\u0020\u0047\u006f\u0020\u0069\u006d\u0061\u0067\u0065\u003a\u0020\u0025\u0073",_gccg );return _fcec ;};return _cdaf ;};func _afdc (_ceea ,_fgeb *_f .CT_TablePartStyle )*_f .CT_TablePartStyle {_adca :=_f .NewCT_TablePartStyle ();if _ceea !=nil {*_adca =*_ceea ;};if _fgeb ==nil {return _adca ;};if _adca .TcTxStyle ==nil {_adca .TcTxStyle =_fgeb .TcTxStyle ;}else {_adca .TcTxStyle =_bcg (_adca .TcTxStyle ,_fgeb .TcTxStyle );};if _adca .TcStyle ==nil {_adca .TcStyle =_fgeb .TcStyle ;}else {_adca .TcStyle =_gabb (_adca .TcStyle ,_fgeb .TcStyle );};return _adca ;};func _acec (_gega *_bfd .CT_CommonSlideData ,_fabe _bfd .ST_PlaceholderType ,_bbbf *uint32 ,_begad bool )(*_f .CT_Transform2D ,*_f .CT_TextBody ,*bool ,*bool ){if _gega !=nil &&(_fabe !=_bfd .ST_PlaceholderTypeUnset ||!_begad ){if _bafb :=_gega .SpTree ;_bafb !=nil {for _ ,_gafc :=range _bafb .Choice {if _gafc !=nil {for _ ,_eagc :=range _gafc .Sp {if _eagc !=nil {_bgdcb ,_abgd :=_afad (_eagc );if _fabe ==_bgdcb {if (_begad &&_abgd ==nil )||(!_begad &&_abgd !=nil &&*_abgd ==*_bbbf ){var _eccc *_f .CT_Transform2D ;if _eagc .SpPr !=nil {_eccc =_eagc .SpPr .Xfrm ;};_cdad :=_fabe ==_bfd .ST_PlaceholderTypeTitle ||_fabe ==_bfd .ST_PlaceholderTypeCtrTitle ;_bfcd :=!_cdad &&_fabe !=_bfd .ST_PlaceholderTypeUnset ;return _eccc ,_eagc .TxBody ,&_cdad ,&_bfcd ;};};};};};};};};return nil ,nil ,nil ,nil ;};func (_gcaa *textboxContext )addCurrentWordToParagraph (){if _gcaa ._cbcg &&_gcaa ._geb ._fac +_gcaa ._dcef ._cdcd > _gcaa ._geb ._egf {_gcaa .newLine ();};if !_gcaa ._dcef ._gadc ||len (_gcaa ._geb ._fae )> 0{_gcaa ._dcef ._eddg =_gcaa ._geb ._fac ;_gcaa ._geb ._fae =append (_gcaa ._geb ._fae ,_gcaa ._dcef );_gcaa ._geb ._fac +=_gcaa ._dcef ._cdcd ;for _ ,_caec :=range _gcaa ._dcef ._ffbd {_gcaa .adjustHeights (_caec ._gaab );};};};func (_ec *convertContext )makePdfBlockFromChart (_ea *_db .Chart ,_af ,_ag float64 )(*_b .Block ,error ){_eb :=_ea .CT_RelId .IdAttr ;_cc :=_ec ._afa .GetChartSpaceByRelId (_eb );if _cc ==nil {return nil ,_d .New ("\u004e\u006f\u0020\u0063\u0068\u0061\u0072\u0074\u0073\u0070\u0061\u0063\u0065");};var _ccg *_f .Theme ;_eae :=_ec ._cbed .Themes ();if len (_eae )> 0{_ccg =_eae [0];};return _cd .MakeBlockFromChartSpace (_cc ,_af ,_ag ,_ccg );};func (_gegf *convertContext )getInfoFromLn (_gebe *_f .CT_LineProperties )(_b .Color ,float64 ,float64 ){if _gebe ==nil ||_gebe .NoFill !=nil {return nil ,0,0;};var _beb float64 ;_dbdga ,_aade :=_gegf .getColorFromSolidFill (_gebe .SolidFill );if _abg :=_gebe .WAttr ;_abg !=nil {_beb =_gc .FromEMU (int64 (*_abg ));}else {_beb =1;};return _dbdga ,_beb ,_aade ;};func (_abae *convertContext )renderPageWithDrawableToGoImage (_ecge _b .Drawable )(_a .Image ,error ){_egfc :=_cd .MakeTempCreator (_abae ._dfag ,_abae ._eeed );_egfc .NewPage ();_egfc .Draw (_ecge );_afbd ,_bba :=_cd .GetPageFromCreator (_egfc );if _bba !=nil {return nil ,_bba ;};return _bf .NewImageDevice ().Render (_afbd );};func _gabb (_gdaa ,_dcca *_f .CT_TableStyleCellStyle )*_f .CT_TableStyleCellStyle {_babf :=_f .NewCT_TableStyleCellStyle ();if _gdaa !=nil {*_babf =*_gdaa ;};if _dcca ==nil {return _babf ;};if _babf .TcBdr ==nil {_babf .TcBdr =_dcca .TcBdr ;};if _babf .Fill ==nil {_babf .Fill =_dcca .Fill ;};if _babf .FillRef ==nil {_babf .FillRef =_dcca .FillRef ;};return _babf ;};func (_gd *convertContext )tileImage (_cbb *_b .Image ,_cf *_f .CT_TileInfoProperties ,_feg ,_bbfd float64 )*_b .Image {_cad ,_bdd :=1.0,1.0;if _dag :=_cf .SxAttr ;_dag !=nil {_cad =_cd .FromSTPercentage (_dag );};if _fgg :=_cf .SyAttr ;_fgg !=nil {_bdd =_cd .FromSTPercentage (_fgg );};_cgg :=_cd .MakeTempCreator (_feg ,_bbfd );_cbb .Scale (_cad ,_bdd );_agb ,_cbc :=_cbb .Width (),_cbb .Height ();var _ga ,_agg float64 ;if _ebc :=_cf .TxAttr ;_ebc !=nil {_ga =_gc .FromEMU (_cd .FromSTCoordinate (*_ebc ));};if _ffc :=_cf .TyAttr ;_ffc !=nil {_agg =_gc .FromEMU (_cd .FromSTCoordinate (*_ffc ));};if _ga > 0{_ga -=_agb ;};if _agg > 0{_agg -=_cbc ;};_ecf :=_gd ._dfag /_agb +1;_gaf :=_gd ._eeed /_cbc +1;for _aff :=0.0;_aff <=_ecf ;_aff ++{_ae :=_aff *_agb ;for _bee :=0.0;_bee <=_gaf ;_bee ++{_gfdf :=_bee *_cbc ;_cbb .SetPos (_ae +_ga ,_gfdf +_agg );_cgg .Draw (_cbb );};};_gdf ,_bfa :=_cd .GetPageFromCreator (_cgg );if _bfa !=nil {_deg .Log .Debug ("\u0043\u0061\u006e\u006e\u006f\u0074 \u0067\u0065\u0074\u0020\u0069\u006d\u0061\u0067\u0065\u0020\u0066\u0072\u006fm\u0020\u0063\u0072\u0065\u0061\u0074\u006fr\u003a\u0020\u0025\u0073",_bfa );return nil ;};_cfa ,_bfa :=_bf .NewImageDevice ().Render (_gdf );if _bfa !=nil {_deg .Log .Debug ("\u0043\u0061\u006eno\u0074\u0020\u0072\u0065\u006e\u0064\u0065\u0072\u0020\u0069\u006d\u0061\u0067\u0065\u003a\u0020\u0025\u0073",_bfa );return nil ;};_ffa ,_bfa :=_gd ._fcbbg .NewImageFromGoImage (_cfa );if _bfa !=nil {_deg .Log .Debug ("\u0043\u0061nn\u006f\u0074\u0020c\u0072\u0065\u0061\u0074e i\u006dag\u0065\u0020\u0066\u0072\u006f\u006d\u0020Go\u0049\u006d\u0061\u0067\u0065\u003a\u0020%\u0073",_bfa );return nil ;};return _ffa ;};func (_fafeb *convertContext )getShapeFromBlipFill (_ffba *_f .CT_BlipFillProperties ,_dcbca ,_ccbe ,_eac ,_gdaf float64 )_b .Drawable {_bfbd ,_beae ,_gdgc :=_fafeb .makePdfImageFromBlipFill (_ffba );if _gdgc !=nil {_deg .Log .Debug ("\u0043\u0061\u006e\u006e\u006f\u0074\u0020\u006d\u0061\u006b\u0065\u0020\u0050D\u0046\u0020\u0069\u006d\u0061\u0067e\u0020\u0066\u0072\u006f\u006d\u0020\u0042\u006c\u0069\u0070\u0046\u0069\u006cl\u003a\u0020\u0025\u0073",_gdgc );return nil ;};if _bfbd ==nil {return nil ;};if _fbfg :=_ffba .Tile ;_fbfg !=nil {_bfbd =_fafeb .tileImage (_bfbd ,_ffba .Tile ,_eac ,_gdaf );};if _cegb :=_ffba .Stretch ;_cegb !=nil {_bfbd ,_dcbca ,_ccbe =_fafeb .stretchImage (_bfbd ,_ffba .Stretch ,_dcbca ,_ccbe ,_eac ,_gdaf );};if len (_beae )==0{_bfbd .SetPos (_dcbca ,_ccbe );return _bfbd ;};_bfbd =_fafeb .applyBlipEffectsOnImg (_bfbd ,_dcbca ,_ccbe ,_beae );_bfbd .SetPos (_dcbca ,_ccbe );return _bfbd ;};func _bbfdf (_gde *_f .CT_TableCellProperties ,_gfddd *_f .CT_TableStyleCellStyle ,_gcfb ,_facf ,_edbd ,_edfg bool )*_f .CT_TableCellProperties {_egfg :=_f .NewCT_TableCellProperties ();if _gde !=nil {*_egfg =*_gde ;};if _gfddd ==nil {return _egfg ;};if _ebgf :=_gfddd .FillRef ;_ebgf !=nil {_gbag :=_f .NewCT_SolidColorFillProperties ();_gbag .ScrgbClr =_ebgf .ScrgbClr ;_gbag .SrgbClr =_ebgf .SrgbClr ;_gbag .HslClr =_ebgf .HslClr ;_gbag .SysClr =_ebgf .SysClr ;_gbag .SchemeClr =_ebgf .SchemeClr ;_gbag .PrstClr =_ebgf .PrstClr ;_egfg .SolidFill =_gbag ;};if _egfg .NoFill ==nil &&_egfg .SolidFill ==nil {if _face :=_gfddd .Fill ;_face !=nil {if _egfg .NoFill ==nil {_egfg .NoFill =_face .NoFill ;};if _egfg .SolidFill ==nil {_egfg .SolidFill =_face .SolidFill ;};};};if _bbcb :=_gfddd .TcBdr ;_bbcb !=nil {if _egfg .LnL ==nil {var _dfcd *_f .CT_ThemeableLineStyle ;if _edbd {_dfcd =_bbcb .Left ;}else {_dfcd =_bbcb .InsideV ;};if _dfcd !=nil {_egfg .LnL =_dfcd .Ln ;};};if _egfg .LnR ==nil {var _bbcbb *_f .CT_ThemeableLineStyle ;if _edfg {_bbcbb =_bbcb .Right ;}else {_bbcbb =_bbcb .InsideV ;};if _bbcbb !=nil {_egfg .LnR =_bbcbb .Ln ;};};if _egfg .LnT ==nil {var _abf *_f .CT_ThemeableLineStyle ;if _gcfb {_abf =_bbcb .Top ;}else {_abf =_bbcb .InsideH ;};if _abf !=nil {_egfg .LnT =_abf .Ln ;};};if _egfg .LnB ==nil {var _gadf *_f .CT_ThemeableLineStyle ;if _facf {_gadf =_bbcb .Bottom ;}else {_gadf =_bbcb .InsideH ;};if _gadf !=nil {_egfg .LnB =_gadf .Ln ;};};};return _egfg ;};func (_dcbc *textboxContext )alignParagraphsVertically (_fdfa _f .ST_TextAnchoringType ){if _fdfa ==_f .ST_TextAnchoringTypeT {return ;};_eaa :=0.0;for _ ,_cfgf :=range _dcbc ._ece {_eaa +=_cfgf ._cbddf +_cfgf ._fgf +_cfgf ._fafd ;};var _cdgf float64 ;switch _fdfa {case _f .ST_TextAnchoringTypeCtr :_cdgf =(_dcbc ._bfefg -_eaa )/2;case _f .ST_TextAnchoringTypeB :_cdgf =_dcbc ._bfefg -_eaa ;};for _ ,_cgbd :=range _dcbc ._ece {_cgbd ._faaag +=_cdgf ;};};func (_eggc *textboxContext )addCurrentParagraph (){_eggc ._ggc =_eggc ._fdf ._faaag +_eggc ._fdf ._cbddf +_eggc ._fdf ._fgf +_eggc ._fdf ._fafd ;_eggc ._ece =append (_eggc ._ece ,_eggc ._fdf );_eggc .alignParagraph ();};func (_dgfa *convertContext )renderCurrentStateToGoImage ()(_a .Image ,error ){_deaf :=_cd .MakeTempCreator (_dgfa ._dfag ,_dgfa ._eeed );_deaf .NewPage ();for _ ,_bdce :=range _dgfa ._dcaa {if _bdce !=nil {_deaf .MoveTo (0,0);_deaf .Draw (_bdce );};};_agd ,_gadaf :=_cd .GetPageFromCreator (_deaf );if _gadaf !=nil {return nil ,_gadaf ;};return _bf .NewImageDevice ().Render (_agd );};func (_ccb *convertContext )makeSlide (){_eed :=_ccb ._afa .X ().CSld ;if _eed ==nil {return ;};_be :=&background {};if _gbf :=_eed .Bg ;_gbf !=nil {if _gg :=_gbf .BgPr ;_gg !=nil {if _gg .NoFill ==nil {if _bgd :=_gg .SolidFill ;_bgd !=nil {_fg ,_ffec :=_ccb .getColorFromSolidFill (_bgd );if _fg !=nil {_be ._bbb =_fg ;_be ._aga =_ffec ;};}else if _bgdg :=_gg .BlipFill ;_bgdg !=nil {_be ._dacc =_bgdg ;};};};};_ccb ._dccf =_be ;if _dbd :=_eed .SpTree ;_dbd !=nil {for _ ,_beg :=range _dbd .Choice {if _beg !=nil {for _ ,_gfa :=range _beg .Sp {if _gfa !=nil {_ead :=_ccb .getShapes (_gfa );_ccb ._dcaa =append (_ccb ._dcaa ,_ead ...);};};for _ ,_fd :=range _beg .GraphicFrame {if _fd !=nil {var _deca ,_egd ,_fed ,_eef float64 ;if _dge :=_fd .Xfrm ;_dge !=nil {_deca ,_egd ,_fed ,_eef =_cd .GetDataFromXfrm (_dge );};if _bbf :=_fd .Graphic ;_bbf !=nil {if _ade :=_bbf .GraphicData ;_ade !=nil {for _ ,_ccgf :=range _ade .Any {if _bfg ,_df :=_ccgf .(*_db .Chart );_df {_gbda ,_ccc :=_ccb .makePdfBlockFromChart (_bfg ,_fed ,_eef );if _ccc !=nil {_deg .Log .Debug ("C\u0061\u006e\u006e\u006ft \u0072e\u0061\u0064\u0020\u0062\u006co\u0063\u006b\u003a\u0020\u0025\u0073",_ccc );};if _gbda !=nil {_gbda .SetPos (_deca ,_egd );_ccb ._dcaa =append (_ccb ._dcaa ,_gbda );};}else if _afd ,_bfdf :=_ccgf .(*_f .Tbl );_bfdf {_adg :=_ccb .makePdfBlockFromTable (_afd ,_fed );if _adg !=nil {_caa :=_b .NewBlock (_fed ,_eef );_caa .SetPos (_deca ,_egd );_caa .Draw (_adg );_ccb ._dcaa =append (_ccb ._dcaa ,_caa );};};};};};};};for _ ,_fb :=range _beg .CxnSp {if _fb !=nil {_dbdd :=_ccb .getConnectors (_fb );_ccb ._dcaa =append (_ccb ._dcaa ,_dbdd ...);};};for _ ,_bga :=range _beg .Pic {if _bga !=nil {var _cg ,_fce ,_dca ,_dcf float64 ;if _deb :=_bga .SpPr ;_deb !=nil {if _cae :=_deb .Xfrm ;_cae !=nil {_cg ,_fce ,_dca ,_dcf =_cd .GetDataFromXfrm (_cae );};};if _egg :=_bga .BlipFill ;_egg !=nil {_bgb :=_ccb .getShapeFromBlipFill (_egg ,_cg ,_fce ,_dca ,_dcf );_ccb ._dcaa =append (_ccb ._dcaa ,_bgb );};};};};};};};func _adcbd (_beaa ,_bgdbf *_f .CT_TextBody )(*_f .CT_TextBodyProperties ,*_f .CT_TextListStyle ){if _beaa ==nil &&_bgdbf ==nil {return nil ,nil ;};if _beaa ==nil {return _bgdbf .BodyPr ,_bgdbf .LstStyle ;};if _bgdbf ==nil {return _beaa .BodyPr ,_beaa .LstStyle ;};_acgb ,_edba :=_beaa .BodyPr ,_beaa .LstStyle ;_eacg ,_dfea :=_bgdbf .BodyPr ,_bgdbf .LstStyle ;_cfe :=_bfea (_acgb ,_eacg );_beaac :=_aega (_edba ,_dfea );return _cfe ,_beaac ;};func (_fdab *textboxContext )alignSymbolsVertically (){for _ ,_aefd :=range _fdab ._ece {for _ ,_ggcb :=range _aefd ._bcb {_gabc :=0.0;for _ ,_ggg :=range _ggcb ._fae {for _ ,_gfdfc :=range _ggg ._ffbd {if _gfdfc ._gaab > _gabc {_gabc =_gfdfc ._gaab ;};};};for _ ,_cdgc :=range _ggcb ._fae {for _ ,_ecg :=range _cdgc ._ffbd {if _ecg ._adcb < _gabc {_ecg ._faab =_gabc -_ecg ._adcb ;};};};};};};func _bgab (_gcfa ,_eeag *_f .CT_TextParagraphProperties )*_f .CT_TextParagraphProperties {_eafb :=_f .NewCT_TextParagraphProperties ();if _gcfa !=nil {*_eafb =*_gcfa ;};if _eeag ==nil {return _eafb ;};if _eafb .MarLAttr ==nil {_eafb .MarLAttr =_eeag .MarLAttr ;};if _eafb .MarRAttr ==nil {_eafb .MarRAttr =_eeag .MarRAttr ;};if _eafb .LvlAttr ==nil {_eafb .LvlAttr =_eeag .LvlAttr ;};if _eafb .IndentAttr ==nil {_eafb .IndentAttr =_eeag .IndentAttr ;};if _eafb .AlgnAttr ==_f .ST_TextAlignTypeUnset {_eafb .AlgnAttr =_eeag .AlgnAttr ;};if _eafb .DefTabSzAttr ==nil {_eafb .DefTabSzAttr =_eeag .DefTabSzAttr ;};if _eafb .RtlAttr ==nil {_eafb .RtlAttr =_eeag .RtlAttr ;};if _eafb .EaLnBrkAttr ==nil {_eafb .EaLnBrkAttr =_eeag .EaLnBrkAttr ;};if _eafb .FontAlgnAttr ==_f .ST_TextFontAlignTypeUnset {_eafb .FontAlgnAttr =_eeag .FontAlgnAttr ;};if _eafb .LatinLnBrkAttr ==nil {_eafb .LatinLnBrkAttr =_eeag .LatinLnBrkAttr ;};if _eafb .HangingPunctAttr ==nil {_eafb .HangingPunctAttr =_eeag .HangingPunctAttr ;};if _eafb .LnSpc ==nil {_eafb .LnSpc =_eeag .LnSpc ;};if _eafb .SpcBef ==nil {_eafb .SpcBef =_eeag .SpcBef ;};if _eafb .SpcAft ==nil {_eafb .SpcAft =_eeag .SpcAft ;};if _eafb .BuClrTx ==nil {_eafb .BuClrTx =_eeag .BuClrTx ;};if _eafb .BuClr ==nil {_eafb .BuClr =_eeag .BuClr ;};if _eafb .BuSzTx ==nil {_eafb .BuSzTx =_eeag .BuSzTx ;};if _eafb .BuSzPct ==nil {_eafb .BuSzPct =_eeag .BuSzPct ;};if _eafb .BuSzPts ==nil {_eafb .BuSzPts =_eeag .BuSzPts ;};if _eafb .BuFontTx ==nil {_eafb .BuFontTx =_eeag .BuFontTx ;};if _eafb .BuFont ==nil {_eafb .BuFont =_eeag .BuFont ;};if _eafb .BuNone ==nil {_eafb .BuNone =_eeag .BuNone ;};if _eafb .BuAutoNum ==nil {_eafb .BuAutoNum =_eeag .BuAutoNum ;};if _eafb .BuChar ==nil {_eafb .BuChar =_eeag .BuChar ;};if _eafb .BuBlip ==nil {_eafb .BuBlip =_eeag .BuBlip ;};if _eafb .TabLst ==nil {_eafb .TabLst =_eeag .TabLst ;};if _eafb .ExtLst ==nil {_eafb .ExtLst =_eeag .ExtLst ;};_eafb .DefRPr =_dagf (_eafb .DefRPr ,_eeag .DefRPr );return _eafb ;};func (_bdebd *line )moveRight (_dbb float64 ){for _ ,_gfcc :=range _bdebd ._fae {_gfcc ._eddg +=_dbb ;};};func (_gee *convertContext )addCellToTable (_fcd *_b .Table ,_cdgg *_f .CT_TableCell ,_cade *_f .CT_TablePartStyle ,_bac float64 ,_gcb ,_dceg ,_cadec ,_ceec bool )float64 {var _abeg *_b .TableCell ;_ccce :=1;if _cdgg .GridSpanAttr !=nil {_ccce =int (*_cdgg .GridSpanAttr );};_abeg =_fcd .MultiColCell (_ccce );_fbc :=_cdgg .TcPr ;var _feb *_f .CT_TableStyleTextStyle ;if _cade !=nil {_fbc =_bbfdf (_fbc ,_cade .TcStyle ,_gcb ,_dceg ,_cadec ,_ceec );_feb =_cade .TcTxStyle ;};_gccb :=_bb ;_adeg :=_b .CellVerticalAlignmentMiddle ;if _fbc !=nil {if _gdac :=_fbc .LnL ;_gdac !=nil {_fcc ,_bag ,_acee :=_gee .getBorderStyle (_gdac );_abeg .SetBorder (_b .CellBorderSideLeft ,_fcc ,_acee );if _bag !=nil &&*_bag !=nil {_abeg .SetSideBorderColor (_b .CellBorderSideLeft ,*_bag );};};if _affb :=_fbc .LnT ;_affb !=nil {_febf ,_dff ,_baba :=_gee .getBorderStyle (_affb );_abeg .SetBorder (_b .CellBorderSideTop ,_febf ,_baba );if _dff !=nil &&*_dff !=nil {_abeg .SetSideBorderColor (_b .CellBorderSideTop ,*_dff );};};if _cccfd :=_fbc .LnR ;_cccfd !=nil {_debg ,_fcee ,_bdef :=_gee .getBorderStyle (_cccfd );_abeg .SetBorder (_b .CellBorderSideRight ,_debg ,_bdef );if _fcee !=nil &&*_fcee !=nil {_abeg .SetSideBorderColor (_b .CellBorderSideRight ,*_fcee );};};if _fcdb :=_fbc .LnB ;_fcdb !=nil {_ffde ,_fdc ,_ebd :=_gee .getBorderStyle (_fcdb );_abeg .SetBorder (_b .CellBorderSideBottom ,_ffde ,_ebd );if _fdc !=nil &&*_fdc !=nil {_abeg .SetSideBorderColor (_b .CellBorderSideBottom ,*_fdc );};};if _adff :=_fbc .MarLAttr ;_adff !=nil {_gccb =float64 (_cd .FromSTCoordinate32 (*_adff ));};switch _fbc .AnchorAttr {case _f .ST_TextAnchoringTypeT :_adeg =_b .CellVerticalAlignmentTop ;case _f .ST_TextAnchoringTypeB :_adeg =_b .CellVerticalAlignmentBottom ;};if _fbc .NoFill ==nil {if _ecbed :=_fbc .SolidFill ;_ecbed !=nil {_fbee ,_ :=_gee .getColorFromSolidFill (_ecbed );_abeg .SetBackgroundColor (_fbee );};};};_abeg .SetVerticalAlignment (_adeg );_abeg .SetIndent (_gccb );var _fgca float64 ;if _bfc :=_cdgg .TxBody ;_bfc !=nil {_bcc :=_gee .makePdfDivisionFromTxBody (_bfc ,_bac ,_fgca ,_feb );_fgca =_bcc .Height ();_abeg .SetContent (_bcc );};return _fgca ;};
+func RegisterFontsFromDirectory(dirName string) error {
+	return _cd.RegisterFontsFromDirectory(dirName)
+}
+
+type line struct {
+	_bgg  float64
+	_ddg  float64
+	_egf  float64
+	_fac  float64
+	_dafc float64
+	_fae  []*word
+}
+
+func (_ffg *textboxContext) addTextSymbol(_ageg *symbol) {
+	_ggd := _b.New()
+	_eddd := _ggd.NewStyledParagraph()
+	_eddd.SetMargins(0, 0, 0, 0)
+	_cbfcg := _eddd.Append(_ageg._bfga)
+	_gafe := 0.0
+	if _ageg._fbec != nil {
+		_cbfcg.Style = *_ageg._fbec
+		if _ageg._fbec.CharSpacing != 0 {
+			_gafe = _ageg._fbec.CharSpacing
+		}
+	}
+	_ageg._adcb = _eddd.Height()
+	_ageg._gaab = _eddd.Height() * 1.2
+	if _ageg._gaab < _ffg._fdf._ffdef {
+		_ageg._gaab = _ffg._fdf._ffdef
+	}
+	if _ageg._aba == 0 {
+		_ageg._aba = _eddd.Width() + _gafe
+	}
+	if len(_ffg._dcef._ffbd) > 0 {
+		_fge := _ffg._dcef._ffbd[len(_ffg._dcef._ffbd)-1]._bfga
+		if _ffg._fdf._fcfg || _cd.IsNoSpaceLanguage(_fge) || (_fge == "\u0020") != (_ageg._bfga == "\u0020") {
+			_ffg.addCurrentWordToParagraph()
+			_ffg.newWord()
+		}
+	}
+	_ffg._dcef._ffbd = append(_ffg._dcef._ffbd, _ageg)
+	_ageg._debc = _ffg._dcef._cdcd
+	_ffg._dcef._cdcd += _ageg._aba
+	if _ageg._bfga != "\u0020" {
+		_ffg._dcef._gadc = false
+	}
+}
+
+func (_bcf *convertContext) getConnectors(_ffed *_bfd.CT_Connector) []_b.Drawable {
+	_bcd, _, _, _, _, _, _ := _bcf.getShapesFromSpPr(_ffed.SpPr, _ffed.Style, false)
+	return _bcd
+}
+
+func _fafe(_fgaa int, _ecde bool) string {
+	_dbe := (_fgaa-1)/26 + 1
+	_bdaa := byte((_fgaa - 1) % 26)
+	if _ecde {
+		_bdaa += byte(65)
+	} else {
+		_bdaa += byte(97)
+	}
+	_gcfd := _e.NewBuffer([]byte{})
+	for _gbcd := 0; _gbcd < _dbe; _gbcd++ {
+		_gcfd.Write([]byte{_bdaa})
+	}
+	return _gcfd.String()
+}
+
+func (_cebc *textboxContext) addTextRun(_bade *_f.EG_TextRun, _cga *_f.CT_TextCharacterProperties, _affd _b.Color, _bded *prefixData) {
+	if _gecf := _bade.Br; _gecf != nil {
+		_cebc.addCurrentWordToParagraph()
+		_cebc.newLine()
+		_cebc.newWord()
+	} else if _cdgb := _bade.R; _cdgb != nil {
+		var _fbf _b.Color
+		if _cdgb.RPr.SolidFill != nil {
+			_fbf, _ = _cebc._bfgg.getColorFromSolidFill(_cdgb.RPr.SolidFill)
+		} else if _affd != nil {
+			_fbf = _affd
+		} else if _cga.SolidFill != nil {
+			_fbf, _ = _cebc._bfgg.getColorFromSolidFill(_cga.SolidFill)
+		} else {
+			_fbf = _b.ColorBlack
+		}
+		_dfdd := _dagf(_cdgb.RPr, _cga)
+		_edag, _cbac, _gbgg, _bffd := _cebc._bfgg.makeStyleFromRPr(_dfdd)
+		_edag.Color = _fbf
+		if _bded != nil {
+			_cebc.addPrefix(_bded, _edag)
+		}
+		_begd := _eddf(_cdgb.T)
+		for _, _cfb := range _begd {
+			_cfb._fbec = _edag
+			_cfb._bggg = _cbac
+			_cfb._dfc = _gbgg
+			_cfb._bacb = _bffd
+			if _dfdd.CapAttr == _f.ST_TextCapsTypeAll {
+				_cfb._bfga = _eg.ToUpper(_cfb._bfga)
+			}
+			_cebc.addTextSymbol(_cfb)
+		}
+	}
+}
+
+type romanMatch struct {
+	_fddc int
+	_bdgb string
+}
+
+func _fegb(_decg *bool) bool { return _decg != nil && *_decg }
+
+func (_faefe *convertContext) getColorFromFontReference(_bgcc *_f.CT_FontReference) _b.Color {
+	var _cagg _b.Color
+	var _edgf string
+	if _cea := _bgcc.SrgbClr; _cea != nil {
+		_edgf = _cea.ValAttr
+	} else if _aabd := _bgcc.SchemeClr; _aabd != nil {
+		_edgf = _cd.GetColorStringFromDmlColor(_faefe._cbed.GetColorBySchemeColor(_aabd.ValAttr))
+		_edgf = _cd.AdjustColor(_edgf, _aabd.EG_ColorTransform)
+	}
+	if _edgf != "" {
+		_cagg = _b.ColorRGBFromHex("\u0023" + _edgf)
+	}
+	return _cagg
+}
+
+var _bb = _eaea(1.9)
+
+func (_bcfe *convertContext) makePdfBlockFromTxBody(_dbcd *_f.CT_TextBody, _cbfc *_f.CT_TextBodyProperties, _ffb *_f.CT_TextListStyle, _ebcb, _cfgb float64, _gbga _b.Color, _agbd, _edf bool) (*_b.Block, error) {
+	var _cgbc *_f.CT_TextParagraphProperties
+	if _fbb := _dbcd.LstStyle; _fbb != nil {
+		var _gfe *_f.CT_TextParagraphProperties
+		if _fbb.Lvl1pPr != nil {
+			_gfe = _fbb.Lvl1pPr
+		}
+		_cgbc = _bgab(_gfe, _fbb.DefPPr)
+	}
+	var _bcfeg *_f.CT_TextParagraphProperties
+	if _cgbc != nil {
+		if _agbd {
+			_bcfeg = _bcfe._def[0]
+		} else if _edf {
+			_bcfeg = _bcfe._bage[0]
+		} else {
+			_bcfeg = _bcfe._gaff[0]
+		}
+		if _ffb != nil {
+			_bcfeg = _bgab(_bgab(_ffb.Lvl1pPr, _ffb.DefPPr), _bcfeg)
+		}
+		_bcfeg = _bgab(_cgbc, _bcfeg)
+	} else {
+		if _agbd {
+			_bcfeg = _bcfe._gfab
+		} else if _edf {
+			_bcfeg = _bcfe._dfb
+		} else {
+			_bcfeg = _bcfe._ccca
+		}
+	}
+	_cccf, _eedb := _eaea(2.5), _eaea(2.5)
+	_dbfd, _dga := _eaea(1.3), _eaea(1.3)
+	_dcae := true
+	_fga := _f.ST_TextAnchoringTypeT
+	if _cbfc != nil {
+		if _ffbe := _cbfc.AnchorAttr; _ffbe != _f.ST_TextAnchoringTypeUnset {
+			_fga = _ffbe
+		}
+	}
+	if _egee := _dbcd.BodyPr; _egee != nil {
+		if _cadd := _egee.LInsAttr; _cadd != nil {
+			_cccf = _gc.FromEMU(_cd.FromSTCoordinate32(*_cadd))
+		}
+		if _cee := _egee.TInsAttr; _cee != nil {
+			_dbfd = _gc.FromEMU(_cd.FromSTCoordinate32(*_cee))
+		}
+		if _cfgd := _egee.RInsAttr; _cfgd != nil {
+			_eedb = _gc.FromEMU(_cd.FromSTCoordinate32(*_cfgd))
+		}
+		if _efgc := _egee.BInsAttr; _efgc != nil {
+			_dga = _gc.FromEMU(_cd.FromSTCoordinate32(*_efgc))
+		}
+		_dcae = _egee.WrapAttr != _f.ST_TextWrappingTypeNone
+		if _aab := _egee.AnchorAttr; _aab != _f.ST_TextAnchoringTypeUnset {
+			_fga = _egee.AnchorAttr
+		}
+	}
+	_aef := _cd.MakeTempCreator(_ebcb, _cfgb)
+	_aef.SetPageMargins(_cccf, _eedb, _dbfd, _dga)
+	_ccgd := &textboxContext{_bfgg: _bcfe, _cbcg: _dcae, _accg: _ebcb - _cccf - _eedb, _bfefg: _cfgb - _dbfd - _dga, _aacg: _aef, _ece: []*paragraph{}}
+	_cccg := 1
+	for _, _dee := range _dbcd.P {
+		if _dee != nil {
+			_cdee := _dee.PPr
+			var _ceee *prefixData
+			if _cdee != nil && _cdee.BuNone == nil {
+				var _cdb string
+				var _cbeg bool
+				if _agc := _cdee.BuAutoNum; _agc != nil {
+					var _cgc string
+					if _cac := _agc.StartAtAttr; _cac != nil {
+						_cccg = int(*_cac)
+					}
+					var _cff string
+					switch _agc.TypeAttr {
+					case _f.ST_TextAutonumberSchemeAlphaUcParenBoth, _f.ST_TextAutonumberSchemeAlphaUcParenR, _f.ST_TextAutonumberSchemeAlphaUcPeriod:
+						_cff = _fafe(_cccg, true)
+					case _f.ST_TextAutonumberSchemeAlphaLcParenBoth, _f.ST_TextAutonumberSchemeAlphaLcParenR, _f.ST_TextAutonumberSchemeAlphaLcPeriod:
+						_cff = _fafe(_cccg, false)
+					case _f.ST_TextAutonumberSchemeRomanUcParenBoth, _f.ST_TextAutonumberSchemeRomanUcParenR, _f.ST_TextAutonumberSchemeRomanUcPeriod:
+						_cff = _gcgf(_cccg, true)
+					case _f.ST_TextAutonumberSchemeRomanLcParenBoth, _f.ST_TextAutonumberSchemeRomanLcParenR, _f.ST_TextAutonumberSchemeRomanLcPeriod:
+						_cff = _gcgf(_cccg, false)
+					default:
+						_cff = _c.Itoa(_cccg)
+					}
+					switch _agc.TypeAttr {
+					case _f.ST_TextAutonumberSchemeAlphaLcPeriod, _f.ST_TextAutonumberSchemeAlphaUcPeriod, _f.ST_TextAutonumberSchemeArabicPeriod, _f.ST_TextAutonumberSchemeRomanLcPeriod, _f.ST_TextAutonumberSchemeRomanUcPeriod, _f.ST_TextAutonumberSchemeArabicDbPeriod, _f.ST_TextAutonumberSchemeEa1ChsPeriod, _f.ST_TextAutonumberSchemeEa1ChtPeriod, _f.ST_TextAutonumberSchemeEa1JpnChsDbPeriod, _f.ST_TextAutonumberSchemeEa1JpnKorPeriod, _f.ST_TextAutonumberSchemeThaiAlphaPeriod, _f.ST_TextAutonumberSchemeThaiNumPeriod, _f.ST_TextAutonumberSchemeHindiAlphaPeriod, _f.ST_TextAutonumberSchemeHindiNumPeriod, _f.ST_TextAutonumberSchemeHindiAlpha1Period:
+						_cgc = "\u002e"
+					case _f.ST_TextAutonumberSchemeAlphaLcParenR, _f.ST_TextAutonumberSchemeAlphaUcParenR, _f.ST_TextAutonumberSchemeArabicParenR, _f.ST_TextAutonumberSchemeRomanLcParenR, _f.ST_TextAutonumberSchemeRomanUcParenR, _f.ST_TextAutonumberSchemeThaiAlphaParenR, _f.ST_TextAutonumberSchemeThaiNumParenR, _f.ST_TextAutonumberSchemeHindiNumParenR:
+						_cgc = "\u0029"
+					}
+					_cdb = _cff + _cgc
+					_cccg++
+				} else if _bdee := _cdee.BuChar; _bdee != nil {
+					_edd := _bdee.CharAttr
+					if _faaa, _aeg := _bgba[_edd]; _aeg {
+						_edd = string(rune(_faaa))
+					} else {
+						_edd = "\u2022"
+					}
+					_cdb = _edd
+					_cbeg = true
+				}
+				if _cdb != "" {
+					var _bae, _bge float64
+					if _cdee.MarLAttr != nil {
+						_bae = _gc.FromEMU(int64(*_cdee.MarLAttr))
+					}
+					if _cdee.IndentAttr != nil {
+						_bge = _gc.FromEMU(int64(*_cdee.IndentAttr))
+					}
+					_ceee = &prefixData{_ddc: _cdb, _adcf: _cbeg, _ced: _bae, _cbbf: _bge}
+				}
+			}
+			_cdee = _bgab(_cdee, _bcfeg)
+			_fcf := _dagf(_dee.EndParaRPr, _cdee.DefRPr)
+			_ccgd.newParagraph()
+			_ccgd.assignPropsToCurrentParagraph(_cdee)
+			_ccgd.newLine()
+			_ccgd.newWord()
+			for _gbdaf, _age := range _dee.EG_TextRun {
+				_ccgd.addTextRun(_age, _fcf, _gbga, _ceee)
+				if _gbdaf > 0 {
+					_ceee = nil
+				}
+			}
+			_ccgd.addCurrentWordToParagraph()
+		}
+		_ccgd.addCurrentParagraph()
+	}
+	_ccgd.alignVertically(_fga)
+	_ccgd.drawParagraphs()
+	return _cd.MakeBlockFromCreator(_aef)
+}
+
+type background struct {
+	_bbb  _b.Color
+	_aga  float64
+	_dacc *_f.CT_BlipFillProperties
+}
+
+func _dagf(_ccbfe, _ebg *_f.CT_TextCharacterProperties) *_f.CT_TextCharacterProperties {
+	_ebce := _f.NewCT_TextCharacterProperties()
+	if _ccbfe != nil {
+		*_ebce = *_ccbfe
+	}
+	if _ebg == nil {
+		return _ebce
+	}
+	if _ebce.KumimojiAttr == nil {
+		_ebce.KumimojiAttr = _ebg.KumimojiAttr
+	}
+	if _ebce.LangAttr == nil {
+		_ebce.LangAttr = _ebg.LangAttr
+	}
+	if _ebce.AltLangAttr == nil {
+		_ebce.AltLangAttr = _ebg.AltLangAttr
+	}
+	if _ebce.SzAttr == nil {
+		_ebce.SzAttr = _ebg.SzAttr
+	}
+	if _ebce.BAttr == nil {
+		_ebce.BAttr = _ebg.BAttr
+	}
+	if _ebce.IAttr == nil {
+		_ebce.IAttr = _ebg.IAttr
+	}
+	if _ebce.UAttr == _f.ST_TextUnderlineTypeUnset {
+		_ebce.UAttr = _ebg.UAttr
+	}
+	if _ebce.StrikeAttr == _f.ST_TextStrikeTypeUnset {
+		_ebce.StrikeAttr = _ebg.StrikeAttr
+	}
+	if _ebce.KernAttr == nil {
+		_ebce.KernAttr = _ebg.KernAttr
+	}
+	if _ebce.CapAttr == _f.ST_TextCapsTypeUnset {
+		_ebce.CapAttr = _ebg.CapAttr
+	}
+	if _ebce.SpcAttr == nil {
+		_ebce.SpcAttr = _ebg.SpcAttr
+	}
+	if _ebce.NormalizeHAttr == nil {
+		_ebce.NormalizeHAttr = _ebg.NormalizeHAttr
+	}
+	if _ebce.BaselineAttr == nil {
+		_ebce.BaselineAttr = _ebg.BaselineAttr
+	}
+	if _ebce.NoProofAttr == nil {
+		_ebce.NoProofAttr = _ebg.NoProofAttr
+	}
+	if _ebce.DirtyAttr == nil {
+		_ebce.DirtyAttr = _ebg.DirtyAttr
+	}
+	if _ebce.ErrAttr == nil {
+		_ebce.ErrAttr = _ebg.ErrAttr
+	}
+	if _ebce.SmtCleanAttr == nil {
+		_ebce.SmtCleanAttr = _ebg.SmtCleanAttr
+	}
+	if _ebce.SmtIdAttr == nil {
+		_ebce.SmtIdAttr = _ebg.SmtIdAttr
+	}
+	if _ebce.BmkAttr == nil {
+		_ebce.BmkAttr = _ebg.BmkAttr
+	}
+	if _ebce.Ln == nil {
+		_ebce.Ln = _ebg.Ln
+	}
+	if _ebce.NoFill == nil {
+		_ebce.NoFill = _ebg.NoFill
+	}
+	if _ebce.SolidFill == nil {
+		_ebce.SolidFill = _ebg.SolidFill
+	}
+	if _ebce.BlipFill == nil {
+		_ebce.BlipFill = _ebg.BlipFill
+	}
+	if _ebce.EffectLst == nil {
+		_ebce.EffectLst = _ebg.EffectLst
+	}
+	if _ebce.EffectDag == nil {
+		_ebce.EffectDag = _ebg.EffectDag
+	}
+	if _ebce.Highlight == nil {
+		_ebce.Highlight = _ebg.Highlight
+	}
+	if _ebce.ULnTx == nil {
+		_ebce.ULnTx = _ebg.ULnTx
+	}
+	if _ebce.ULn == nil {
+		_ebce.ULn = _ebg.ULn
+	}
+	if _ebce.UFillTx == nil {
+		_ebce.UFillTx = _ebg.UFillTx
+	}
+	if _ebce.UFill == nil {
+		_ebce.UFill = _ebg.UFill
+	}
+	if _ebce.Latin == nil {
+		_ebce.Latin = _ebg.Latin
+	}
+	if _ebce.Ea == nil {
+		_ebce.Ea = _ebg.Ea
+	}
+	if _ebce.Cs == nil {
+		_ebce.Cs = _ebg.Cs
+	}
+	if _ebce.Sym == nil {
+		_ebce.Sym = _ebg.Sym
+	}
+	if _ebce.Rtl == nil {
+		_ebce.Rtl = _ebg.Rtl
+	}
+	return _ebce
+}
+
+func _gcgf(_abac int, _daec bool) string {
+	_agab := _e.NewBuffer([]byte{})
+	for _, _gdg := range _bbeae {
+		for {
+			if _abac < _gdg._fddc {
+				break
+			}
+			_agab.WriteString(_gdg._bdgb)
+			_abac -= _gdg._fddc
+		}
+	}
+	_egdf := _agab.String()
+	if _daec {
+		_egdf = _eg.ToUpper(_egdf)
+	}
+	return _egdf
+}
+
+func (_bbeg *textboxContext) newWord() { _bbeg._dcef = &word{_gadc: true, _eddg: _bbeg._geb._fac} }
+
+type paragraph struct {
+	_afb   float64
+	_cbddf float64
+	_fafd  float64
+	_ded   float64
+	_geea  float64
+	_fgaf  float64
+	_faaag float64
+	_fgf   float64
+	_aca   _f.ST_TextAlignType
+	_ffdef float64
+	_fcfg  bool
+	_bcb   []*line
+}
+
+func (_abdb *convertContext) getPhData(_facbg *_bfd.CT_Shape) (*_f.CT_Transform2D, *_f.CT_TextBodyProperties, *_f.CT_TextListStyle, bool, bool) {
+	_eag, _aegd := _afad(_facbg)
+	_fbdd := _aegd == nil
+	_abea, _aace, _dcfe, _cbff := _acec(_abdb._eee.CSld, _eag, _aegd, _fbdd)
+	_aegc, _ccba, _dgdc, _eecd := _acec(_abdb._ecfg.CSld, _eag, _aegd, _fbdd)
+	if _aegc == nil {
+		_aegc = _abea
+	}
+	_bdc, _ebf := _adcbd(_ccba, _aace)
+	var _aadf, _gea bool
+	if _dgdc == nil {
+		if _dcfe != nil {
+			_aadf = *_dcfe
+		}
+	} else {
+		_aadf = *_dgdc
+	}
+	if _eecd == nil {
+		if _cbff != nil {
+			_gea = *_cbff
+		}
+	} else {
+		_gea = *_eecd
+	}
+	return _aegc, _bdc, _ebf, _aadf, _gea
+}
+
+func (_gba *textboxContext) addPrefix(_eff *prefixData, _fdcd *_b.TextStyle) {
+	_aad := _eddf(_eff._ddc)
+	_cgge := *_fdcd
+	if _eff._adcf {
+		_cgge.Font = _cd.AssignStdFontByName(_cgge, "\u0053\u0079\u006d\u0062\u006f\u006c")
+	}
+	for _, _accc := range _aad {
+		_accc._fbec = &_cgge
+		_gba.addTextSymbol(_accc)
+	}
+	_bed := -(_eff._cbbf + _gba._dcef._cdcd)
+	if _bed < 0 {
+		_bed = 0
+	}
+	_aaba := &symbol{_bfga: "\u0020", _aba: _bed}
+	_gba.addTextSymbol(_aaba)
+	_gba._dcef._eddg += (_eff._cbbf + _eff._ced)
+}
+
+const (
+	FontStyle_Regular    FontStyle = 0
+	FontStyle_Bold       FontStyle = 1
+	FontStyle_Italic     FontStyle = 2
+	FontStyle_BoldItalic FontStyle = 3
+)
+
+func _bfea(_abad, _gfda *_f.CT_TextBodyProperties) *_f.CT_TextBodyProperties {
+	_cgdcc := _f.NewCT_TextBodyProperties()
+	if _abad != nil {
+		*_cgdcc = *_abad
+	}
+	if _gfda == nil {
+		return _cgdcc
+	}
+	if _cgdcc.RotAttr == nil {
+		_cgdcc.RotAttr = _gfda.RotAttr
+	}
+	if _cgdcc.SpcFirstLastParaAttr == nil {
+		_cgdcc.SpcFirstLastParaAttr = _gfda.SpcFirstLastParaAttr
+	}
+	if _cgdcc.VertOverflowAttr == _f.ST_TextVertOverflowTypeUnset {
+		_cgdcc.VertOverflowAttr = _gfda.VertOverflowAttr
+	}
+	if _cgdcc.HorzOverflowAttr == _f.ST_TextHorzOverflowTypeUnset {
+		_cgdcc.HorzOverflowAttr = _gfda.HorzOverflowAttr
+	}
+	if _cgdcc.VertAttr == _f.ST_TextVerticalTypeUnset {
+		_cgdcc.VertAttr = _gfda.VertAttr
+	}
+	if _cgdcc.WrapAttr == _f.ST_TextWrappingTypeUnset {
+		_cgdcc.WrapAttr = _gfda.WrapAttr
+	}
+	if _cgdcc.LInsAttr == nil {
+		_cgdcc.LInsAttr = _gfda.LInsAttr
+	}
+	if _cgdcc.TInsAttr == nil {
+		_cgdcc.TInsAttr = _gfda.TInsAttr
+	}
+	if _cgdcc.RInsAttr == nil {
+		_cgdcc.RInsAttr = _gfda.RInsAttr
+	}
+	if _cgdcc.BInsAttr == nil {
+		_cgdcc.BInsAttr = _gfda.BInsAttr
+	}
+	if _cgdcc.NumColAttr == nil {
+		_cgdcc.NumColAttr = _gfda.NumColAttr
+	}
+	if _cgdcc.SpcColAttr == nil {
+		_cgdcc.SpcColAttr = _gfda.SpcColAttr
+	}
+	if _cgdcc.RtlColAttr == nil {
+		_cgdcc.RtlColAttr = _gfda.RtlColAttr
+	}
+	if _cgdcc.AnchorAttr == _f.ST_TextAnchoringTypeUnset {
+		_cgdcc.AnchorAttr = _gfda.AnchorAttr
+	}
+	if _cgdcc.AnchorCtrAttr == nil {
+		_cgdcc.AnchorCtrAttr = _gfda.AnchorCtrAttr
+	}
+	if _cgdcc.ForceAAAttr == nil {
+		_cgdcc.ForceAAAttr = _gfda.ForceAAAttr
+	}
+	if _cgdcc.UprightAttr == nil {
+		_cgdcc.UprightAttr = _gfda.UprightAttr
+	}
+	if _cgdcc.CompatLnSpcAttr == nil {
+		_cgdcc.CompatLnSpcAttr = _gfda.CompatLnSpcAttr
+	}
+	if _cgdcc.PrstTxWarp == nil {
+		_cgdcc.PrstTxWarp = _gfda.PrstTxWarp
+	}
+	if _cgdcc.NoAutofit == nil {
+		_cgdcc.NoAutofit = _gfda.NoAutofit
+	}
+	if _cgdcc.NormAutofit == nil {
+		_cgdcc.NormAutofit = _gfda.NormAutofit
+	}
+	if _cgdcc.SpAutoFit == nil {
+		_cgdcc.SpAutoFit = _gfda.SpAutoFit
+	}
+	if _cgdcc.Scene3d == nil {
+		_cgdcc.Scene3d = _gfda.Scene3d
+	}
+	if _cgdcc.Sp3d == nil {
+		_cgdcc.Sp3d = _gfda.Sp3d
+	}
+	if _cgdcc.FlatTx == nil {
+		_cgdcc.FlatTx = _gfda.FlatTx
+	}
+	if _cgdcc.ExtLst == nil {
+		_cgdcc.ExtLst = _gfda.ExtLst
+	}
+	return _cgdcc
+}
+
+type symbol struct {
+	_bfga string
+	_debc float64
+	_gaab float64
+	_adcb float64
+	_faab float64
+	_aba  float64
+	_fbec *_b.TextStyle
+	_ccbf string
+	_bggg bool
+	_dfc  bool
+	_bacb bool
+}
+
+func (_fafdb *convertContext) applyBlipEffectsOnImg(_fcec *_b.Image, _fabc, _gcab float64, _fcff []*_f.CT_BlipChoice) *_b.Image {
+	if len(_fcff) == 0 {
+		return _fcec
+	}
+	_fcec.SetPos(_fabc, _gcab)
+	_caage, _gccg := _fafdb.renderPageWithDrawableToGoImage(_fcec)
+	if _gccg != nil {
+		_deg.Log.Debug("\u0045\u0072\u0072\u006f\u0072\u0020\u0072\u0065\u006e\u0064\u0065\u0072\u0020a\u006e\u0020\u0069\u006d\u0061\u0067e\u0020\u0074\u006f\u0020\u0061\u0020\u0047\u006f\u0020\u0069\u006d\u0061\u0067e\u003a\u0020\u0025\u0073", _gccg)
+		return _fcec
+	}
+	_dda, _gccg := _fafdb.renderCurrentStateToGoImage()
+	if _gccg != nil {
+		_deg.Log.Debug("\u0045\u0072\u0072\u006f\u0072\u0020\u0072\u0065n\u0064\u0065\u0072 t\u0068\u0065\u0020\u0063\u0075\u0072r\u0065\u006e\u0074\u0020\u0073\u0074\u0061\u0074\u0065\u0020\u0074\u006f\u0020\u0061\u0020G\u006f\u0020\u0069\u006d\u0061\u0067\u0065\u003a \u0025\u0073", _gccg)
+		return _fcec
+	}
+	_bdga := _caage.Bounds()
+	_cbadb := _a.NewRGBA(_bdga)
+	_cebcd, _egag := _fcec.Width(), _fcec.Height()
+	for _, _bbg := range _fcff {
+		for _, _eefd := range _bbg.AlphaModFix {
+			if _ebba := _eefd.AmtAttr; _ebba != nil {
+				if _daeg := _ebba.ST_PositivePercentageDecimal; _daeg != nil {
+					_dccaa := uint8(255 * (*_daeg) / 100000)
+					_ebcc := _a.NewUniform(_gb.Alpha{_dccaa})
+					_de.Draw(_cbadb, _bdga, _dda, _a.Point{0, 0}, _de.Src)
+					_de.DrawMask(_cbadb, _bdga, _caage, _a.Point{0, 0}, _ebcc, _a.Point{0, 0}, _de.Over)
+				}
+			}
+		}
+	}
+	_bggb := _a.Rect(int(_fabc), int(_gcab), int(_fabc+_cebcd)+1, int(_gcab+_egag)+1)
+	_gbdc := _cd.CropImageByRect(_cbadb, _bggb)
+	_cdaf, _gccg := _fafdb._fcbbg.NewImageFromGoImage(_gbdc)
+	if _gccg != nil {
+		_deg.Log.Debug("\u0045\u0072\u0072\u006f\u0072\u0020\u0061\u006e\u0020\u0069\u006d\u0061\u0067\u0065\u0020t\u006f \u0061\u0020\u0047\u006f\u0020\u0069\u006d\u0061\u0067\u0065\u003a\u0020\u0025\u0073", _gccg)
+		return _fcec
+	}
+	return _cdaf
+}
+
+func _afdc(_ceea, _fgeb *_f.CT_TablePartStyle) *_f.CT_TablePartStyle {
+	_adca := _f.NewCT_TablePartStyle()
+	if _ceea != nil {
+		*_adca = *_ceea
+	}
+	if _fgeb == nil {
+		return _adca
+	}
+	if _adca.TcTxStyle == nil {
+		_adca.TcTxStyle = _fgeb.TcTxStyle
+	} else {
+		_adca.TcTxStyle = _bcg(_adca.TcTxStyle, _fgeb.TcTxStyle)
+	}
+	if _adca.TcStyle == nil {
+		_adca.TcStyle = _fgeb.TcStyle
+	} else {
+		_adca.TcStyle = _gabb(_adca.TcStyle, _fgeb.TcStyle)
+	}
+	return _adca
+}
+
+func _acec(_gega *_bfd.CT_CommonSlideData, _fabe _bfd.ST_PlaceholderType, _bbbf *uint32, _begad bool) (*_f.CT_Transform2D, *_f.CT_TextBody, *bool, *bool) {
+	if _gega != nil && (_fabe != _bfd.ST_PlaceholderTypeUnset || !_begad) {
+		if _bafb := _gega.SpTree; _bafb != nil {
+			for _, _gafc := range _bafb.Choice {
+				if _gafc != nil {
+					for _, _eagc := range _gafc.Sp {
+						if _eagc != nil {
+							_bgdcb, _abgd := _afad(_eagc)
+							if _fabe == _bgdcb {
+								if (_begad && _abgd == nil) || (!_begad && _abgd != nil && *_abgd == *_bbbf) {
+									var _eccc *_f.CT_Transform2D
+									if _eagc.SpPr != nil {
+										_eccc = _eagc.SpPr.Xfrm
+									}
+									_cdad := _fabe == _bfd.ST_PlaceholderTypeTitle || _fabe == _bfd.ST_PlaceholderTypeCtrTitle
+									_bfcd := !_cdad && _fabe != _bfd.ST_PlaceholderTypeUnset
+									return _eccc, _eagc.TxBody, &_cdad, &_bfcd
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return nil, nil, nil, nil
+}
+
+func (_gcaa *textboxContext) addCurrentWordToParagraph() {
+	if _gcaa._cbcg && _gcaa._geb._fac+_gcaa._dcef._cdcd > _gcaa._geb._egf {
+		_gcaa.newLine()
+	}
+	if !_gcaa._dcef._gadc || len(_gcaa._geb._fae) > 0 {
+		_gcaa._dcef._eddg = _gcaa._geb._fac
+		_gcaa._geb._fae = append(_gcaa._geb._fae, _gcaa._dcef)
+		_gcaa._geb._fac += _gcaa._dcef._cdcd
+		for _, _caec := range _gcaa._dcef._ffbd {
+			_gcaa.adjustHeights(_caec._gaab)
+		}
+	}
+}
+
+func (_ec *convertContext) makePdfBlockFromChart(_ea *_db.Chart, _af, _ag float64) (*_b.Block, error) {
+	_eb := _ea.CT_RelId.IdAttr
+	_cc := _ec._afa.GetChartSpaceByRelId(_eb)
+	if _cc == nil {
+		return nil, _d.New("\u004e\u006f\u0020\u0063\u0068\u0061\u0072\u0074\u0073\u0070\u0061\u0063\u0065")
+	}
+	var _ccg *_f.Theme
+	_eae := _ec._cbed.Themes()
+	if len(_eae) > 0 {
+		_ccg = _eae[0]
+	}
+	return _cd.MakeBlockFromChartSpace(_cc, _af, _ag, _ccg)
+}
+
+func (_gegf *convertContext) getInfoFromLn(_gebe *_f.CT_LineProperties) (_b.Color, float64, float64) {
+	if _gebe == nil || _gebe.NoFill != nil {
+		return nil, 0, 0
+	}
+	var _beb float64
+	_dbdga, _aade := _gegf.getColorFromSolidFill(_gebe.SolidFill)
+	if _abg := _gebe.WAttr; _abg != nil {
+		_beb = _gc.FromEMU(int64(*_abg))
+	} else {
+		_beb = 1
+	}
+	return _dbdga, _beb, _aade
+}
+
+func (_abae *convertContext) renderPageWithDrawableToGoImage(_ecge _b.Drawable) (_a.Image, error) {
+	_egfc := _cd.MakeTempCreator(_abae._dfag, _abae._eeed)
+	_egfc.NewPage()
+	_egfc.Draw(_ecge)
+	_afbd, _bba := _cd.GetPageFromCreator(_egfc)
+	if _bba != nil {
+		return nil, _bba
+	}
+	return _bf.NewImageDevice().Render(_afbd)
+}
+
+func _gabb(_gdaa, _dcca *_f.CT_TableStyleCellStyle) *_f.CT_TableStyleCellStyle {
+	_babf := _f.NewCT_TableStyleCellStyle()
+	if _gdaa != nil {
+		*_babf = *_gdaa
+	}
+	if _dcca == nil {
+		return _babf
+	}
+	if _babf.TcBdr == nil {
+		_babf.TcBdr = _dcca.TcBdr
+	}
+	if _babf.Fill == nil {
+		_babf.Fill = _dcca.Fill
+	}
+	if _babf.FillRef == nil {
+		_babf.FillRef = _dcca.FillRef
+	}
+	return _babf
+}
+
+func (_gd *convertContext) tileImage(_cbb *_b.Image, _cf *_f.CT_TileInfoProperties, _feg, _bbfd float64) *_b.Image {
+	_cad, _bdd := 1.0, 1.0
+	if _dag := _cf.SxAttr; _dag != nil {
+		_cad = _cd.FromSTPercentage(_dag)
+	}
+	if _fgg := _cf.SyAttr; _fgg != nil {
+		_bdd = _cd.FromSTPercentage(_fgg)
+	}
+	_cgg := _cd.MakeTempCreator(_feg, _bbfd)
+	_cbb.Scale(_cad, _bdd)
+	_agb, _cbc := _cbb.Width(), _cbb.Height()
+	var _ga, _agg float64
+	if _ebc := _cf.TxAttr; _ebc != nil {
+		_ga = _gc.FromEMU(_cd.FromSTCoordinate(*_ebc))
+	}
+	if _ffc := _cf.TyAttr; _ffc != nil {
+		_agg = _gc.FromEMU(_cd.FromSTCoordinate(*_ffc))
+	}
+	if _ga > 0 {
+		_ga -= _agb
+	}
+	if _agg > 0 {
+		_agg -= _cbc
+	}
+	_ecf := _gd._dfag/_agb + 1
+	_gaf := _gd._eeed/_cbc + 1
+	for _aff := 0.0; _aff <= _ecf; _aff++ {
+		_ae := _aff * _agb
+		for _bee := 0.0; _bee <= _gaf; _bee++ {
+			_gfdf := _bee * _cbc
+			_cbb.SetPos(_ae+_ga, _gfdf+_agg)
+			_cgg.Draw(_cbb)
+		}
+	}
+	_gdf, _bfa := _cd.GetPageFromCreator(_cgg)
+	if _bfa != nil {
+		_deg.Log.Debug("\u0043\u0061\u006e\u006e\u006f\u0074 \u0067\u0065\u0074\u0020\u0069\u006d\u0061\u0067\u0065\u0020\u0066\u0072\u006fm\u0020\u0063\u0072\u0065\u0061\u0074\u006fr\u003a\u0020\u0025\u0073", _bfa)
+		return nil
+	}
+	_cfa, _bfa := _bf.NewImageDevice().Render(_gdf)
+	if _bfa != nil {
+		_deg.Log.Debug("\u0043\u0061\u006eno\u0074\u0020\u0072\u0065\u006e\u0064\u0065\u0072\u0020\u0069\u006d\u0061\u0067\u0065\u003a\u0020\u0025\u0073", _bfa)
+		return nil
+	}
+	_ffa, _bfa := _gd._fcbbg.NewImageFromGoImage(_cfa)
+	if _bfa != nil {
+		_deg.Log.Debug("\u0043\u0061nn\u006f\u0074\u0020c\u0072\u0065\u0061\u0074e i\u006dag\u0065\u0020\u0066\u0072\u006f\u006d\u0020Go\u0049\u006d\u0061\u0067\u0065\u003a\u0020%\u0073", _bfa)
+		return nil
+	}
+	return _ffa
+}
+
+func (_fafeb *convertContext) getShapeFromBlipFill(_ffba *_f.CT_BlipFillProperties, _dcbca, _ccbe, _eac, _gdaf float64) _b.Drawable {
+	_bfbd, _beae, _gdgc := _fafeb.makePdfImageFromBlipFill(_ffba)
+	if _gdgc != nil {
+		_deg.Log.Debug("\u0043\u0061\u006e\u006e\u006f\u0074\u0020\u006d\u0061\u006b\u0065\u0020\u0050D\u0046\u0020\u0069\u006d\u0061\u0067e\u0020\u0066\u0072\u006f\u006d\u0020\u0042\u006c\u0069\u0070\u0046\u0069\u006cl\u003a\u0020\u0025\u0073", _gdgc)
+		return nil
+	}
+	if _bfbd == nil {
+		return nil
+	}
+	if _fbfg := _ffba.Tile; _fbfg != nil {
+		_bfbd = _fafeb.tileImage(_bfbd, _ffba.Tile, _eac, _gdaf)
+	}
+	if _cegb := _ffba.Stretch; _cegb != nil {
+		_bfbd, _dcbca, _ccbe = _fafeb.stretchImage(_bfbd, _ffba.Stretch, _dcbca, _ccbe, _eac, _gdaf)
+	}
+	if len(_beae) == 0 {
+		_bfbd.SetPos(_dcbca, _ccbe)
+		return _bfbd
+	}
+	_bfbd = _fafeb.applyBlipEffectsOnImg(_bfbd, _dcbca, _ccbe, _beae)
+	_bfbd.SetPos(_dcbca, _ccbe)
+	return _bfbd
+}
+
+func _bbfdf(_gde *_f.CT_TableCellProperties, _gfddd *_f.CT_TableStyleCellStyle, _gcfb, _facf, _edbd, _edfg bool) *_f.CT_TableCellProperties {
+	_egfg := _f.NewCT_TableCellProperties()
+	if _gde != nil {
+		*_egfg = *_gde
+	}
+	if _gfddd == nil {
+		return _egfg
+	}
+	if _ebgf := _gfddd.FillRef; _ebgf != nil {
+		_gbag := _f.NewCT_SolidColorFillProperties()
+		_gbag.ScrgbClr = _ebgf.ScrgbClr
+		_gbag.SrgbClr = _ebgf.SrgbClr
+		_gbag.HslClr = _ebgf.HslClr
+		_gbag.SysClr = _ebgf.SysClr
+		_gbag.SchemeClr = _ebgf.SchemeClr
+		_gbag.PrstClr = _ebgf.PrstClr
+		_egfg.SolidFill = _gbag
+	}
+	if _egfg.NoFill == nil && _egfg.SolidFill == nil {
+		if _face := _gfddd.Fill; _face != nil {
+			if _egfg.NoFill == nil {
+				_egfg.NoFill = _face.NoFill
+			}
+			if _egfg.SolidFill == nil {
+				_egfg.SolidFill = _face.SolidFill
+			}
+		}
+	}
+	if _bbcb := _gfddd.TcBdr; _bbcb != nil {
+		if _egfg.LnL == nil {
+			var _dfcd *_f.CT_ThemeableLineStyle
+			if _edbd {
+				_dfcd = _bbcb.Left
+			} else {
+				_dfcd = _bbcb.InsideV
+			}
+			if _dfcd != nil {
+				_egfg.LnL = _dfcd.Ln
+			}
+		}
+		if _egfg.LnR == nil {
+			var _bbcbb *_f.CT_ThemeableLineStyle
+			if _edfg {
+				_bbcbb = _bbcb.Right
+			} else {
+				_bbcbb = _bbcb.InsideV
+			}
+			if _bbcbb != nil {
+				_egfg.LnR = _bbcbb.Ln
+			}
+		}
+		if _egfg.LnT == nil {
+			var _abf *_f.CT_ThemeableLineStyle
+			if _gcfb {
+				_abf = _bbcb.Top
+			} else {
+				_abf = _bbcb.InsideH
+			}
+			if _abf != nil {
+				_egfg.LnT = _abf.Ln
+			}
+		}
+		if _egfg.LnB == nil {
+			var _gadf *_f.CT_ThemeableLineStyle
+			if _facf {
+				_gadf = _bbcb.Bottom
+			} else {
+				_gadf = _bbcb.InsideH
+			}
+			if _gadf != nil {
+				_egfg.LnB = _gadf.Ln
+			}
+		}
+	}
+	return _egfg
+}
+
+func (_dcbc *textboxContext) alignParagraphsVertically(_fdfa _f.ST_TextAnchoringType) {
+	if _fdfa == _f.ST_TextAnchoringTypeT {
+		return
+	}
+	_eaa := 0.0
+	for _, _cfgf := range _dcbc._ece {
+		_eaa += _cfgf._cbddf + _cfgf._fgf + _cfgf._fafd
+	}
+	var _cdgf float64
+	switch _fdfa {
+	case _f.ST_TextAnchoringTypeCtr:
+		_cdgf = (_dcbc._bfefg - _eaa) / 2
+	case _f.ST_TextAnchoringTypeB:
+		_cdgf = _dcbc._bfefg - _eaa
+	}
+	for _, _cgbd := range _dcbc._ece {
+		_cgbd._faaag += _cdgf
+	}
+}
+
+func (_eggc *textboxContext) addCurrentParagraph() {
+	_eggc._ggc = _eggc._fdf._faaag + _eggc._fdf._cbddf + _eggc._fdf._fgf + _eggc._fdf._fafd
+	_eggc._ece = append(_eggc._ece, _eggc._fdf)
+	_eggc.alignParagraph()
+}
+
+func (_dgfa *convertContext) renderCurrentStateToGoImage() (_a.Image, error) {
+	_deaf := _cd.MakeTempCreator(_dgfa._dfag, _dgfa._eeed)
+	_deaf.NewPage()
+	for _, _bdce := range _dgfa._dcaa {
+		if _bdce != nil {
+			_deaf.MoveTo(0, 0)
+			_deaf.Draw(_bdce)
+		}
+	}
+	_agd, _gadaf := _cd.GetPageFromCreator(_deaf)
+	if _gadaf != nil {
+		return nil, _gadaf
+	}
+	return _bf.NewImageDevice().Render(_agd)
+}
+
+func (_ccb *convertContext) makeSlide() {
+	_eed := _ccb._afa.X().CSld
+	if _eed == nil {
+		return
+	}
+	_be := &background{}
+	if _gbf := _eed.Bg; _gbf != nil {
+		if _gg := _gbf.BgPr; _gg != nil {
+			if _gg.NoFill == nil {
+				if _bgd := _gg.SolidFill; _bgd != nil {
+					_fg, _ffec := _ccb.getColorFromSolidFill(_bgd)
+					if _fg != nil {
+						_be._bbb = _fg
+						_be._aga = _ffec
+					}
+				} else if _bgdg := _gg.BlipFill; _bgdg != nil {
+					_be._dacc = _bgdg
+				}
+			}
+		}
+	}
+	_ccb._dccf = _be
+	if _dbd := _eed.SpTree; _dbd != nil {
+		for _, _beg := range _dbd.Choice {
+			if _beg != nil {
+				for _, _gfa := range _beg.Sp {
+					if _gfa != nil {
+						_ead := _ccb.getShapes(_gfa)
+						_ccb._dcaa = append(_ccb._dcaa, _ead...)
+					}
+				}
+				for _, _fd := range _beg.GraphicFrame {
+					if _fd != nil {
+						var _deca, _egd, _fed, _eef float64
+						if _dge := _fd.Xfrm; _dge != nil {
+							_deca, _egd, _fed, _eef = _cd.GetDataFromXfrm(_dge)
+						}
+						if _bbf := _fd.Graphic; _bbf != nil {
+							if _ade := _bbf.GraphicData; _ade != nil {
+								for _, _ccgf := range _ade.Any {
+									if _bfg, _df := _ccgf.(*_db.Chart); _df {
+										_gbda, _ccc := _ccb.makePdfBlockFromChart(_bfg, _fed, _eef)
+										if _ccc != nil {
+											_deg.Log.Debug("C\u0061\u006e\u006e\u006ft \u0072e\u0061\u0064\u0020\u0062\u006co\u0063\u006b\u003a\u0020\u0025\u0073", _ccc)
+										}
+										if _gbda != nil {
+											_gbda.SetPos(_deca, _egd)
+											_ccb._dcaa = append(_ccb._dcaa, _gbda)
+										}
+									} else if _afd, _bfdf := _ccgf.(*_f.Tbl); _bfdf {
+										_adg := _ccb.makePdfBlockFromTable(_afd, _fed)
+										if _adg != nil {
+											_caa := _b.NewBlock(_fed, _eef)
+											_caa.SetPos(_deca, _egd)
+											_caa.Draw(_adg)
+											_ccb._dcaa = append(_ccb._dcaa, _caa)
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				for _, _fb := range _beg.CxnSp {
+					if _fb != nil {
+						_dbdd := _ccb.getConnectors(_fb)
+						_ccb._dcaa = append(_ccb._dcaa, _dbdd...)
+					}
+				}
+				for _, _bga := range _beg.Pic {
+					if _bga != nil {
+						var _cg, _fce, _dca, _dcf float64
+						if _deb := _bga.SpPr; _deb != nil {
+							if _cae := _deb.Xfrm; _cae != nil {
+								_cg, _fce, _dca, _dcf = _cd.GetDataFromXfrm(_cae)
+							}
+						}
+						if _egg := _bga.BlipFill; _egg != nil {
+							_bgb := _ccb.getShapeFromBlipFill(_egg, _cg, _fce, _dca, _dcf)
+							_ccb._dcaa = append(_ccb._dcaa, _bgb)
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+func _adcbd(_beaa, _bgdbf *_f.CT_TextBody) (*_f.CT_TextBodyProperties, *_f.CT_TextListStyle) {
+	if _beaa == nil && _bgdbf == nil {
+		return nil, nil
+	}
+	if _beaa == nil {
+		return _bgdbf.BodyPr, _bgdbf.LstStyle
+	}
+	if _bgdbf == nil {
+		return _beaa.BodyPr, _beaa.LstStyle
+	}
+	_acgb, _edba := _beaa.BodyPr, _beaa.LstStyle
+	_eacg, _dfea := _bgdbf.BodyPr, _bgdbf.LstStyle
+	_cfe := _bfea(_acgb, _eacg)
+	_beaac := _aega(_edba, _dfea)
+	return _cfe, _beaac
+}
+
+func (_fdab *textboxContext) alignSymbolsVertically() {
+	for _, _aefd := range _fdab._ece {
+		for _, _ggcb := range _aefd._bcb {
+			_gabc := 0.0
+			for _, _ggg := range _ggcb._fae {
+				for _, _gfdfc := range _ggg._ffbd {
+					if _gfdfc._gaab > _gabc {
+						_gabc = _gfdfc._gaab
+					}
+				}
+			}
+			for _, _cdgc := range _ggcb._fae {
+				for _, _ecg := range _cdgc._ffbd {
+					if _ecg._adcb < _gabc {
+						_ecg._faab = _gabc - _ecg._adcb
+					}
+				}
+			}
+		}
+	}
+}
+
+func _bgab(_gcfa, _eeag *_f.CT_TextParagraphProperties) *_f.CT_TextParagraphProperties {
+	_eafb := _f.NewCT_TextParagraphProperties()
+	if _gcfa != nil {
+		*_eafb = *_gcfa
+	}
+	if _eeag == nil {
+		return _eafb
+	}
+	if _eafb.MarLAttr == nil {
+		_eafb.MarLAttr = _eeag.MarLAttr
+	}
+	if _eafb.MarRAttr == nil {
+		_eafb.MarRAttr = _eeag.MarRAttr
+	}
+	if _eafb.LvlAttr == nil {
+		_eafb.LvlAttr = _eeag.LvlAttr
+	}
+	if _eafb.IndentAttr == nil {
+		_eafb.IndentAttr = _eeag.IndentAttr
+	}
+	if _eafb.AlgnAttr == _f.ST_TextAlignTypeUnset {
+		_eafb.AlgnAttr = _eeag.AlgnAttr
+	}
+	if _eafb.DefTabSzAttr == nil {
+		_eafb.DefTabSzAttr = _eeag.DefTabSzAttr
+	}
+	if _eafb.RtlAttr == nil {
+		_eafb.RtlAttr = _eeag.RtlAttr
+	}
+	if _eafb.EaLnBrkAttr == nil {
+		_eafb.EaLnBrkAttr = _eeag.EaLnBrkAttr
+	}
+	if _eafb.FontAlgnAttr == _f.ST_TextFontAlignTypeUnset {
+		_eafb.FontAlgnAttr = _eeag.FontAlgnAttr
+	}
+	if _eafb.LatinLnBrkAttr == nil {
+		_eafb.LatinLnBrkAttr = _eeag.LatinLnBrkAttr
+	}
+	if _eafb.HangingPunctAttr == nil {
+		_eafb.HangingPunctAttr = _eeag.HangingPunctAttr
+	}
+	if _eafb.LnSpc == nil {
+		_eafb.LnSpc = _eeag.LnSpc
+	}
+	if _eafb.SpcBef == nil {
+		_eafb.SpcBef = _eeag.SpcBef
+	}
+	if _eafb.SpcAft == nil {
+		_eafb.SpcAft = _eeag.SpcAft
+	}
+	if _eafb.BuClrTx == nil {
+		_eafb.BuClrTx = _eeag.BuClrTx
+	}
+	if _eafb.BuClr == nil {
+		_eafb.BuClr = _eeag.BuClr
+	}
+	if _eafb.BuSzTx == nil {
+		_eafb.BuSzTx = _eeag.BuSzTx
+	}
+	if _eafb.BuSzPct == nil {
+		_eafb.BuSzPct = _eeag.BuSzPct
+	}
+	if _eafb.BuSzPts == nil {
+		_eafb.BuSzPts = _eeag.BuSzPts
+	}
+	if _eafb.BuFontTx == nil {
+		_eafb.BuFontTx = _eeag.BuFontTx
+	}
+	if _eafb.BuFont == nil {
+		_eafb.BuFont = _eeag.BuFont
+	}
+	if _eafb.BuNone == nil {
+		_eafb.BuNone = _eeag.BuNone
+	}
+	if _eafb.BuAutoNum == nil {
+		_eafb.BuAutoNum = _eeag.BuAutoNum
+	}
+	if _eafb.BuChar == nil {
+		_eafb.BuChar = _eeag.BuChar
+	}
+	if _eafb.BuBlip == nil {
+		_eafb.BuBlip = _eeag.BuBlip
+	}
+	if _eafb.TabLst == nil {
+		_eafb.TabLst = _eeag.TabLst
+	}
+	if _eafb.ExtLst == nil {
+		_eafb.ExtLst = _eeag.ExtLst
+	}
+	_eafb.DefRPr = _dagf(_eafb.DefRPr, _eeag.DefRPr)
+	return _eafb
+}
+
+func (_bdebd *line) moveRight(_dbb float64) {
+	for _, _gfcc := range _bdebd._fae {
+		_gfcc._eddg += _dbb
+	}
+}
+
+func (_gee *convertContext) addCellToTable(_fcd *_b.Table, _cdgg *_f.CT_TableCell, _cade *_f.CT_TablePartStyle, _bac float64, _gcb, _dceg, _cadec, _ceec bool) float64 {
+	var _abeg *_b.TableCell
+	_ccce := 1
+	if _cdgg.GridSpanAttr != nil {
+		_ccce = int(*_cdgg.GridSpanAttr)
+	}
+	_abeg = _fcd.MultiColCell(_ccce)
+	_fbc := _cdgg.TcPr
+	var _feb *_f.CT_TableStyleTextStyle
+	if _cade != nil {
+		_fbc = _bbfdf(_fbc, _cade.TcStyle, _gcb, _dceg, _cadec, _ceec)
+		_feb = _cade.TcTxStyle
+	}
+	_gccb := _bb
+	_adeg := _b.CellVerticalAlignmentMiddle
+	if _fbc != nil {
+		if _gdac := _fbc.LnL; _gdac != nil {
+			_fcc, _bag, _acee := _gee.getBorderStyle(_gdac)
+			_abeg.SetBorder(_b.CellBorderSideLeft, _fcc, _acee)
+			if _bag != nil && *_bag != nil {
+				_abeg.SetSideBorderColor(_b.CellBorderSideLeft, *_bag)
+			}
+		}
+		if _affb := _fbc.LnT; _affb != nil {
+			_febf, _dff, _baba := _gee.getBorderStyle(_affb)
+			_abeg.SetBorder(_b.CellBorderSideTop, _febf, _baba)
+			if _dff != nil && *_dff != nil {
+				_abeg.SetSideBorderColor(_b.CellBorderSideTop, *_dff)
+			}
+		}
+		if _cccfd := _fbc.LnR; _cccfd != nil {
+			_debg, _fcee, _bdef := _gee.getBorderStyle(_cccfd)
+			_abeg.SetBorder(_b.CellBorderSideRight, _debg, _bdef)
+			if _fcee != nil && *_fcee != nil {
+				_abeg.SetSideBorderColor(_b.CellBorderSideRight, *_fcee)
+			}
+		}
+		if _fcdb := _fbc.LnB; _fcdb != nil {
+			_ffde, _fdc, _ebd := _gee.getBorderStyle(_fcdb)
+			_abeg.SetBorder(_b.CellBorderSideBottom, _ffde, _ebd)
+			if _fdc != nil && *_fdc != nil {
+				_abeg.SetSideBorderColor(_b.CellBorderSideBottom, *_fdc)
+			}
+		}
+		if _adff := _fbc.MarLAttr; _adff != nil {
+			_gccb = float64(_cd.FromSTCoordinate32(*_adff))
+		}
+		switch _fbc.AnchorAttr {
+		case _f.ST_TextAnchoringTypeT:
+			_adeg = _b.CellVerticalAlignmentTop
+		case _f.ST_TextAnchoringTypeB:
+			_adeg = _b.CellVerticalAlignmentBottom
+		}
+		if _fbc.NoFill == nil {
+			if _ecbed := _fbc.SolidFill; _ecbed != nil {
+				_fbee, _ := _gee.getColorFromSolidFill(_ecbed)
+				_abeg.SetBackgroundColor(_fbee)
+			}
+		}
+	}
+	_abeg.SetVerticalAlignment(_adeg)
+	_abeg.SetIndent(_gccb)
+	var _fgca float64
+	if _bfc := _cdgg.TxBody; _bfc != nil {
+		_bcc := _gee.makePdfDivisionFromTxBody(_bfc, _bac, _fgca, _feb)
+		_fgca = _bcc.Height()
+		_abeg.SetContent(_bcc)
+	}
+	return _fgca
+}
 
 // FontStyle represents a kind of font styling. It can be FontStyle_Regular, FontStyle_Bold, FontStyle_Italic and FontStyle_BoldItalic.
-type FontStyle =_cd .FontStyle ;var _bbeae =[]romanMatch {romanMatch {1000,"\u006d"},romanMatch {900,"\u0063\u006d"},romanMatch {500,"\u0064"},romanMatch {400,"\u0063\u0064"},romanMatch {100,"\u0063"},romanMatch {90,"\u0078\u0063"},romanMatch {50,"\u006c"},romanMatch {40,"\u0078\u006c"},romanMatch {10,"\u0078"},romanMatch {9,"\u0069\u0078"},romanMatch {5,"\u0076"},romanMatch {4,"\u0069\u0076"},romanMatch {1,"\u0069"}};func (_caf *textboxContext )alignParagraph (){_ecaa :=_caf ._fdf ;if _ecaa ._aca ==_f .ST_TextAlignTypeL {return ;};_adfge :=len (_ecaa ._bcb )-1;for _bedc ,_bbbb :=range _ecaa ._bcb {_bcfg :=true ;_dacd :=len (_bbbb ._fae );_dab :=0.0;for _aed :=len (_bbbb ._fae )-1;_aed >=0;_aed --{_eedg :=_bbbb ._fae [_aed ];if _bcfg &&_eedg ._gadc {_dacd =_aed ;}else {_bcfg =false ;for _ ,_cgda :=range _eedg ._ffbd {_dab +=_cgda ._aba ;};};};_bbbb ._fae =_bbbb ._fae [:_dacd ];_efgf :=_bbbb ._egf -_bbbb ._ddg -_dab ;switch _ecaa ._aca {case _f .ST_TextAlignTypeR :_bbbb .moveRight (_efgf );case _f .ST_TextAlignTypeCtr :_bbbb .moveRight (_efgf /2);case _f .ST_TextAlignTypeJust :if _bedc !=_adfge {_gecc :=[]*word {};for _ ,_aefb :=range _bbbb ._fae {if _aefb ._gadc {_gecc =append (_gecc ,_aefb );};};_bfec :=_efgf /float64 (len (_gecc ));for _ ,_bdfca :=range _gecc {_bdfca ._cdcd +=_bfec ;};var _bffa *word ;for _ ,_fdge :=range _bbbb ._fae {if _bffa !=nil {_fdge ._eddg =_bffa ._eddg +_bffa ._cdcd ;};_bffa =_fdge ;};};};};};func (_dfd *convertContext )makePdfBlockFromTable (_ceg *_f .Tbl ,_aegg float64 )*_b .Table {_fgb :=_ceg .TblGrid ;if _fgb ==nil {return nil ;};_dcg :=len (_fgb .GridCol );if _dcg ==0{return nil ;};_gbe :=[]float64 {};_cbab :=0.0;for _ ,_dgd :=range _fgb .GridCol {_dce :=_gc .FromEMU (_cd .FromSTCoordinate (_dgd .WAttr ));_gbe =append (_gbe ,_dce );_cbab +=_dce ;};_fdb :=[]float64 {};for _bdeb :=0;_bdeb < _dcg ;_bdeb ++{_fdb =append (_fdb ,_gbe [_bdeb ]/_cbab );};_eege :=_dfd ._fcbbg .NewTable (_dcg );_eege .SetColumnWidths (_fdb ...);_cfff :=_ceg .TblPr ;var _fde *_f .CT_TableStyle ;if _dgbg :=_cfff .Choice ;_dgbg !=nil {if _dgbg .TableStyle !=nil {_fde =_dgbg .TableStyle ;}else if _dgbg .TableStyleId !=nil {_fde =_dfd ._cbed .GetTableStyleById (*_dgbg .TableStyleId );};};_gca :=_f .NewCT_TablePartStyle ();_gca .TcStyle =_f .NewCT_TableStyleCellStyle ();_gca .TcTxStyle =_f .NewCT_TableStyleTextStyle ();if _fde !=nil {if _fde .WholeTbl !=nil {*_gca =*_fde .WholeTbl ;};if _fde .TblBg !=nil {if _gca .TcStyle .Fill ==nil {_gca .TcStyle .Fill =_fde .TblBg .Fill ;};};};if _gca .TcStyle .Fill ==nil {_gca .TcStyle .Fill =_f .NewCT_FillProperties ();_gca .TcStyle .Fill .NoFill =_cfff .NoFill ;_gca .TcStyle .Fill .SolidFill =_cfff .SolidFill ;};_ged :=len (_ceg .Tr );for _ffd ,_fdgd :=range _ceg .Tr {_cef :=_ffd ==0;_bbea :=_ffd ==_ged -1;_dgec :=_ffd %2==0;_bbdg :=len (_fdgd .Tc );var _gab *_f .CT_TablePartStyle ;if _cef {_gab =_fde .FirstRow ;}else if _dgec {_gab =_fde .Band2H ;}else {_gab =_fde .Band1H ;};var _bea float64 ;for _bfb ,_dgecb :=range _fdgd .Tc {_daaf :=_bfb ==0;_abb :=_bfb ==_bbdg -1;_egdd :=_bfb %2==0;var _gcf *_f .CT_TablePartStyle ;if _daaf {_gcf =_fde .FirstCol ;}else if _egdd {_gcf =_fde .Band2V ;}else {_gcf =_fde .Band1V ;};_eea :=_afdc (_afdc (_gcf ,_gab ),_gca );_dcba :=_dfd .addCellToTable (_eege ,_dgecb ,_eea ,_aegg *_fdb [_bfb ],_cef ,_bbea ,_daaf ,_abb );if _dcba > _bea {_bea =_dcba ;};};_cbec :=_gc .FromEMU (_cd .FromSTCoordinate (_fdgd .HAttr ));if _cbec < _bea {_cbec =_bea ;};if _cbec < _eaea (4){_cbec =_eaea (4);};_eege .SetRowHeight (_eege .CurRow (),_cbec );};return _eege ;};func _eddf (_bcdc string )[]*symbol {_caae :=[]*symbol {};for _ ,_gcg :=range _bcdc {_caae =append (_caae ,&symbol {_bfga :string (_gcg )});};return _caae ;};type convertContext struct{_fcbbg *_b .Creator ;_ecd *_cd .Rectangle ;_cbed *_dec .Presentation ;_afa *_dec .Slide ;_eee *_bfd .SldMaster ;_ecfg *_bfd .SldLayout ;_eeed float64 ;_dfag float64 ;_dcaa []_b .Drawable ;_dccf *background ;_ccca *_f .CT_TextParagraphProperties ;_abed *_f .CT_TextCharacterProperties ;_gfab *_f .CT_TextParagraphProperties ;_ecdd *_f .CT_TextCharacterProperties ;_dfb *_f .CT_TextParagraphProperties ;_dba *_f .CT_TextCharacterProperties ;_gaff []*_f .CT_TextParagraphProperties ;_def []*_f .CT_TextParagraphProperties ;_bage []*_f .CT_TextParagraphProperties ;_dbdb *_f .Theme ;_gef *_f .CT_ColorMappingOverride ;};
+type FontStyle = _cd.FontStyle
+
+var _bbeae = []romanMatch{romanMatch{1000, "\u006d"}, romanMatch{900, "\u0063\u006d"}, romanMatch{500, "\u0064"}, romanMatch{400, "\u0063\u0064"}, romanMatch{100, "\u0063"}, romanMatch{90, "\u0078\u0063"}, romanMatch{50, "\u006c"}, romanMatch{40, "\u0078\u006c"}, romanMatch{10, "\u0078"}, romanMatch{9, "\u0069\u0078"}, romanMatch{5, "\u0076"}, romanMatch{4, "\u0069\u0076"}, romanMatch{1, "\u0069"}}
+
+func (_caf *textboxContext) alignParagraph() {
+	_ecaa := _caf._fdf
+	if _ecaa._aca == _f.ST_TextAlignTypeL {
+		return
+	}
+	_adfge := len(_ecaa._bcb) - 1
+	for _bedc, _bbbb := range _ecaa._bcb {
+		_bcfg := true
+		_dacd := len(_bbbb._fae)
+		_dab := 0.0
+		for _aed := len(_bbbb._fae) - 1; _aed >= 0; _aed-- {
+			_eedg := _bbbb._fae[_aed]
+			if _bcfg && _eedg._gadc {
+				_dacd = _aed
+			} else {
+				_bcfg = false
+				for _, _cgda := range _eedg._ffbd {
+					_dab += _cgda._aba
+				}
+			}
+		}
+		_bbbb._fae = _bbbb._fae[:_dacd]
+		_efgf := _bbbb._egf - _bbbb._ddg - _dab
+		switch _ecaa._aca {
+		case _f.ST_TextAlignTypeR:
+			_bbbb.moveRight(_efgf)
+		case _f.ST_TextAlignTypeCtr:
+			_bbbb.moveRight(_efgf / 2)
+		case _f.ST_TextAlignTypeJust:
+			if _bedc != _adfge {
+				_gecc := []*word{}
+				for _, _aefb := range _bbbb._fae {
+					if _aefb._gadc {
+						_gecc = append(_gecc, _aefb)
+					}
+				}
+				_bfec := _efgf / float64(len(_gecc))
+				for _, _bdfca := range _gecc {
+					_bdfca._cdcd += _bfec
+				}
+				var _bffa *word
+				for _, _fdge := range _bbbb._fae {
+					if _bffa != nil {
+						_fdge._eddg = _bffa._eddg + _bffa._cdcd
+					}
+					_bffa = _fdge
+				}
+			}
+		}
+	}
+}
+
+func (_dfd *convertContext) makePdfBlockFromTable(_ceg *_f.Tbl, _aegg float64) *_b.Table {
+	_fgb := _ceg.TblGrid
+	if _fgb == nil {
+		return nil
+	}
+	_dcg := len(_fgb.GridCol)
+	if _dcg == 0 {
+		return nil
+	}
+	_gbe := []float64{}
+	_cbab := 0.0
+	for _, _dgd := range _fgb.GridCol {
+		_dce := _gc.FromEMU(_cd.FromSTCoordinate(_dgd.WAttr))
+		_gbe = append(_gbe, _dce)
+		_cbab += _dce
+	}
+	_fdb := []float64{}
+	for _bdeb := 0; _bdeb < _dcg; _bdeb++ {
+		_fdb = append(_fdb, _gbe[_bdeb]/_cbab)
+	}
+	_eege := _dfd._fcbbg.NewTable(_dcg)
+	_eege.SetColumnWidths(_fdb...)
+	_cfff := _ceg.TblPr
+	var _fde *_f.CT_TableStyle
+	if _dgbg := _cfff.Choice; _dgbg != nil {
+		if _dgbg.TableStyle != nil {
+			_fde = _dgbg.TableStyle
+		} else if _dgbg.TableStyleId != nil {
+			_fde = _dfd._cbed.GetTableStyleById(*_dgbg.TableStyleId)
+		}
+	}
+	_gca := _f.NewCT_TablePartStyle()
+	_gca.TcStyle = _f.NewCT_TableStyleCellStyle()
+	_gca.TcTxStyle = _f.NewCT_TableStyleTextStyle()
+	if _fde != nil {
+		if _fde.WholeTbl != nil {
+			*_gca = *_fde.WholeTbl
+		}
+		if _fde.TblBg != nil {
+			if _gca.TcStyle.Fill == nil {
+				_gca.TcStyle.Fill = _fde.TblBg.Fill
+			}
+		}
+	}
+	if _gca.TcStyle.Fill == nil {
+		_gca.TcStyle.Fill = _f.NewCT_FillProperties()
+		_gca.TcStyle.Fill.NoFill = _cfff.NoFill
+		_gca.TcStyle.Fill.SolidFill = _cfff.SolidFill
+	}
+	_ged := len(_ceg.Tr)
+	for _ffd, _fdgd := range _ceg.Tr {
+		_cef := _ffd == 0
+		_bbea := _ffd == _ged-1
+		_dgec := _ffd%2 == 0
+		_bbdg := len(_fdgd.Tc)
+		var _gab *_f.CT_TablePartStyle
+		if _cef {
+			_gab = _fde.FirstRow
+		} else if _dgec {
+			_gab = _fde.Band2H
+		} else {
+			_gab = _fde.Band1H
+		}
+		var _bea float64
+		for _bfb, _dgecb := range _fdgd.Tc {
+			_daaf := _bfb == 0
+			_abb := _bfb == _bbdg-1
+			_egdd := _bfb%2 == 0
+			var _gcf *_f.CT_TablePartStyle
+			if _daaf {
+				_gcf = _fde.FirstCol
+			} else if _egdd {
+				_gcf = _fde.Band2V
+			} else {
+				_gcf = _fde.Band1V
+			}
+			_eea := _afdc(_afdc(_gcf, _gab), _gca)
+			_dcba := _dfd.addCellToTable(_eege, _dgecb, _eea, _aegg*_fdb[_bfb], _cef, _bbea, _daaf, _abb)
+			if _dcba > _bea {
+				_bea = _dcba
+			}
+		}
+		_cbec := _gc.FromEMU(_cd.FromSTCoordinate(_fdgd.HAttr))
+		if _cbec < _bea {
+			_cbec = _bea
+		}
+		if _cbec < _eaea(4) {
+			_cbec = _eaea(4)
+		}
+		_eege.SetRowHeight(_eege.CurRow(), _cbec)
+	}
+	return _eege
+}
+
+func _eddf(_bcdc string) []*symbol {
+	_caae := []*symbol{}
+	for _, _gcg := range _bcdc {
+		_caae = append(_caae, &symbol{_bfga: string(_gcg)})
+	}
+	return _caae
+}
+
+type convertContext struct {
+	_fcbbg *_b.Creator
+	_ecd   *_cd.Rectangle
+	_cbed  *_dec.Presentation
+	_afa   *_dec.Slide
+	_eee   *_bfd.SldMaster
+	_ecfg  *_bfd.SldLayout
+	_eeed  float64
+	_dfag  float64
+	_dcaa  []_b.Drawable
+	_dccf  *background
+	_ccca  *_f.CT_TextParagraphProperties
+	_abed  *_f.CT_TextCharacterProperties
+	_gfab  *_f.CT_TextParagraphProperties
+	_ecdd  *_f.CT_TextCharacterProperties
+	_dfb   *_f.CT_TextParagraphProperties
+	_dba   *_f.CT_TextCharacterProperties
+	_gaff  []*_f.CT_TextParagraphProperties
+	_def   []*_f.CT_TextParagraphProperties
+	_bage  []*_f.CT_TextParagraphProperties
+	_dbdb  *_f.Theme
+	_gef   *_f.CT_ColorMappingOverride
+}
 
 // ConvertToPdf converts a presentation to a PDF file. This package is beta, breaking changes can take place.
-func ConvertToPdf (pr *_dec .Presentation )*_b .Creator {_ff :=pr .X ().SldSz ;_ed :=_gc .FromEMU (int64 (_ff .CxAttr ));_fa :=_gc .FromEMU (int64 (_ff .CyAttr ));_da :=_b .PageSize {_ed ,_fa };_fe :=_b .New ();_fe .SetPageSize (_da );var _ce *_f .Theme ;if len (pr .Themes ())> 0{_ce =pr .Themes ()[0];};for _ ,_ee :=range pr .Slides (){if _ee .X ()==nil {continue ;};_gf :=&convertContext {_fcbbg :_fe ,_afa :&_ee ,_ecfg :_ee .GetSlideLayout (),_eee :pr .SlideMasters ()[0].X (),_cbed :pr ,_dbdb :_ce ,_gef :_ee .X ().ClrMapOvr ,_eeed :_da [1],_dfag :_da [0]};_gf ._ecfg =_ee .GetSlideLayout ();_gf .extractDefaultProperties ();_gf .makeSlide ();_gf .drawSlide ();};return _fe ;};type symbolStyle struct{_cegdb *string ;_gedc *float64 ;_dbac *string ;_dgca *bool ;_defd *bool ;_gac *bool ;_bcdd *bool ;_bda *bool ;};var _bgba =map[string ]int32 {"\u0076":9830,"\u00d8":8594,"\u00fc":8730};func (_fbbb *textboxContext )newLine (){if _fbbb ._fdf ==nil {_fbbb .newParagraph ();};_faca :=_fbbb ._fdf ._fgf +_fbbb ._fdf ._cbddf ;_fdea :=&line {};_fdea ._ddg =_fbbb ._fdf ._geea ;if len (_fbbb ._fdf ._bcb )==0{_fdea ._ddg +=_fbbb ._fdf ._ded ;};_fdea ._egf =_fbbb ._fdf ._fgaf ;_fdea ._fac =_fdea ._ddg ;_fdea ._bgg =_faca ;_fbbb ._fdf ._bcb =append (_fbbb ._fdf ._bcb ,_fdea );_fbbb ._geb =_fdea ;};
+func ConvertToPdf(pr *_dec.Presentation) *_b.Creator {
+	_ff := pr.X().SldSz
+	_ed := _gc.FromEMU(int64(_ff.CxAttr))
+	_fa := _gc.FromEMU(int64(_ff.CyAttr))
+	_da := _b.PageSize{_ed, _fa}
+	_fe := _b.New()
+	_fe.SetPageSize(_da)
+	var _ce *_f.Theme
+	if len(pr.Themes()) > 0 {
+		_ce = pr.Themes()[0]
+	}
+	for _, _ee := range pr.Slides() {
+		if _ee.X() == nil {
+			continue
+		}
+		_gf := &convertContext{_fcbbg: _fe, _afa: &_ee, _ecfg: _ee.GetSlideLayout(), _eee: pr.SlideMasters()[0].X(), _cbed: pr, _dbdb: _ce, _gef: _ee.X().ClrMapOvr, _eeed: _da[1], _dfag: _da[0]}
+		_gf._ecfg = _ee.GetSlideLayout()
+		_gf.extractDefaultProperties()
+		_gf.makeSlide()
+		_gf.drawSlide()
+	}
+	return _fe
+}
+
+type symbolStyle struct {
+	_cegdb *string
+	_gedc  *float64
+	_dbac  *string
+	_dgca  *bool
+	_defd  *bool
+	_gac   *bool
+	_bcdd  *bool
+	_bda   *bool
+}
+
+var _bgba = map[string]int32{"\u0076": 9830, "\u00d8": 8594, "\u00fc": 8730}
+
+func (_fbbb *textboxContext) newLine() {
+	if _fbbb._fdf == nil {
+		_fbbb.newParagraph()
+	}
+	_faca := _fbbb._fdf._fgf + _fbbb._fdf._cbddf
+	_fdea := &line{}
+	_fdea._ddg = _fbbb._fdf._geea
+	if len(_fbbb._fdf._bcb) == 0 {
+		_fdea._ddg += _fbbb._fdf._ded
+	}
+	_fdea._egf = _fbbb._fdf._fgaf
+	_fdea._fac = _fdea._ddg
+	_fdea._bgg = _faca
+	_fbbb._fdf._bcb = append(_fbbb._fdf._bcb, _fdea)
+	_fbbb._geb = _fdea
+}
 
 // RegisterFont makes a PdfFont accessible for using in converting to PDF.
-func RegisterFont (name string ,style FontStyle ,font *_bd .PdfFont ){_cd .RegisterFont (name ,style ,font );};func (_eca *convertContext )extractDefaultProperties (){_ba :=_eca ._cbed .X ();_gbd :=_ba .DefaultTextStyle ;var _ad ,_egc ,_dd ,_bab ,_fc ,_cdg ,_dc ,_ac ,_dg ,_eda *_f .CT_TextParagraphProperties ;if _gbd !=nil {_ad =_gbd .DefPPr ;_egc =_bgab (_gbd .Lvl1pPr ,_ad );_dd =_bgab (_gbd .Lvl2pPr ,_ad );_bab =_bgab (_gbd .Lvl3pPr ,_ad );_fc =_bgab (_gbd .Lvl4pPr ,_ad );_cdg =_bgab (_gbd .Lvl5pPr ,_ad );_dc =_bgab (_gbd .Lvl6pPr ,_ad );_ac =_bgab (_gbd .Lvl7pPr ,_ad );_dg =_bgab (_gbd .Lvl8pPr ,_ad );_eda =_bgab (_gbd .Lvl9pPr ,_ad );_eca ._ccca =_ad ;_eca ._abed =_ad .DefRPr ;};_eca ._gaff =make ([]*_f .CT_TextParagraphProperties ,9);_eca ._gaff [0]=_egc ;_eca ._gaff [1]=_dd ;_eca ._gaff [2]=_bab ;_eca ._gaff [3]=_fc ;_eca ._gaff [4]=_cdg ;_eca ._gaff [5]=_dc ;_eca ._gaff [6]=_ac ;_eca ._gaff [7]=_dg ;_eca ._gaff [8]=_eda ;_cb :=_eca ._cbed .SlideMasters ()[0].X ();_faf :=_cb .TxStyles ;_bff :=_faf .TitleStyle ;_eca ._gfab =_bgab (_bff .DefPPr ,_ad );_eca ._ecdd =_eca ._gfab .DefRPr ;_eca ._def =make ([]*_f .CT_TextParagraphProperties ,9);_eca ._def [0]=_bgab (_bff .Lvl1pPr ,_egc );_eca ._def [1]=_bgab (_bff .Lvl2pPr ,_dd );_eca ._def [2]=_bgab (_bff .Lvl3pPr ,_bab );_eca ._def [3]=_bgab (_bff .Lvl4pPr ,_fc );_eca ._def [4]=_bgab (_bff .Lvl5pPr ,_cdg );_eca ._def [5]=_bgab (_bff .Lvl6pPr ,_dc );_eca ._def [6]=_bgab (_bff .Lvl7pPr ,_ac );_eca ._def [7]=_bgab (_bff .Lvl8pPr ,_dg );_eca ._def [8]=_bgab (_bff .Lvl9pPr ,_eda );_ffe :=_faf .BodyStyle ;_eca ._dfb =_bgab (_ffe .DefPPr ,_ad );_eca ._dba =_eca ._dfb .DefRPr ;_eca ._bage =make ([]*_f .CT_TextParagraphProperties ,9);_eca ._bage [0]=_bgab (_ffe .Lvl1pPr ,_egc );_eca ._bage [1]=_bgab (_ffe .Lvl2pPr ,_dd );_eca ._bage [2]=_bgab (_ffe .Lvl3pPr ,_bab );_eca ._bage [3]=_bgab (_ffe .Lvl4pPr ,_fc );_eca ._bage [4]=_bgab (_ffe .Lvl5pPr ,_cdg );_eca ._bage [5]=_bgab (_ffe .Lvl6pPr ,_dc );_eca ._bage [6]=_bgab (_ffe .Lvl7pPr ,_ac );_eca ._bage [7]=_bgab (_ffe .Lvl8pPr ,_dg );_eca ._bage [8]=_bgab (_ffe .Lvl9pPr ,_eda );};func (_debgb *convertContext )getBorderStyle (_abegg *_f .CT_LineProperties )(_b .CellBorderStyle ,*_b .Color ,float64 ){if _abegg ==nil ||_abegg .NoFill !=nil {return _b .CellBorderStyleNone ,nil ,0;};var _cegd _b .Color ;if _aee :=_abegg .SolidFill ;_aee !=nil {_cegd ,_ =_debgb .getColorFromSolidFill (_aee );};_aged :=0.0;if _ceeg :=_abegg .WAttr ;_ceeg !=nil {_aged =_gc .FromEMU (int64 (*_ceeg ));};return _b .CellBorderStyleSingle ,&_cegd ,_aged ;};func (_fddf *convertContext )makeStyleFromRPr (_gcc *_f .CT_TextCharacterProperties )(*_b .TextStyle ,bool ,bool ,bool ){var _dfe ,_bffg ,_gafa bool ;_fdg :=_fddf ._fcbbg .NewTextStyle ();if _gcc !=nil {_fgad :=_cd .FontStyle_Regular ;_cgdf :=_fegb (_gcc .BAttr );_ccbd :=_fegb (_gcc .IAttr );if _cgdf &&_ccbd {_fgad =_cd .FontStyle_BoldItalic ;}else if _cgdf {_fgad =_cd .FontStyle_Bold ;}else if _ccbd {_fgad =_cd .FontStyle_Italic ;};_gafa =_gcc .UAttr !=_f .ST_TextUnderlineTypeUnset &&_gcc .UAttr !=_f .ST_TextUnderlineTypeNone ;_bbfe :="\u0064e\u0066\u0061\u0075\u006c\u0074";if _cab :=_gcc .Latin ;_cab !=nil {_bbfe =_cab .TypefaceAttr ;}else if _cdfc :=_gcc .Ea ;_cdfc !=nil {_bbfe =_cdfc .TypefaceAttr ;}else if _cbg :=_gcc .Cs ;_cbg !=nil {_bbfe =_cbg .TypefaceAttr ;}else if _aae :=_gcc .Sym ;_aae !=nil {_bbfe =_aae .TypefaceAttr ;};if _feab ,_debe :=_cd .StdFontsMap [_bbfe ];_debe {_fdg .Font =_cd .AssignStdFontByName (_fdg ,_feab [_fgad ]);}else if _gdd :=_cd .GetRegisteredFont (_bbfe ,_fgad );_gdd !=nil {_fdg .Font =_gdd ;}else {_deg .Log .Debug ("\u0046\u006f\u006e\u0074\u0020\u0025\u0073\u0020\u0077\u0069\u0074h\u0020\u0073\u0074\u0079\u006c\u0065\u0020\u0025s\u0020i\u0073\u0020\u006e\u006f\u0074\u0020\u0066\u006f\u0075\u006e\u0064\u002c\u0020\u0072\u0065\u0073\u0065\u0074 \u0074\u006f\u0020\u0064\u0065\u0066\u0061\u0075\u006c\u0074\u002e",_bbfe ,_fgad );_fdg .Font =_cd .AssignStdFontByName (_fdg ,_cd .StdFontsMap ["\u0064e\u0066\u0061\u0075\u006c\u0074"][_fgad ]);};var _cbad float64 ;if _bcfa :=_gcc .SzAttr ;_bcfa !=nil {_cbad =float64 (*_bcfa )/100;}else {_cbad =_cd .DefaultFontSize ;};if _acgf :=_gcc .BaselineAttr ;_acgf !=nil {if _bfef :=_acgf .ST_PercentageDecimal ;_bfef !=nil {if *_bfef > 0{_dfe =true ;}else if *_bfef < 0{_bffg =true ;};};};if _dfe ||_bffg {_cbad *=0.64;};_fdg .FontSize =_cbad ;_afe :=0.0;if _gdad :=_gcc .SpcAttr ;_gdad !=nil {if _cbdd :=_gdad .ST_TextPointUnqualified ;_cbdd !=nil {_afe =float64 (*_cbdd )/100;};};_fdg .CharSpacing =_afe ;};return &_fdg ,_dfe ,_bffg ,_gafa ;};func (_gae *textboxContext )drawParagraphs (){_gae ._aacg .NewPage ();for _ ,_adb :=range _gae ._ece {for _ ,_cfbg :=range _adb ._bcb {for _ ,_ebb :=range _cfbg ._fae {for _ ,_cgf :=range _ebb ._ffbd {_bgdb :=_gae ._aacg .NewStyledParagraph ();if _cgf ._bggg {_cgf ._faab =0;}else if _cgf ._dfc {_cgf ._faab =1.2*_cfbg ._dafc -_cgf ._adcb ;};_fccc :=_ebb ._eddg +_cgf ._debc ;_bfdfg :=_adb ._faaag +_cfbg ._bgg +_cgf ._faab ;_bgdb .SetPos (_fccc ,_bfdfg );_adaa :=_bgdb .Append (_cgf ._bfga );if _cgf ._fbec !=nil {_adaa .Style =*_cgf ._fbec ;};_gae ._aacg .Draw (_bgdb );if _cgf ._bacb {_ffeda :=_bfdfg +_cgf ._adcb +2;_cd .DrawLine (_gae ._aacg ,_fccc ,_ffeda ,_fccc +_cgf ._aba ,_ffeda ,1,_cgf ._fbec .Color );};};};};};};func (_acf *textboxContext )assignPropsToCurrentParagraph (_fcce *_f .CT_TextParagraphProperties ){_fdfb :=12.4;if _fcce ==nil {_acf ._fdf ._ffdef =_fdfb ;return ;};if _fbca :=_fcce .DefRPr ;_fbca !=nil {_fda :=_fbca .SzAttr ;if _fda !=nil {_efa :=float64 (*_fda )/1200;if _fdfb <=_efa {_fdfb =_efa ;};};};if _bgca :=_fcce .MarLAttr ;_bgca !=nil {_acf ._fdf ._geea =_gc .FromEMU (int64 (*_bgca ));};_acf ._fdf ._fgaf =_acf ._accg ;if _fff :=_fcce .MarRAttr ;_fff !=nil {_acf ._fdf ._fgaf -=_gc .FromEMU (int64 (*_fff ));};if _deee :=_fcce .IndentAttr ;_deee !=nil {_acf ._fdf ._ded =_gc .FromEMU (int64 (*_deee ));};if _eaeg :=_fcce .LatinLnBrkAttr ;_eaeg !=nil {_acf ._fdf ._fcfg =*_eaeg ;};if _eec :=_fcce .LnSpc ;_eec !=nil {if _eegc :=_eec .SpcPct ;_eegc !=nil {if _aagg :=_eegc .ValAttr .ST_TextSpacingPercent ;_aagg !=nil {_fdfb =float64 (*_aagg )/5000;};};};var _eaf float64 ;if _bggge :=_fcce .SpcBef ;_bggge !=nil {if _egbb :=_bggge .SpcPts ;_egbb !=nil {_eaf =float64 (_egbb .ValAttr )/100;};};_fbcg :=_acf ._ece ;if len (_fbcg )> 0{_eaf -=_fbcg [len (_fbcg )-1]._fafd ;if _eaf < 0{_eaf =0;};};_acf ._fdf ._cbddf =_eaf ;if _eabd :=_fcce .SpcAft ;_eabd !=nil {if _bdfc :=_eabd .SpcPts ;_bdfc !=nil {_acf ._fdf ._fafd =float64 (_bdfc .ValAttr )/100;};};_acf ._fdf ._ffdef =_fdfb ;_acf ._fdf ._aca =_fcce .AlgnAttr ;};func _baa (_agfc *_f .CT_AdjPoint2D )(float64 ,float64 ){var _cbabd ,_gaeg float64 ;_dbca ,_gbae :=_agfc .XAttr ,_agfc .YAttr ;if _bdfd :=_dbca .ST_Coordinate ;_bdfd !=nil {_cbabd =_gc .FromEMU (_cd .FromSTCoordinate (*_bdfd ));};if _bgad :=_gbae .ST_Coordinate ;_bgad !=nil {_gaeg =_gc .FromEMU (_cd .FromSTCoordinate (*_bgad ));};return _cbabd ,_gaeg ;};func (_acc *convertContext )makePdfDivisionFromTxBody (_bgdc *_f .CT_TextBody ,_dac ,_fcbb float64 ,_ccf *_f .CT_TableStyleTextStyle )*_b .Division {_aac :=_acc ._fcbbg .NewDivision ();_dfgd :=_acc ._ccca ;_bgf :=_f .ST_TextAnchoringTypeT ;if _egb :=_bgdc .BodyPr ;_egb !=nil {if _ecff :=_egb .AnchorAttr ;_ecff !=_f .ST_TextAnchoringTypeUnset {_bgf =_egb .AnchorAttr ;};};if _aag :=_bgdc .LstStyle ;_aag !=nil {var _cdff *_f .CT_TextParagraphProperties ;if _aag .Lvl1pPr !=nil {_cdff =_aag .Lvl1pPr ;}else {_cdff =_acc ._gaff [0];};_dfgd =_bgab (_cdff ,_bgab (_aag .DefPPr ,_dfgd ));};for _ ,_gbc :=range _bgdc .P {if _gbc !=nil {_bad :=_acc ._fcbbg .NewStyledParagraph ();_cggc :=_bgab (_gbc .PPr ,_dfgd );_ecc :=_dagf (_gbc .EndParaRPr ,_cggc .DefRPr );if len (_gbc .EG_TextRun )==0{_bad .Append ("\u000a");_aac .Add (_bad );continue ;};for _ ,_bfae :=range _gbc .EG_TextRun {if _dae :=_bfae .Br ;_dae !=nil {_bad .Append ("\u000a");}else if _cag :=_bfae .R ;_cag !=nil {_dbdg :=_gafef (_cag .RPr ,_ccf );_dbdg =_dagf (_dbdg ,_ecc );var _gfg _b .Color ;if _dbdg .SolidFill !=nil {_gfg ,_ =_acc .getColorFromSolidFill (_dbdg .SolidFill );}else {_gfg =_b .ColorBlack ;};_adfg ,_gad ,_edgb ,_ :=_acc .makeStyleFromRPr (_dbdg );_adfg .Color =_gfg ;if _gad {_adfg .TextRise =0.5;}else if _edgb {_adfg .TextRise =-0.5;};_cfaae :=_cag .T ;if _dbdg .CapAttr ==_f .ST_TextCapsTypeAll {for _ ,_bca :=range _cfaae {_bca =[]rune (_eg .ToUpper (string (_bca )))[0];};};_acde :=_bad .Append (_cfaae );_acde .Style =*_adfg ;};};_ =_bgf ;_aac .Add (_bad );};};return _aac ;};func (_gfd *convertContext )drawSlide (){_gfd ._fcbbg .NewPage ();for _ ,_cbd :=range _gfd ._dcaa {if _cbd !=nil {_gfd ._fcbbg .MoveTo (0,0);_gfd ._fcbbg .Draw (_cbd );};};};func (_gfgd *textboxContext )adjustHeights (_acda float64 ){if _gfgd ._geb ._dafc < _acda {_gfgd ._fdf ._fgf +=(_acda -_gfgd ._geb ._dafc );_gfgd ._geb ._dafc =_acda ;};};func (_bbc *convertContext )getShapes (_cba *_bfd .CT_Shape )[]_b .Drawable {_ebe :=[]_b .Drawable {};_fea :=_cba .SpPr ;if _fea ==nil {return _ebe ;};var _bdg bool ;if _fbd :=_cba .UseBgFillAttr ;_fbd !=nil {_bdg =*_fbd ;};_ecb ,_baf ,_egeg ,_acg ,_bfe ,_edc ,_cfd :=_bbc .getShapesFromSpPr (_fea ,_cba .Style ,_bdg );_ebe =append (_ebe ,_ecb ...);if _aa :=_cba .TxBody ;_aa !=nil {_bgdeb ,_dcb ,_cbaa ,_ecbe ,_gbgf :=_bbc .getPhData (_cba );if _bgdeb !=nil &&!_cfd {_baf ,_egeg ,_acg ,_bfe =_cd .GetDataFromXfrm (_bgdeb );};_abe ,_cfg :=_bbc .makePdfBlockFromTxBody (_aa ,_dcb ,_cbaa ,_acg ,_bfe ,_edc ,_ecbe ,_gbgf );if _cfg !=nil {_deg .Log .Debug ("\u0043\u0061\u006e\u006e\u006f\u0074\u0020\u006d\u0061\u006b\u0065\u0020\u0050\u0044\u0046\u0020\u0062\u006c\u006f\u0063\u006b\u0020\u0066\u0072o\u006d\u0020\u0074\u0065\u0078t\u0062\u006fx\u003a\u0020\u0025\u0073",_cfg );}else if _abe !=nil {_abe .SetPos (_baf ,_egeg );_ebe =append (_ebe ,_abe );};};return _ebe ;};type textboxContext struct{_bfgg *convertContext ;_accg float64 ;_bfefg float64 ;_aacg *_b .Creator ;_ggc float64 ;_ece []*paragraph ;_fdf *paragraph ;_geb *line ;_dcef *word ;_cbcg bool ;};func (_bce *convertContext )getStyleColors (_efae *_f .CT_ShapeStyle )(_b .Color ,_b .Color ,_b .Color ){var _gece ,_dace ,_aefe _b .Color ;if _fca :=_efae .LnRef ;_fca !=nil {_dace =_bce .getColorFromMatrixReference (_fca );};if _bcae :=_efae .FillRef ;_bcae !=nil {_aefe =_bce .getColorFromMatrixReference (_bcae );};if _dgbf :=_efae .FontRef ;_dgbf !=nil {_gece =_bce .getColorFromFontReference (_dgbf );};return _gece ,_aefe ,_dace ;};func _eaea (_daac float64 )float64 {return _daac *_gc .Millimeter };func (_dagc *convertContext )makePdfImageFromBlipFill (_fcde *_f .CT_BlipFillProperties )(*_b .Image ,[]*_f .CT_BlipChoice ,error ){if _fcg :=_fcde .Blip ;_fcg !=nil {if _gaee :=_fcg .EmbedAttr ;_gaee !=nil {_bega ,_gefd :=_dagc ._afa .GetImageByRelID (*_gaee );if _gefd {_bffda ,_febe :=_cdc .Open (_bega .Path ());if _febe !=nil {_deg .Log .Debug ("\u0046\u0069\u006c\u0065 o\u0070\u0065\u006e\u0020\u0065\u0072\u0072\u006f\u0072\u003a\u0020\u0025\u0073",_febe );return nil ,nil ,_febe ;};defer _bffda .Close ();_gcda ,_ ,_febe :=_a .Decode (_bffda );if _febe !=nil {_deg .Log .Debug ("\u0044\u0065\u0063\u006fde\u0020\u0069\u006d\u0061\u0067\u0065\u0020\u0065\u0072\u0072\u006f\u0072\u003a\u0020%\u0073",_febe );return nil ,nil ,_febe ;};if _defdf :=_fcde .SrcRect ;_defdf !=nil {_ecaf :=_gcda .Bounds ().Size ();_fdbf :=_ecaf .X ;_aacf :=_ecaf .Y ;var _bec ,_bdb ,_dafd ,_ecbc int ;var _dage bool ;if _afdf :=_defdf .LAttr ;_afdf !=nil {_bec =int (float64 (_fdbf )*_cd .FromSTPercentage (_afdf ));_dage =true ;}else {_bec =0;};if _edaca :=_defdf .TAttr ;_edaca !=nil {_dafd =int (float64 (_aacf )*_cd .FromSTPercentage (_edaca ));_dage =true ;}else {_dafd =0;};if _cgdb :=_defdf .RAttr ;_cgdb !=nil {_bdb =int (float64 (_fdbf )*(1-_cd .FromSTPercentage (_cgdb )));_dage =true ;}else {_bdb =_fdbf ;};if _fgfd :=_defdf .BAttr ;_fgfd !=nil {_ecbc =int (float64 (_aacf )*(1-_cd .FromSTPercentage (_fgfd )));_dage =true ;}else {_ecbc =_aacf ;};if _dage {_gcda =_cd .CropImageByRect (_gcda ,_a .Rect (_bec ,_dafd ,_bdb +1,_ecbc +1));};};_eeac ,_febe :=_dagc ._fcbbg .NewImageFromGoImage (_gcda );if _febe !=nil {_deg .Log .Debug ("\u0043\u0061\u006e\u006e\u006ft\u0020\u0063\u0072\u0065\u0061\u0074\u0065\u0020\u0050\u0044\u0046\u0020\u0069m\u0061\u0067\u0065\u0020\u0066\u0072\u006f\u006d\u0020\u0047\u006f\u0020\u0069\u006d\u0061\u0067\u0065\u003a\u0020\u0025\u0073",_febe );return nil ,nil ,_febe ;};return _eeac ,_fcg .Choice ,nil ;};};};return nil ,nil ,nil ;};func _gafef (_aced *_f .CT_TextCharacterProperties ,_ffbf *_f .CT_TableStyleTextStyle )*_f .CT_TextCharacterProperties {_beec :=_f .NewCT_TextCharacterProperties ();if _aced !=nil {*_beec =*_aced ;};if _ffbf ==nil {return _beec ;};if _beec .BAttr ==nil &&_ffbf .BAttr !=_f .ST_OnOffStyleTypeUnset {_afda :=_ffbf .BAttr ==_f .ST_OnOffStyleTypeOn ;_beec .BAttr =&_afda ;};if _beec .IAttr ==nil &&_ffbf .IAttr !=_f .ST_OnOffStyleTypeUnset {_gecfe :=_ffbf .IAttr ==_f .ST_OnOffStyleTypeOn ;_beec .IAttr =&_gecfe ;};if _beec .NoFill ==nil &&_beec .SolidFill ==nil {_beec .SolidFill =_f .NewCT_SolidColorFillProperties ();_beec .SolidFill .ScrgbClr =_ffbf .ScrgbClr ;_beec .SolidFill .SrgbClr =_ffbf .SrgbClr ;_beec .SolidFill .HslClr =_ffbf .HslClr ;_beec .SolidFill .SysClr =_ffbf .SysClr ;_beec .SolidFill .SchemeClr =_ffbf .SchemeClr ;_beec .SolidFill .PrstClr =_ffbf .PrstClr ;};if _ddda :=_ffbf .Font ;_ddda !=nil &&_beec .Latin ==nil &&_beec .Ea ==nil &&_beec .Cs ==nil {_beec .Latin =_ddda .Latin ;_beec .Ea =_ddda .Ea ;_beec .Cs =_ddda .Cs ;};return _beec ;};func (_aagc *convertContext )getColorFromSolidFill (_bdad *_f .CT_SolidColorFillProperties )(_b .Color ,float64 ){if _bdad ==nil {return nil ,1;};var _gddb string ;_faef :=1.0;if _daff :=_bdad .SrgbClr ;_daff !=nil {_gddb =_daff .ValAttr ;_faef =_cd .GetOpacityFromColorTransform (_daff .EG_ColorTransform );}else if _cgdc :=_bdad .SchemeClr ;_cgdc !=nil {_gddb =_cd .GetColorStringFromDmlColor (_aagc ._afa .GetColorBySchemeColor (_cgdc .ValAttr ));_gddb =_cd .AdjustColor (_gddb ,_cgdc .EG_ColorTransform );_faef =_cd .GetOpacityFromColorTransform (_cgdc .EG_ColorTransform );};if _gddb !=""{_agedc :=_b .ColorRGBFromHex ("\u0023"+_gddb );return _agedc ,_faef ;};return nil ,1;};func _afad (_gfed *_bfd .CT_Shape )(_bfd .ST_PlaceholderType ,*uint32 ){if _aadc :=_gfed .NvSpPr ;_aadc !=nil {if _cgad :=_aadc .NvPr ;_cgad !=nil {if _dde :=_cgad .Ph ;_dde !=nil {return _dde .TypeAttr ,_dde .IdxAttr ;};};};return _bfd .ST_PlaceholderTypeUnset ,nil ;};type word struct{_ffbd []*symbol ;_eddg float64 ;_cdcd float64 ;_gadc bool ;};
+func RegisterFont(name string, style FontStyle, font *_bd.PdfFont) {
+	_cd.RegisterFont(name, style, font)
+}
+
+func (_eca *convertContext) extractDefaultProperties() {
+	_ba := _eca._cbed.X()
+	_gbd := _ba.DefaultTextStyle
+	var _ad, _egc, _dd, _bab, _fc, _cdg, _dc, _ac, _dg, _eda *_f.CT_TextParagraphProperties
+	if _gbd != nil {
+		_ad = _gbd.DefPPr
+		_egc = _bgab(_gbd.Lvl1pPr, _ad)
+		_dd = _bgab(_gbd.Lvl2pPr, _ad)
+		_bab = _bgab(_gbd.Lvl3pPr, _ad)
+		_fc = _bgab(_gbd.Lvl4pPr, _ad)
+		_cdg = _bgab(_gbd.Lvl5pPr, _ad)
+		_dc = _bgab(_gbd.Lvl6pPr, _ad)
+		_ac = _bgab(_gbd.Lvl7pPr, _ad)
+		_dg = _bgab(_gbd.Lvl8pPr, _ad)
+		_eda = _bgab(_gbd.Lvl9pPr, _ad)
+		_eca._ccca = _ad
+		_eca._abed = _ad.DefRPr
+	}
+	_eca._gaff = make([]*_f.CT_TextParagraphProperties, 9)
+	_eca._gaff[0] = _egc
+	_eca._gaff[1] = _dd
+	_eca._gaff[2] = _bab
+	_eca._gaff[3] = _fc
+	_eca._gaff[4] = _cdg
+	_eca._gaff[5] = _dc
+	_eca._gaff[6] = _ac
+	_eca._gaff[7] = _dg
+	_eca._gaff[8] = _eda
+	_cb := _eca._cbed.SlideMasters()[0].X()
+	_faf := _cb.TxStyles
+	_bff := _faf.TitleStyle
+	_eca._gfab = _bgab(_bff.DefPPr, _ad)
+	_eca._ecdd = _eca._gfab.DefRPr
+	_eca._def = make([]*_f.CT_TextParagraphProperties, 9)
+	_eca._def[0] = _bgab(_bff.Lvl1pPr, _egc)
+	_eca._def[1] = _bgab(_bff.Lvl2pPr, _dd)
+	_eca._def[2] = _bgab(_bff.Lvl3pPr, _bab)
+	_eca._def[3] = _bgab(_bff.Lvl4pPr, _fc)
+	_eca._def[4] = _bgab(_bff.Lvl5pPr, _cdg)
+	_eca._def[5] = _bgab(_bff.Lvl6pPr, _dc)
+	_eca._def[6] = _bgab(_bff.Lvl7pPr, _ac)
+	_eca._def[7] = _bgab(_bff.Lvl8pPr, _dg)
+	_eca._def[8] = _bgab(_bff.Lvl9pPr, _eda)
+	_ffe := _faf.BodyStyle
+	_eca._dfb = _bgab(_ffe.DefPPr, _ad)
+	_eca._dba = _eca._dfb.DefRPr
+	_eca._bage = make([]*_f.CT_TextParagraphProperties, 9)
+	_eca._bage[0] = _bgab(_ffe.Lvl1pPr, _egc)
+	_eca._bage[1] = _bgab(_ffe.Lvl2pPr, _dd)
+	_eca._bage[2] = _bgab(_ffe.Lvl3pPr, _bab)
+	_eca._bage[3] = _bgab(_ffe.Lvl4pPr, _fc)
+	_eca._bage[4] = _bgab(_ffe.Lvl5pPr, _cdg)
+	_eca._bage[5] = _bgab(_ffe.Lvl6pPr, _dc)
+	_eca._bage[6] = _bgab(_ffe.Lvl7pPr, _ac)
+	_eca._bage[7] = _bgab(_ffe.Lvl8pPr, _dg)
+	_eca._bage[8] = _bgab(_ffe.Lvl9pPr, _eda)
+}
+
+func (_debgb *convertContext) getBorderStyle(_abegg *_f.CT_LineProperties) (_b.CellBorderStyle, *_b.Color, float64) {
+	if _abegg == nil || _abegg.NoFill != nil {
+		return _b.CellBorderStyleNone, nil, 0
+	}
+	var _cegd _b.Color
+	if _aee := _abegg.SolidFill; _aee != nil {
+		_cegd, _ = _debgb.getColorFromSolidFill(_aee)
+	}
+	_aged := 0.0
+	if _ceeg := _abegg.WAttr; _ceeg != nil {
+		_aged = _gc.FromEMU(int64(*_ceeg))
+	}
+	return _b.CellBorderStyleSingle, &_cegd, _aged
+}
+
+func (_fddf *convertContext) makeStyleFromRPr(_gcc *_f.CT_TextCharacterProperties) (*_b.TextStyle, bool, bool, bool) {
+	var _dfe, _bffg, _gafa bool
+	_fdg := _fddf._fcbbg.NewTextStyle()
+	if _gcc != nil {
+		_fgad := _cd.FontStyle_Regular
+		_cgdf := _fegb(_gcc.BAttr)
+		_ccbd := _fegb(_gcc.IAttr)
+		if _cgdf && _ccbd {
+			_fgad = _cd.FontStyle_BoldItalic
+		} else if _cgdf {
+			_fgad = _cd.FontStyle_Bold
+		} else if _ccbd {
+			_fgad = _cd.FontStyle_Italic
+		}
+		_gafa = _gcc.UAttr != _f.ST_TextUnderlineTypeUnset && _gcc.UAttr != _f.ST_TextUnderlineTypeNone
+		_bbfe := "\u0064e\u0066\u0061\u0075\u006c\u0074"
+		if _cab := _gcc.Latin; _cab != nil {
+			_bbfe = _cab.TypefaceAttr
+		} else if _cdfc := _gcc.Ea; _cdfc != nil {
+			_bbfe = _cdfc.TypefaceAttr
+		} else if _cbg := _gcc.Cs; _cbg != nil {
+			_bbfe = _cbg.TypefaceAttr
+		} else if _aae := _gcc.Sym; _aae != nil {
+			_bbfe = _aae.TypefaceAttr
+		}
+		if _feab, _debe := _cd.StdFontsMap[_bbfe]; _debe {
+			_fdg.Font = _cd.AssignStdFontByName(_fdg, _feab[_fgad])
+		} else if _gdd := _cd.GetRegisteredFont(_bbfe, _fgad); _gdd != nil {
+			_fdg.Font = _gdd
+		} else {
+			_deg.Log.Debug("\u0046\u006f\u006e\u0074\u0020\u0025\u0073\u0020\u0077\u0069\u0074h\u0020\u0073\u0074\u0079\u006c\u0065\u0020\u0025s\u0020i\u0073\u0020\u006e\u006f\u0074\u0020\u0066\u006f\u0075\u006e\u0064\u002c\u0020\u0072\u0065\u0073\u0065\u0074 \u0074\u006f\u0020\u0064\u0065\u0066\u0061\u0075\u006c\u0074\u002e", _bbfe, _fgad)
+			_fdg.Font = _cd.AssignStdFontByName(_fdg, _cd.StdFontsMap["\u0064e\u0066\u0061\u0075\u006c\u0074"][_fgad])
+		}
+		var _cbad float64
+		if _bcfa := _gcc.SzAttr; _bcfa != nil {
+			_cbad = float64(*_bcfa) / 100
+		} else {
+			_cbad = _cd.DefaultFontSize
+		}
+		if _acgf := _gcc.BaselineAttr; _acgf != nil {
+			if _bfef := _acgf.ST_PercentageDecimal; _bfef != nil {
+				if *_bfef > 0 {
+					_dfe = true
+				} else if *_bfef < 0 {
+					_bffg = true
+				}
+			}
+		}
+		if _dfe || _bffg {
+			_cbad *= 0.64
+		}
+		_fdg.FontSize = _cbad
+		_afe := 0.0
+		if _gdad := _gcc.SpcAttr; _gdad != nil {
+			if _cbdd := _gdad.ST_TextPointUnqualified; _cbdd != nil {
+				_afe = float64(*_cbdd) / 100
+			}
+		}
+		_fdg.CharSpacing = _afe
+	}
+	return &_fdg, _dfe, _bffg, _gafa
+}
+
+func (_gae *textboxContext) drawParagraphs() {
+	_gae._aacg.NewPage()
+	for _, _adb := range _gae._ece {
+		for _, _cfbg := range _adb._bcb {
+			for _, _ebb := range _cfbg._fae {
+				for _, _cgf := range _ebb._ffbd {
+					_bgdb := _gae._aacg.NewStyledParagraph()
+					if _cgf._bggg {
+						_cgf._faab = 0
+					} else if _cgf._dfc {
+						_cgf._faab = 1.2*_cfbg._dafc - _cgf._adcb
+					}
+					_fccc := _ebb._eddg + _cgf._debc
+					_bfdfg := _adb._faaag + _cfbg._bgg + _cgf._faab
+					_bgdb.SetPos(_fccc, _bfdfg)
+					_adaa := _bgdb.Append(_cgf._bfga)
+					if _cgf._fbec != nil {
+						_adaa.Style = *_cgf._fbec
+					}
+					_gae._aacg.Draw(_bgdb)
+					if _cgf._bacb {
+						_ffeda := _bfdfg + _cgf._adcb + 2
+						_cd.DrawLine(_gae._aacg, _fccc, _ffeda, _fccc+_cgf._aba, _ffeda, 1, _cgf._fbec.Color)
+					}
+				}
+			}
+		}
+	}
+}
+
+func (_acf *textboxContext) assignPropsToCurrentParagraph(_fcce *_f.CT_TextParagraphProperties) {
+	_fdfb := 12.4
+	if _fcce == nil {
+		_acf._fdf._ffdef = _fdfb
+		return
+	}
+	if _fbca := _fcce.DefRPr; _fbca != nil {
+		_fda := _fbca.SzAttr
+		if _fda != nil {
+			_efa := float64(*_fda) / 1200
+			if _fdfb <= _efa {
+				_fdfb = _efa
+			}
+		}
+	}
+	if _bgca := _fcce.MarLAttr; _bgca != nil {
+		_acf._fdf._geea = _gc.FromEMU(int64(*_bgca))
+	}
+	_acf._fdf._fgaf = _acf._accg
+	if _fff := _fcce.MarRAttr; _fff != nil {
+		_acf._fdf._fgaf -= _gc.FromEMU(int64(*_fff))
+	}
+	if _deee := _fcce.IndentAttr; _deee != nil {
+		_acf._fdf._ded = _gc.FromEMU(int64(*_deee))
+	}
+	if _eaeg := _fcce.LatinLnBrkAttr; _eaeg != nil {
+		_acf._fdf._fcfg = *_eaeg
+	}
+	if _eec := _fcce.LnSpc; _eec != nil {
+		if _eegc := _eec.SpcPct; _eegc != nil {
+			if _aagg := _eegc.ValAttr.ST_TextSpacingPercent; _aagg != nil {
+				_fdfb = float64(*_aagg) / 5000
+			}
+		}
+	}
+	var _eaf float64
+	if _bggge := _fcce.SpcBef; _bggge != nil {
+		if _egbb := _bggge.SpcPts; _egbb != nil {
+			_eaf = float64(_egbb.ValAttr) / 100
+		}
+	}
+	_fbcg := _acf._ece
+	if len(_fbcg) > 0 {
+		_eaf -= _fbcg[len(_fbcg)-1]._fafd
+		if _eaf < 0 {
+			_eaf = 0
+		}
+	}
+	_acf._fdf._cbddf = _eaf
+	if _eabd := _fcce.SpcAft; _eabd != nil {
+		if _bdfc := _eabd.SpcPts; _bdfc != nil {
+			_acf._fdf._fafd = float64(_bdfc.ValAttr) / 100
+		}
+	}
+	_acf._fdf._ffdef = _fdfb
+	_acf._fdf._aca = _fcce.AlgnAttr
+}
+
+func _baa(_agfc *_f.CT_AdjPoint2D) (float64, float64) {
+	var _cbabd, _gaeg float64
+	_dbca, _gbae := _agfc.XAttr, _agfc.YAttr
+	if _bdfd := _dbca.ST_Coordinate; _bdfd != nil {
+		_cbabd = _gc.FromEMU(_cd.FromSTCoordinate(*_bdfd))
+	}
+	if _bgad := _gbae.ST_Coordinate; _bgad != nil {
+		_gaeg = _gc.FromEMU(_cd.FromSTCoordinate(*_bgad))
+	}
+	return _cbabd, _gaeg
+}
+
+func (_acc *convertContext) makePdfDivisionFromTxBody(_bgdc *_f.CT_TextBody, _dac, _fcbb float64, _ccf *_f.CT_TableStyleTextStyle) *_b.Division {
+	_aac := _acc._fcbbg.NewDivision()
+	_dfgd := _acc._ccca
+	_bgf := _f.ST_TextAnchoringTypeT
+	if _egb := _bgdc.BodyPr; _egb != nil {
+		if _ecff := _egb.AnchorAttr; _ecff != _f.ST_TextAnchoringTypeUnset {
+			_bgf = _egb.AnchorAttr
+		}
+	}
+	if _aag := _bgdc.LstStyle; _aag != nil {
+		var _cdff *_f.CT_TextParagraphProperties
+		if _aag.Lvl1pPr != nil {
+			_cdff = _aag.Lvl1pPr
+		} else {
+			_cdff = _acc._gaff[0]
+		}
+		_dfgd = _bgab(_cdff, _bgab(_aag.DefPPr, _dfgd))
+	}
+	for _, _gbc := range _bgdc.P {
+		if _gbc != nil {
+			_bad := _acc._fcbbg.NewStyledParagraph()
+			_cggc := _bgab(_gbc.PPr, _dfgd)
+			_ecc := _dagf(_gbc.EndParaRPr, _cggc.DefRPr)
+			if len(_gbc.EG_TextRun) == 0 {
+				_bad.Append("\u000a")
+				_aac.Add(_bad)
+				continue
+			}
+			for _, _bfae := range _gbc.EG_TextRun {
+				if _dae := _bfae.Br; _dae != nil {
+					_bad.Append("\u000a")
+				} else if _cag := _bfae.R; _cag != nil {
+					_dbdg := _gafef(_cag.RPr, _ccf)
+					_dbdg = _dagf(_dbdg, _ecc)
+					var _gfg _b.Color
+					if _dbdg.SolidFill != nil {
+						_gfg, _ = _acc.getColorFromSolidFill(_dbdg.SolidFill)
+					} else {
+						_gfg = _b.ColorBlack
+					}
+					_adfg, _gad, _edgb, _ := _acc.makeStyleFromRPr(_dbdg)
+					_adfg.Color = _gfg
+					if _gad {
+						_adfg.TextRise = 0.5
+					} else if _edgb {
+						_adfg.TextRise = -0.5
+					}
+					_cfaae := _cag.T
+					if _dbdg.CapAttr == _f.ST_TextCapsTypeAll {
+						for _, _bca := range _cfaae {
+							_bca = []rune(_eg.ToUpper(string(_bca)))[0]
+						}
+					}
+					_acde := _bad.Append(_cfaae)
+					_acde.Style = *_adfg
+				}
+			}
+			_ = _bgf
+			_aac.Add(_bad)
+		}
+	}
+	return _aac
+}
+
+func (_gfd *convertContext) drawSlide() {
+	_gfd._fcbbg.NewPage()
+	for _, _cbd := range _gfd._dcaa {
+		if _cbd != nil {
+			_gfd._fcbbg.MoveTo(0, 0)
+			_gfd._fcbbg.Draw(_cbd)
+		}
+	}
+}
+
+func (_gfgd *textboxContext) adjustHeights(_acda float64) {
+	if _gfgd._geb._dafc < _acda {
+		_gfgd._fdf._fgf += (_acda - _gfgd._geb._dafc)
+		_gfgd._geb._dafc = _acda
+	}
+}
+
+func (_bbc *convertContext) getShapes(_cba *_bfd.CT_Shape) []_b.Drawable {
+	_ebe := []_b.Drawable{}
+	_fea := _cba.SpPr
+	if _fea == nil {
+		return _ebe
+	}
+	var _bdg bool
+	if _fbd := _cba.UseBgFillAttr; _fbd != nil {
+		_bdg = *_fbd
+	}
+	_ecb, _baf, _egeg, _acg, _bfe, _edc, _cfd := _bbc.getShapesFromSpPr(_fea, _cba.Style, _bdg)
+	_ebe = append(_ebe, _ecb...)
+	if _aa := _cba.TxBody; _aa != nil {
+		_bgdeb, _dcb, _cbaa, _ecbe, _gbgf := _bbc.getPhData(_cba)
+		if _bgdeb != nil && !_cfd {
+			_baf, _egeg, _acg, _bfe = _cd.GetDataFromXfrm(_bgdeb)
+		}
+		_abe, _cfg := _bbc.makePdfBlockFromTxBody(_aa, _dcb, _cbaa, _acg, _bfe, _edc, _ecbe, _gbgf)
+		if _cfg != nil {
+			_deg.Log.Debug("\u0043\u0061\u006e\u006e\u006f\u0074\u0020\u006d\u0061\u006b\u0065\u0020\u0050\u0044\u0046\u0020\u0062\u006c\u006f\u0063\u006b\u0020\u0066\u0072o\u006d\u0020\u0074\u0065\u0078t\u0062\u006fx\u003a\u0020\u0025\u0073", _cfg)
+		} else if _abe != nil {
+			_abe.SetPos(_baf, _egeg)
+			_ebe = append(_ebe, _abe)
+		}
+	}
+	return _ebe
+}
+
+type textboxContext struct {
+	_bfgg  *convertContext
+	_accg  float64
+	_bfefg float64
+	_aacg  *_b.Creator
+	_ggc   float64
+	_ece   []*paragraph
+	_fdf   *paragraph
+	_geb   *line
+	_dcef  *word
+	_cbcg  bool
+}
+
+func (_bce *convertContext) getStyleColors(_efae *_f.CT_ShapeStyle) (_b.Color, _b.Color, _b.Color) {
+	var _gece, _dace, _aefe _b.Color
+	if _fca := _efae.LnRef; _fca != nil {
+		_dace = _bce.getColorFromMatrixReference(_fca)
+	}
+	if _bcae := _efae.FillRef; _bcae != nil {
+		_aefe = _bce.getColorFromMatrixReference(_bcae)
+	}
+	if _dgbf := _efae.FontRef; _dgbf != nil {
+		_gece = _bce.getColorFromFontReference(_dgbf)
+	}
+	return _gece, _aefe, _dace
+}
+
+func _eaea(_daac float64) float64 { return _daac * _gc.Millimeter }
+
+func (_dagc *convertContext) makePdfImageFromBlipFill(_fcde *_f.CT_BlipFillProperties) (*_b.Image, []*_f.CT_BlipChoice, error) {
+	if _fcg := _fcde.Blip; _fcg != nil {
+		if _gaee := _fcg.EmbedAttr; _gaee != nil {
+			_bega, _gefd := _dagc._afa.GetImageByRelID(*_gaee)
+			if _gefd {
+				_bffda, _febe := _cdc.Open(_bega.Path())
+				if _febe != nil {
+					_deg.Log.Debug("\u0046\u0069\u006c\u0065 o\u0070\u0065\u006e\u0020\u0065\u0072\u0072\u006f\u0072\u003a\u0020\u0025\u0073", _febe)
+					return nil, nil, _febe
+				}
+				defer _bffda.Close()
+				_gcda, _, _febe := _a.Decode(_bffda)
+				if _febe != nil {
+					_deg.Log.Debug("\u0044\u0065\u0063\u006fde\u0020\u0069\u006d\u0061\u0067\u0065\u0020\u0065\u0072\u0072\u006f\u0072\u003a\u0020%\u0073", _febe)
+					return nil, nil, _febe
+				}
+				if _defdf := _fcde.SrcRect; _defdf != nil {
+					_ecaf := _gcda.Bounds().Size()
+					_fdbf := _ecaf.X
+					_aacf := _ecaf.Y
+					var _bec, _bdb, _dafd, _ecbc int
+					var _dage bool
+					if _afdf := _defdf.LAttr; _afdf != nil {
+						_bec = int(float64(_fdbf) * _cd.FromSTPercentage(_afdf))
+						_dage = true
+					} else {
+						_bec = 0
+					}
+					if _edaca := _defdf.TAttr; _edaca != nil {
+						_dafd = int(float64(_aacf) * _cd.FromSTPercentage(_edaca))
+						_dage = true
+					} else {
+						_dafd = 0
+					}
+					if _cgdb := _defdf.RAttr; _cgdb != nil {
+						_bdb = int(float64(_fdbf) * (1 - _cd.FromSTPercentage(_cgdb)))
+						_dage = true
+					} else {
+						_bdb = _fdbf
+					}
+					if _fgfd := _defdf.BAttr; _fgfd != nil {
+						_ecbc = int(float64(_aacf) * (1 - _cd.FromSTPercentage(_fgfd)))
+						_dage = true
+					} else {
+						_ecbc = _aacf
+					}
+					if _dage {
+						_gcda = _cd.CropImageByRect(_gcda, _a.Rect(_bec, _dafd, _bdb+1, _ecbc+1))
+					}
+				}
+				_eeac, _febe := _dagc._fcbbg.NewImageFromGoImage(_gcda)
+				if _febe != nil {
+					_deg.Log.Debug("\u0043\u0061\u006e\u006e\u006ft\u0020\u0063\u0072\u0065\u0061\u0074\u0065\u0020\u0050\u0044\u0046\u0020\u0069m\u0061\u0067\u0065\u0020\u0066\u0072\u006f\u006d\u0020\u0047\u006f\u0020\u0069\u006d\u0061\u0067\u0065\u003a\u0020\u0025\u0073", _febe)
+					return nil, nil, _febe
+				}
+				return _eeac, _fcg.Choice, nil
+			}
+		}
+	}
+	return nil, nil, nil
+}
+
+func _gafef(_aced *_f.CT_TextCharacterProperties, _ffbf *_f.CT_TableStyleTextStyle) *_f.CT_TextCharacterProperties {
+	_beec := _f.NewCT_TextCharacterProperties()
+	if _aced != nil {
+		*_beec = *_aced
+	}
+	if _ffbf == nil {
+		return _beec
+	}
+	if _beec.BAttr == nil && _ffbf.BAttr != _f.ST_OnOffStyleTypeUnset {
+		_afda := _ffbf.BAttr == _f.ST_OnOffStyleTypeOn
+		_beec.BAttr = &_afda
+	}
+	if _beec.IAttr == nil && _ffbf.IAttr != _f.ST_OnOffStyleTypeUnset {
+		_gecfe := _ffbf.IAttr == _f.ST_OnOffStyleTypeOn
+		_beec.IAttr = &_gecfe
+	}
+	if _beec.NoFill == nil && _beec.SolidFill == nil {
+		_beec.SolidFill = _f.NewCT_SolidColorFillProperties()
+		_beec.SolidFill.ScrgbClr = _ffbf.ScrgbClr
+		_beec.SolidFill.SrgbClr = _ffbf.SrgbClr
+		_beec.SolidFill.HslClr = _ffbf.HslClr
+		_beec.SolidFill.SysClr = _ffbf.SysClr
+		_beec.SolidFill.SchemeClr = _ffbf.SchemeClr
+		_beec.SolidFill.PrstClr = _ffbf.PrstClr
+	}
+	if _ddda := _ffbf.Font; _ddda != nil && _beec.Latin == nil && _beec.Ea == nil && _beec.Cs == nil {
+		_beec.Latin = _ddda.Latin
+		_beec.Ea = _ddda.Ea
+		_beec.Cs = _ddda.Cs
+	}
+	return _beec
+}
+
+func (_aagc *convertContext) getColorFromSolidFill(_bdad *_f.CT_SolidColorFillProperties) (_b.Color, float64) {
+	if _bdad == nil {
+		return nil, 1
+	}
+	var _gddb string
+	_faef := 1.0
+	if _daff := _bdad.SrgbClr; _daff != nil {
+		_gddb = _daff.ValAttr
+		_faef = _cd.GetOpacityFromColorTransform(_daff.EG_ColorTransform)
+	} else if _cgdc := _bdad.SchemeClr; _cgdc != nil {
+		_gddb = _cd.GetColorStringFromDmlColor(_aagc._afa.GetColorBySchemeColor(_cgdc.ValAttr))
+		_gddb = _cd.AdjustColor(_gddb, _cgdc.EG_ColorTransform)
+		_faef = _cd.GetOpacityFromColorTransform(_cgdc.EG_ColorTransform)
+	}
+	if _gddb != "" {
+		_agedc := _b.ColorRGBFromHex("\u0023" + _gddb)
+		return _agedc, _faef
+	}
+	return nil, 1
+}
+
+func _afad(_gfed *_bfd.CT_Shape) (_bfd.ST_PlaceholderType, *uint32) {
+	if _aadc := _gfed.NvSpPr; _aadc != nil {
+		if _cgad := _aadc.NvPr; _cgad != nil {
+			if _dde := _cgad.Ph; _dde != nil {
+				return _dde.TypeAttr, _dde.IdxAttr
+			}
+		}
+	}
+	return _bfd.ST_PlaceholderTypeUnset, nil
+}
+
+type word struct {
+	_ffbd []*symbol
+	_eddg float64
+	_cdcd float64
+	_gadc bool
+}

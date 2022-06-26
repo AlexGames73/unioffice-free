@@ -9,7 +9,7 @@
 // Use of this source code is governed by the UniDoc End User License Agreement
 // terms that can be accessed at https://unidoc.io/eula/
 
-package reference ;import (_f "errors";_ce "fmt";_a "github.com/unidoc/unioffice/spreadsheet/update";_e "regexp";_c "strconv";_g "strings";);var _ba =_e .MustCompile ("^\u005b\u0061\u002d\u007aA-\u005a]\u0028\u005b\u0061\u002d\u007aA\u002d\u005a\u005d\u003f\u0029\u0024");
+package reference ;import (_f "errors";_ce "fmt";_a "github.com/AlexGames73/unioffice-free/spreadsheet/update";_e "regexp";_c "strconv";_g "strings";);var _ba =_e .MustCompile ("^\u005b\u0061\u002d\u007aA-\u005a]\u0028\u005b\u0061\u002d\u007aA\u002d\u005a\u005d\u003f\u0029\u0024");
 
 // ParseCellReference parses a cell reference of the form 'A10' and splits it
 // into column/row segments.

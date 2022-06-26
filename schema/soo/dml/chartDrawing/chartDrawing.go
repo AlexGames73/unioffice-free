@@ -9,7 +9,7 @@
 // Use of this source code is governed by the UniDoc End User License Agreement
 // terms that can be accessed at https://unidoc.io/eula/
 
-package chartDrawing ;import (_b "encoding/xml";_be "fmt";_ac "github.com/unidoc/unioffice";_c "github.com/unidoc/unioffice/common/logger";_f "github.com/unidoc/unioffice/schema/soo/dml";_d "strconv";);
+package chartDrawing ;import (_b "encoding/xml";_be "fmt";_ac "github.com/AlexGames73/unioffice-free";_c "github.com/AlexGames73/unioffice-free/common/logger";_f "github.com/AlexGames73/unioffice-free/schema/soo/dml";_d "strconv";);
 
 // Validate validates the CT_ConnectorNonVisual and its children
 func (_cbac *CT_ConnectorNonVisual )Validate ()error {return _cbac .ValidateWithPath ("C\u0054\u005f\u0043\u006fnn\u0065c\u0074\u006f\u0072\u004e\u006fn\u0056\u0069\u0073\u0075\u0061\u006c");};type CT_ShapeNonVisual struct{CNvPr *_f .CT_NonVisualDrawingProps ;CNvSpPr *_f .CT_NonVisualDrawingShapeProps ;};

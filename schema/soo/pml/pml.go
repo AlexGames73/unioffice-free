@@ -9,7 +9,7 @@
 // Use of this source code is governed by the UniDoc End User License Agreement
 // terms that can be accessed at https://unidoc.io/eula/
 
-package pml ;import (_d "encoding/xml";_fb "fmt";_ca "github.com/unidoc/unioffice";_b "github.com/unidoc/unioffice/common/logger";_e "github.com/unidoc/unioffice/schema/soo/dml";_df "github.com/unidoc/unioffice/schema/soo/ofc/sharedTypes";_f "strconv";_a "time";);func (_gcada ST_TLNextActionType )Validate ()error {return _gcada .ValidateWithPath ("")};type CT_TLAnimVariantFloatVal struct{
+package pml ;import (_d "encoding/xml";_fb "fmt";_ca "github.com/AlexGames73/unioffice-free";_b "github.com/AlexGames73/unioffice-free/common/logger";_e "github.com/AlexGames73/unioffice-free/schema/soo/dml";_df "github.com/AlexGames73/unioffice-free/schema/soo/ofc/sharedTypes";_f "strconv";_a "time";);func (_gcada ST_TLNextActionType )Validate ()error {return _gcada .ValidateWithPath ("")};type CT_TLAnimVariantFloatVal struct{
 
 // Value
 ValAttr float32 ;};

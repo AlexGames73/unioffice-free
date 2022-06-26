@@ -11,7 +11,7 @@
 
 // Package memstore implements tempStorage interface
 // by using memory as a storage
-package memstore ;import (_a "encoding/hex";_d "errors";_b "fmt";_bf "github.com/unidoc/unioffice/common/tempstorage";_ef "io";_ea "io/ioutil";_ee "math/rand";_c "sync";);func _bfc (_efb string )string {_fc ,_ :=_fg (6);return _efb +_fc };type memDataCell struct{_f string ;_de []byte ;_aec int64 ;};
+package memstore ;import (_a "encoding/hex";_d "errors";_b "fmt";_bf "github.com/AlexGames73/unioffice-free/common/tempstorage";_ef "io";_ea "io/ioutil";_ee "math/rand";_c "sync";);func _bfc (_efb string )string {_fc ,_ :=_fg (6);return _efb +_fc };type memDataCell struct{_f string ;_de []byte ;_aec int64 ;};
 
 // TempDir creates a name for a new temp directory using a pattern argument
 func (_bd *memStorage )TempDir (pattern string )(string ,error ){return _bfc (pattern ),nil };

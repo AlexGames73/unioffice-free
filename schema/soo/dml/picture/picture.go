@@ -9,7 +9,7 @@
 // Use of this source code is governed by the UniDoc End User License Agreement
 // terms that can be accessed at https://unidoc.io/eula/
 
-package picture ;import (_d "encoding/xml";_ca "github.com/unidoc/unioffice";_dg "github.com/unidoc/unioffice/common/logger";_g "github.com/unidoc/unioffice/schema/soo/dml";);type CT_Picture struct{NvPicPr *CT_PictureNonVisual ;BlipFill *_g .CT_BlipFillProperties ;SpPr *_g .CT_ShapeProperties ;};
+package picture ;import (_d "encoding/xml";_ca "github.com/AlexGames73/unioffice-free";_dg "github.com/AlexGames73/unioffice-free/common/logger";_g "github.com/AlexGames73/unioffice-free/schema/soo/dml";);type CT_Picture struct{NvPicPr *CT_PictureNonVisual ;BlipFill *_g .CT_BlipFillProperties ;SpPr *_g .CT_ShapeProperties ;};
 
 // Validate validates the CT_PictureNonVisual and its children
 func (_ceb *CT_PictureNonVisual )Validate ()error {return _ceb .ValidateWithPath ("\u0043\u0054\u005f\u0050ic\u0074\u0075\u0072\u0065\u004e\u006f\u006e\u0056\u0069\u0073\u0075\u0061\u006c");};

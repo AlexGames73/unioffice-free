@@ -9,7 +9,7 @@
 // Use of this source code is governed by the UniDoc End User License Agreement
 // terms that can be accessed at https://unidoc.io/eula/
 
-package docPropsVTypes ;import (_f "encoding/xml";_ag "fmt";_ge "github.com/unidoc/unioffice";_e "github.com/unidoc/unioffice/common/logger";_ae "github.com/unidoc/unioffice/schema/soo/ofc/sharedTypes";_ad "regexp";_fd "strconv";_g "time";);
+package docPropsVTypes ;import (_f "encoding/xml";_ag "fmt";_ge "github.com/AlexGames73/unioffice-free";_e "github.com/AlexGames73/unioffice-free/common/logger";_ae "github.com/AlexGames73/unioffice-free/schema/soo/ofc/sharedTypes";_ad "regexp";_fd "strconv";_g "time";);
 
 // Validate validates the CT_Vstream and its children
 func (_dce *CT_Vstream )Validate ()error {return _dce .ValidateWithPath ("\u0043\u0054\u005f\u0056\u0073\u0074\u0072\u0065\u0061\u006d");};func (_bgd *CT_Null )UnmarshalXML (d *_f .Decoder ,start _f .StartElement )error {for {_gdb ,_dba :=d .Token ();if _dba !=nil {return _ag .Errorf ("\u0070\u0061\u0072\u0073in\u0067\u0020\u0043\u0054\u005f\u004e\u0075\u006c\u006c\u003a\u0020\u0025\u0073",_dba );};if _cee ,_adfg :=_gdb .(_f .EndElement );_adfg &&_cee .Name ==start .Name {break ;};};return nil ;};

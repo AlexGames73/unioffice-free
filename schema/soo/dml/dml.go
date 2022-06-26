@@ -9,7 +9,7 @@
 // Use of this source code is governed by the UniDoc End User License Agreement
 // terms that can be accessed at https://unidoc.io/eula/
 
-package dml ;import (_c "encoding/xml";_ae "fmt";_f "github.com/unidoc/unioffice";_b "github.com/unidoc/unioffice/common/logger";_fb "github.com/unidoc/unioffice/schema/soo/ofc/sharedTypes";_e "regexp";_d "strconv";_a "time";);
+package dml ;import (_c "encoding/xml";_ae "fmt";_f "github.com/AlexGames73/unioffice-free";_b "github.com/AlexGames73/unioffice-free/common/logger";_fb "github.com/AlexGames73/unioffice-free/schema/soo/ofc/sharedTypes";_e "regexp";_d "strconv";_a "time";);
 
 // ValidateWithPath validates the CT_GvmlGraphicalObjectFrame and its children, prefixing error messages with path
 func (_gfdeg *CT_GvmlGraphicalObjectFrame )ValidateWithPath (path string )error {if _eadb :=_gfdeg .NvGraphicFramePr .ValidateWithPath (path +"\u002f\u004e\u0076\u0047\u0072\u0061\u0070\u0068\u0069\u0063\u0046\u0072a\u006d\u0065\u0050\u0072");_eadb !=nil {return _eadb ;};if _gddag :=_gfdeg .Graphic .ValidateWithPath (path +"\u002f\u0047\u0072\u0061\u0070\u0068\u0069\u0063");_gddag !=nil {return _gddag ;};if _adbbg :=_gfdeg .Xfrm .ValidateWithPath (path +"\u002f\u0058\u0066r\u006d");_adbbg !=nil {return _adbbg ;};if _gfdeg .ExtLst !=nil {if _ebgac :=_gfdeg .ExtLst .ValidateWithPath (path +"\u002fE\u0078\u0074\u004c\u0073\u0074");_ebgac !=nil {return _ebgac ;};};return nil ;};func (_deeaf *ST_AnimationChartBuildType )Validate ()error {return _deeaf .ValidateWithPath ("")};type CT_EffectStyleItem struct{EffectLst *CT_EffectList ;EffectDag *CT_EffectContainer ;Scene3d *CT_Scene3D ;Sp3d *CT_Shape3D ;};

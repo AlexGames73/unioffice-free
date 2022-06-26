@@ -9,7 +9,7 @@
 // Use of this source code is governed by the UniDoc End User License Agreement
 // terms that can be accessed at https://unidoc.io/eula/
 
-package custom_properties ;import (_e "encoding/xml";_b "fmt";_gf "github.com/unidoc/unioffice";_f "github.com/unidoc/unioffice/common/logger";_fg "github.com/unidoc/unioffice/schema/soo/ofc/docPropsVTypes";_d "github.com/unidoc/unioffice/schema/soo/ofc/sharedTypes";_gd "strconv";_ee "time";);
+package custom_properties ;import (_e "encoding/xml";_b "fmt";_gf "github.com/AlexGames73/unioffice-free";_f "github.com/AlexGames73/unioffice-free/common/logger";_fg "github.com/AlexGames73/unioffice-free/schema/soo/ofc/docPropsVTypes";_d "github.com/AlexGames73/unioffice-free/schema/soo/ofc/sharedTypes";_gd "strconv";_ee "time";);
 
 // ValidateWithPath validates the Properties and its children, prefixing error messages with path
 func (_dce *Properties )ValidateWithPath (path string )error {if _dddf :=_dce .CT_Properties .ValidateWithPath (path );_dddf !=nil {return _dddf ;};return nil ;};

@@ -9,7 +9,7 @@
 // Use of this source code is governed by the UniDoc End User License Agreement
 // terms that can be accessed at https://unidoc.io/eula/
 
-package chart ;import (_b "fmt";_f "github.com/unidoc/unioffice";_cf "github.com/unidoc/unioffice/color";_bc "github.com/unidoc/unioffice/drawing";_d "github.com/unidoc/unioffice/measurement";_g "github.com/unidoc/unioffice/schema/soo/dml";_c "github.com/unidoc/unioffice/schema/soo/dml/chart";_dd "math/rand";);
+package chart ;import (_b "fmt";_f "github.com/AlexGames73/unioffice-free";_cf "github.com/AlexGames73/unioffice-free/color";_bc "github.com/AlexGames73/unioffice-free/drawing";_d "github.com/AlexGames73/unioffice-free/measurement";_g "github.com/AlexGames73/unioffice-free/schema/soo/dml";_c "github.com/AlexGames73/unioffice-free/schema/soo/dml/chart";_dd "math/rand";);
 
 // ScatterChartSeries is the data series for a scatter chart.
 type ScatterChartSeries struct{_fbgg *_c .CT_ScatterSer };

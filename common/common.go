@@ -13,7 +13,7 @@
 // OOXML document formats.
 //
 // Package common contains common properties used by the subpackages.
-package common ;import (_d "archive/zip";_c "bytes";_feb "encoding/xml";_ff "errors";_gd "fmt";_bc "github.com/unidoc/unioffice";_aa "github.com/unidoc/unioffice/common/logger";_ef "github.com/unidoc/unioffice/common/tempstorage";_bg "github.com/unidoc/unioffice/common/tempstorage/diskstore";_ag "github.com/unidoc/unioffice/measurement";_fea "github.com/unidoc/unioffice/schema/soo/dml";_af "github.com/unidoc/unioffice/schema/soo/ofc/custom_properties";_de "github.com/unidoc/unioffice/schema/soo/ofc/docPropsVTypes";_bf "github.com/unidoc/unioffice/schema/soo/ofc/extended_properties";_ge "github.com/unidoc/unioffice/schema/soo/pkg/content_types";_dee "github.com/unidoc/unioffice/schema/soo/pkg/metadata/core_properties";_dea "github.com/unidoc/unioffice/schema/soo/pkg/relationships";_cf "github.com/unidoc/unioffice/zippkg";_ab "image";_ "image/gif";_ "image/jpeg";_ "image/png";_bb "os";_f "reflect";_ad "regexp";_gg "strconv";_e "strings";_cb "time";);func (_bgb CustomProperties )SetPropertyAsUi4 (name string ,ui4 uint32 ){_fbdf :=_bgb .getNewProperty (name );_fbdf .Ui4 =&ui4 ;_bgb .setOrReplaceProperty (_fbdf );};
+package common ;import (_d "archive/zip";_c "bytes";_feb "encoding/xml";_ff "errors";_gd "fmt";_bc "github.com/AlexGames73/unioffice-free";_aa "github.com/AlexGames73/unioffice-free/common/logger";_ef "github.com/AlexGames73/unioffice-free/common/tempstorage";_bg "github.com/AlexGames73/unioffice-free/common/tempstorage/diskstore";_ag "github.com/AlexGames73/unioffice-free/measurement";_fea "github.com/AlexGames73/unioffice-free/schema/soo/dml";_af "github.com/AlexGames73/unioffice-free/schema/soo/ofc/custom_properties";_de "github.com/AlexGames73/unioffice-free/schema/soo/ofc/docPropsVTypes";_bf "github.com/AlexGames73/unioffice-free/schema/soo/ofc/extended_properties";_ge "github.com/AlexGames73/unioffice-free/schema/soo/pkg/content_types";_dee "github.com/AlexGames73/unioffice-free/schema/soo/pkg/metadata/core_properties";_dea "github.com/AlexGames73/unioffice-free/schema/soo/pkg/relationships";_cf "github.com/AlexGames73/unioffice-free/zippkg";_ab "image";_ "image/gif";_ "image/jpeg";_ "image/png";_bb "os";_f "reflect";_ad "regexp";_gg "strconv";_e "strings";_cb "time";);func (_bgb CustomProperties )SetPropertyAsUi4 (name string ,ui4 uint32 ){_fbdf :=_bgb .getNewProperty (name );_fbdf .Ui4 =&ui4 ;_bgb .setOrReplaceProperty (_fbdf );};
 
 // SetContentStatus records the content status of the document.
 func (_gfe CoreProperties )SetContentStatus (s string ){_gfe ._dca .ContentStatus =&s };
@@ -197,7 +197,7 @@ func NewRelationships ()Relationships {return Relationships {_fbgf :_dea .NewRel
 func (_bfg CoreProperties )SetAuthor (s string ){if _bfg ._dca .Creator ==nil {_bfg ._dca .Creator =&_bc .XSDAny {XMLName :_feb .Name {Local :"\u0064\u0063\u003a\u0063\u0072\u0065\u0061\u0074\u006f\u0072"}};};_bfg ._dca .Creator .Data =[]byte (s );};const _acfg =2022;func (_beg CustomProperties )SetPropertyAsBlob (name ,blob string ){_aab :=_beg .getNewProperty (name );_aab .Blob =&blob ;_beg .setOrReplaceProperty (_aab );};
 
 // Company returns the name of the company that created the document.
-// For unioffice created documents, it defaults to github.com/unidoc/unioffice
+// For unioffice created documents, it defaults to github.com/AlexGames73/unioffice-free
 func (_dfc AppProperties )Company ()string {if _dfc ._deg .Company !=nil {return *_dfc ._deg .Company ;};return "";};
 
 // X returns the inner wrapped XML type.
@@ -378,7 +378,7 @@ func (_ded CoreProperties )Author ()string {if _ded ._dca .Creator !=nil {return
 func NewTableWithXfrm (xfrm *_fea .CT_Transform2D )*Table {_fbdbe :=_fea .NewTbl ();_fbdbe .TblPr =_fea .NewCT_TableProperties ();return &Table {_cege :_fbdbe ,_bcgd :xfrm };};func (_ggbb CustomProperties )SetPropertyAsDate (name string ,date _cb .Time ){date =date .UTC ();_ebb ,_cdde ,_bcg :=date .Date ();_acb ,_fbdb ,_gfea :=date .Clock ();_bcb :=_cb .Date (_ebb ,_cdde ,_bcg ,_acb ,_fbdb ,_gfea ,0,_cb .UTC );_edf :=_ggbb .getNewProperty (name );_edf .Filetime =&_bcb ;_ggbb .setOrReplaceProperty (_edf );};
 
 // Application returns the name of the application that created the document.
-// For unioffice created documents, it defaults to github.com/unidoc/unioffice
+// For unioffice created documents, it defaults to github.com/AlexGames73/unioffice-free
 func (_fag AppProperties )Application ()string {if _fag ._deg .Application !=nil {return *_fag ._deg .Application ;};return "";};
 
 // SetWidth sets column width, see measurement package.

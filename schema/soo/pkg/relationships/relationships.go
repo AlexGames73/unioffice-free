@@ -9,7 +9,7 @@
 // Use of this source code is governed by the UniDoc End User License Agreement
 // terms that can be accessed at https://unidoc.io/eula/
 
-package relationships ;import (_b "encoding/xml";_be "fmt";_a "github.com/unidoc/unioffice";_f "github.com/unidoc/unioffice/common/logger";);
+package relationships ;import (_b "encoding/xml";_be "fmt";_a "github.com/AlexGames73/unioffice-free";_f "github.com/AlexGames73/unioffice-free/common/logger";);
 
 // ValidateWithPath validates the Relationships and its children, prefixing error messages with path
 func (_dga *Relationships )ValidateWithPath (path string )error {if _fbf :=_dga .CT_Relationships .ValidateWithPath (path );_fbf !=nil {return _fbf ;};return nil ;};func (_eag *Relationship )MarshalXML (e *_b .Encoder ,start _b .StartElement )error {return _eag .CT_Relationship .MarshalXML (e ,start );};

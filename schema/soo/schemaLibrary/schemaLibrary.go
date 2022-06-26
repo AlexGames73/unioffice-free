@@ -9,7 +9,7 @@
 // Use of this source code is governed by the UniDoc End User License Agreement
 // terms that can be accessed at https://unidoc.io/eula/
 
-package schemaLibrary ;import (_e "encoding/xml";_d "fmt";_a "github.com/unidoc/unioffice";_eb "github.com/unidoc/unioffice/common/logger";);
+package schemaLibrary ;import (_e "encoding/xml";_d "fmt";_a "github.com/AlexGames73/unioffice-free";_eb "github.com/AlexGames73/unioffice-free/common/logger";);
 
 // Validate validates the SchemaLibrary and its children
 func (_ad *SchemaLibrary )Validate ()error {return _ad .ValidateWithPath ("\u0053\u0063\u0068\u0065\u006d\u0061\u004c\u0069\u0062\u0072\u0061\u0072\u0079");};

@@ -11,7 +11,7 @@
 
 // Package diskstore implements tempStorage interface
 // by using disk as a storage
-package diskstore ;import (_c "github.com/unidoc/unioffice/common/tempstorage";_b "io/ioutil";_gb "os";_a "strings";);
+package diskstore ;import (_c "github.com/AlexGames73/unioffice-free/common/tempstorage";_b "io/ioutil";_gb "os";_a "strings";);
 
 // TempFile creates a new temp file by calling ioutil TempFile
 func (_cc diskStorage )TempFile (dir ,pattern string )(_c .File ,error ){return _b .TempFile (dir ,pattern );};

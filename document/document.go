@@ -22,7 +22,7 @@ Example:
 	run.SetText("foo")
 	doc.SaveToFile("foo.docx")
 */
-package document ;import (_bb "archive/zip";_g "bytes";_ac "errors";_fd "fmt";_af "github.com/unidoc/unioffice";_adb "github.com/unidoc/unioffice/color";_ga "github.com/unidoc/unioffice/common";_de "github.com/unidoc/unioffice/common/axcontrol";_dec "github.com/unidoc/unioffice/common/logger";_bbb "github.com/unidoc/unioffice/common/tempstorage";_ad "github.com/unidoc/unioffice/internal/formatutils";_ee "github.com/unidoc/unioffice/internal/license";_fc "github.com/unidoc/unioffice/measurement";_fg "github.com/unidoc/unioffice/schema/schemas.microsoft.com/office/activeX";_cda "github.com/unidoc/unioffice/schema/soo/dml";_cdc "github.com/unidoc/unioffice/schema/soo/dml/chart";_cd "github.com/unidoc/unioffice/schema/soo/dml/picture";_cb "github.com/unidoc/unioffice/schema/soo/ofc/sharedTypes";_bf "github.com/unidoc/unioffice/schema/soo/pkg/relationships";_bea "github.com/unidoc/unioffice/schema/soo/wml";_ce "github.com/unidoc/unioffice/schema/urn/schemas_microsoft_com/vml";_gag "github.com/unidoc/unioffice/vmldrawing";_cg "github.com/unidoc/unioffice/zippkg";_ae "image";_cf "image/jpeg";_be "io";_b "math/rand";_f "os";_d "path/filepath";_e "regexp";_c "strings";_aa "unicode";);
+package document ;import (_bb "archive/zip";_g "bytes";_ac "errors";_fd "fmt";_af "github.com/AlexGames73/unioffice-free";_adb "github.com/AlexGames73/unioffice-free/color";_ga "github.com/AlexGames73/unioffice-free/common";_de "github.com/AlexGames73/unioffice-free/common/axcontrol";_dec "github.com/AlexGames73/unioffice-free/common/logger";_bbb "github.com/AlexGames73/unioffice-free/common/tempstorage";_ad "github.com/AlexGames73/unioffice-free/internal/formatutils";_ee "github.com/AlexGames73/unioffice-free/internal/license";_fc "github.com/AlexGames73/unioffice-free/measurement";_fg "github.com/AlexGames73/unioffice-free/schema/schemas.microsoft.com/office/activeX";_cda "github.com/AlexGames73/unioffice-free/schema/soo/dml";_cdc "github.com/AlexGames73/unioffice-free/schema/soo/dml/chart";_cd "github.com/AlexGames73/unioffice-free/schema/soo/dml/picture";_cb "github.com/AlexGames73/unioffice-free/schema/soo/ofc/sharedTypes";_bf "github.com/AlexGames73/unioffice-free/schema/soo/pkg/relationships";_bea "github.com/AlexGames73/unioffice-free/schema/soo/wml";_ce "github.com/AlexGames73/unioffice-free/schema/urn/schemas_microsoft_com/vml";_gag "github.com/AlexGames73/unioffice-free/vmldrawing";_cg "github.com/AlexGames73/unioffice-free/zippkg";_ae "image";_cf "image/jpeg";_be "io";_b "math/rand";_f "os";_d "path/filepath";_e "regexp";_c "strings";_aa "unicode";);
 
 // VerticalAlign returns the value of run vertical align.
 func (_effb RunProperties )VerticalAlignment ()_cb .ST_VerticalAlignRun {if _gdaac :=_effb ._gbdb .VertAlign ;_gdaac !=nil {return _gdaac .ValAttr ;};return 0;};
@@ -1101,7 +1101,7 @@ func (_gbdf ParagraphBorders )SetAll (t _bea .ST_Border ,c _adb .Color ,thicknes
 func (_cc AnchoredDrawing )SetTextWrapTopAndBottom (){_cc ._dgc .Choice =&_bea .WdEG_WrapTypeChoice {};_cc ._dgc .Choice .WrapTopAndBottom =_bea .NewWdCT_WrapTopBottom ();_cc ._dgc .LayoutInCellAttr =true ;_cc ._dgc .AllowOverlapAttr =true ;};
 
 // SetConformance sets conformance attribute of the document
-// as one of these values from github.com/unidoc/unioffice/schema/soo/ofc/sharedTypes:
+// as one of these values from github.com/AlexGames73/unioffice-free/schema/soo/ofc/sharedTypes:
 // ST_ConformanceClassUnset, ST_ConformanceClassStrict or ST_ConformanceClassTransitional.
 func (_cagb Document )SetConformance (conformanceAttr _cb .ST_ConformanceClass ){_cagb ._gdf .ConformanceAttr =conformanceAttr ;};
 
@@ -1141,7 +1141,7 @@ func (_cfgd Style )SetPrimaryStyle (b bool ){if b {_cfgd ._gaege .QFormat =_bea 
 func (_feade TableBorders )X ()*_bea .CT_TblBorders {return _feade ._gcdf };
 
 // SetStrict is a shortcut for document.SetConformance,
-// as one of these values from github.com/unidoc/unioffice/schema/soo/ofc/sharedTypes:
+// as one of these values from github.com/AlexGames73/unioffice-free/schema/soo/ofc/sharedTypes:
 // ST_ConformanceClassUnset, ST_ConformanceClassStrict or ST_ConformanceClassTransitional.
 func (_dcgb Document )SetStrict (strict bool ){if strict {_dcgb ._gdf .ConformanceAttr =_cb .ST_ConformanceClassStrict ;}else {_dcgb ._gdf .ConformanceAttr =_cb .ST_ConformanceClassTransitional ;};};
 

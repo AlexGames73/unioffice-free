@@ -9,7 +9,7 @@
 // Use of this source code is governed by the UniDoc End User License Agreement
 // terms that can be accessed at https://unidoc.io/eula/
 
-package drawing ;import (_a "github.com/unidoc/unioffice";_f "github.com/unidoc/unioffice/color";_aa "github.com/unidoc/unioffice/measurement";_e "github.com/unidoc/unioffice/schema/soo/dml";);
+package drawing ;import (_a "github.com/AlexGames73/unioffice-free";_f "github.com/AlexGames73/unioffice-free/color";_aa "github.com/AlexGames73/unioffice-free/measurement";_e "github.com/AlexGames73/unioffice-free/schema/soo/dml";);
 
 // RunProperties controls the run properties.
 type RunProperties struct{_ff *_e .CT_TextCharacterProperties ;};
