@@ -1,4 +1,4 @@
-module github.com/unidoc/unioffice
+module github.com/AlexGames73/unioffice-free
 
 go 1.13
 
